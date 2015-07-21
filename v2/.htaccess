@@ -1,0 +1,45 @@
+php_flag short_open_tag on
+php_flag output_buffering on
+php_flag register_globals off
+php_flag register_argc_argv off
+php_value default_charset "UTF-8"
+php_value mbstring.internal_encoding "UTF-8"
+php_value mbstring.http_output "UTF-8"
+php_value mbstring.http_input "auto"
+php_value mbstring.detect_order "auto"
+php_value mbstring.encoding_translation 1
+php_value mbstring.func_overload 0
+php_value post_max_size "8M"
+php_value upload_max_filesize "8M"
+php_value magic_quotes_gpc 0
+php_value magic_quotes_runtime 0
+php_value magic_quotes_sybase 0
+php_value session.use_trans_sid 0
+php_value session.use_cookies 1
+php_value session.use_only_cookies 1
+php_value session.cookie_lifetime 2592000
+php_value session.gc_maxlifetime 2592000
+php_value session.gc_divisor 10000
+php_value session.auto_start 0
+php_value session.cookie_path "/"
+php_value session.cookie_domain ".pjj.cc"
+php_value session.save_path "3;/home/chats/public_html/v2/common/sessions/"
+php_value session.name "chatv2"
+php_value memory_limit "24M"
+php_value max_execution_time 10
+php_value error_reporting 2039
+php_value apc.cache_by_default 1
+
+php_flag display_errors on
+#php_value error_reporting -1
+
+<Files complete.log>
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Files actionlog.log>
+	RewriteEngine On
+	RewriteBase /
+	RewriteRule ([^/]+/register)/wizard_locked/actionlog.log $1/adminlog.php?log=cpanel [L,R]
+</Files>
