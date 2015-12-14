@@ -1,6 +1,6 @@
 <?php
 	ob_start();
-	
+
 /*
 DROP TABLE IF EXISTS tmpa ;
 CREATE TABLE tmpa AS SELECT T.* FROM uo_chat_threads as T LEFT JOIN uo_chat_boards as B ON (T.id=B.uid) WHERE flags IS NOT NULL ;
@@ -14,7 +14,7 @@ INSERT INTO uo_chat_threads SELECT * FROM tmpa ;
 	    die ('Temporarily disabled due to spam overload.');
 	}
 	//*/
-	
+
 	if (!empty($_REQUEST) && !empty($_REQUEST['post'])) {
 		require_once('../../../chatv3/_inc/mmcache.php');
 		$last = intval(MMC_Get('jbb.'.$_SERVER['REMOTE_ADDR']));
@@ -84,7 +84,7 @@ INSERT INTO uo_chat_threads SELECT * FROM tmpa ;
 		$ident = mb_substr(md5($_SERVER['REMOTE_ADDR'].$realpath), 0, $identlenght);
 	}
 
-	
+
 	if (!empty($_REQUEST) && !empty($_REQUEST['post'])) {
 		require_once '../../common/helpers.php';
 		$userlevel = ChatVerifyLogin($_REQUEST['username'], $_REQUEST['password'], $chatpath);
@@ -194,15 +194,15 @@ INSERT INTO uo_chat_threads SELECT * FROM tmpa ;
 	if (empty($jbbc[4]))
 		$jbbc[4] = "FFFFFF";
 	if (empty($jbbc[5]))
-		$jbbc[5] = "http://pjj.cc/gfx/modbar.gif";
+		$jbbc[5] = "https://pjj.cc/gfx/modbar.gif";
 	if (empty($jbbc[6]))
-		$jbbc[6] = "http://pjj.cc/gfx/up_tile.gif";
+		$jbbc[6] = "https://pjj.cc/gfx/up_tile.gif";
 	if (empty($jbbc[7]))
-		$jbbc[7] = "http://pjj.cc/gfx/up_tile.gif";
+		$jbbc[7] = "https://pjj.cc/gfx/up_tile.gif";
 	if (empty($jbbc[8]))
-		$jbbc[8] = "http://pjj.cc/gfx/dn_tile.gif";
+		$jbbc[8] = "https://pjj.cc/gfx/dn_tile.gif";
 	if (empty($jbbc[9]))
-		$jbbc[9] = "http://pjj.cc/gfx/newthread.gif";
+		$jbbc[9] = "https://pjj.cc/gfx/newthread.gif";
 	if (empty($jbbc[10]))
 		$jbbc[10] = "FFFFFF";
 	if (empty($jbbc[11]))
@@ -219,7 +219,7 @@ INSERT INTO uo_chat_threads SELECT * FROM tmpa ;
 	$c = count($jbbc);
 	for($i=0;$i<$c;$i++) {
 		if (strstr($jbbc[$i], '../../')) {
-			$jbbc[$i] = str_replace('../../', 'http://pjj.cc/', $jbbc[$i]);
+			$jbbc[$i] = str_replace('../../', 'https://pjj.cc/', $jbbc[$i]);
 		}
 	}
 ?><!DOCTYPE html>
@@ -236,9 +236,9 @@ INSERT INTO uo_chat_threads SELECT * FROM tmpa ;
 <tr><td background="<? echo $jbbc[7]; ?>" valign="top" align="left"><img src="<? echo $jbbc[7]; ?>" border=0></td></tr>
 <tr><td valign="top" width="100%" height="100%">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
-	<tr><td valign="top" align="left" height="100%" width=32><img src="http://pjj.cc/gfx/null.gif" width=32 border=0></td>
+	<tr><td valign="top" align="left" height="100%" width=32><img src="https://pjj.cc/gfx/null.gif" width=32 border=0></td>
 	<td valign="top" height="100%">
-<img src="http://pjj.cc/gfx/null.gif" height=32 border=0><br>
+<img src="https://pjj.cc/gfx/null.gif" height=32 border=0><br>
 <?php
 
 function ShowThreads($chatpath) {
@@ -726,9 +726,9 @@ function DoSearch($chatpath, $phrase, $src_topic, $src_body, $src_auth, $maxfind
 	}
 
 ?>
-<center><img src="http://pjj.cc/gfx/null.gif" border=0 height=32></center>
+<center><img src="https://pjj.cc/gfx/null.gif" border=0 height=32></center>
 </td>
-	<td valign="top" align="right" height="100%" width=32><img src="http://pjj.cc/gfx/null.gif" width=32 border=0></td></tr>
+	<td valign="top" align="right" height="100%" width=32><img src="https://pjj.cc/gfx/null.gif" width=32 border=0></td></tr>
 	</table>
 </td></tr>
 <tr><td background="<? echo $jbbc[8]; ?>" align="center" valign="bottom"><img src="<? echo $jbbc[8]; ?>" border=0></td></tr>

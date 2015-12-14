@@ -15,7 +15,7 @@
 	<title>Admin Logs</title>
 </head>
 <body text="#000000" bgcolor="#FFFFFF" link="#0783FF" vlink="#0783FF" alink="#0682FE" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0">
-<center><img src="http://pjj.cc/gfx/null.gif" border=0></center>
+<center><img src="https://pjj.cc/gfx/null.gif" border=0></center>
 
 <?php
 	require_once("../../common/session.php");
@@ -85,6 +85,6 @@ HTMLEND;
 
 <?=$output;?>
 
-<center><img src="http://pjj.cc/gfx/null.gif" border=0></center>
+<center><img src="https://pjj.cc/gfx/null.gif" border=0></center>
 </body>
 </html>

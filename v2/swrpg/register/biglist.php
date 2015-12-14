@@ -19,12 +19,12 @@ if (window != window.top) {
 
 <body text="#000000" bgcolor="#FFFFFF" link="#0783FF" vlink="#0783FF" alink="#0682FE" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0">
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
-<tr><td background="http://pjj.cc/gfx/up_tile.gif" valign="top" align="left" height="32"> </td></tr>
+<tr><td background="https://pjj.cc/gfx/up_tile.gif" valign="top" align="left" height="32"> </td></tr>
 <tr><td valign="top" width="100%" height="100%">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
 	<tr><td valign="top" align="left" height="100%" width=80> </td>
 	<td valign="top" height="100%">
-<center><img src="http://pjj.cc/gfx/null.gif" border=0></center>
+<center><img src="https://pjj.cc/gfx/null.gif" border=0></center>
 <?php
 	require_once "../../common/session.php";
 	require_once "../../mysql.php";
@@ -42,12 +42,12 @@ if (window != window.top) {
 
 	ListUsers($_REQUEST['faction'], $_REQUEST['sort']);
 ?>
-<center><img src="http://pjj.cc/gfx/null.gif" border=0></center>
+<center><img src="https://pjj.cc/gfx/null.gif" border=0></center>
 </td>
 	<td valign="top" align="right" height="100%" width=80> </td></tr>
 	</table>
 </td></tr>
-<tr><td background="http://pjj.cc/gfx/dn_tile.gif" align="center" valign="bottom" height="32"> </td></tr>
+<tr><td background="https://pjj.cc/gfx/dn_tile.gif" align="center" valign="bottom" height="32"> </td></tr>
 </table>
 </body>
 </html>

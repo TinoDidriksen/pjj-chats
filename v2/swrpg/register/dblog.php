@@ -40,7 +40,7 @@ if (window != window.top)
 </head>
 
 <body text="#FFFFFF" bgcolor="#000000" link="#0783FF" vlink="#0783FF" alink="#0682FE" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0">
-<center><img src="http://pjj.cc/gfx/null.gif" border=0></center>
+<center><img src="https://pjj.cc/gfx/null.gif" border=0></center>
 
 <?php
     if ($die) {
@@ -433,6 +433,6 @@ XOUT;
 
 <?=$output;?>
 
-<center><img src="http://pjj.cc/gfx/null.gif" border=0></center>
+<center><img src="https://pjj.cc/gfx/null.gif" border=0></center>
 </body>
 </html>

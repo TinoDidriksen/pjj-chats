@@ -39,12 +39,12 @@ input,select {
 
 <body text="#000000" bgcolor="#FFFFFF" link="#0783FF" vlink="#0783FF" alink="#0682FE" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0">
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
-<tr><td background="http://pjj.cc/gfx/up_tile.gif" valign="top" align="left" height="32"> </td></tr>
+<tr><td background="https://pjj.cc/gfx/up_tile.gif" valign="top" align="left" height="32"> </td></tr>
 <tr><td valign="top" width="100%" height="100%">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
 	<tr><td valign="top" align="left" height="100%" width=80> </td>
 	<td valign="top" height="100%">
-<center><img src="http://pjj.cc/gfx/null.gif" border=0></center>
+<center><img src="https://pjj.cc/gfx/null.gif" border=0></center>
 <?php
 	// Very dirty hack, but I really don't want to go through this bloody file now.
 	extract($_REQUEST);
@@ -138,7 +138,7 @@ function GetFile($file) {
 						$subject	= $_REQUEST['subject'];
 
 						if (($message) && ($subject) && ($new_email)) {
-							mail($new_email, $subject, $message, "From: $cadmin\nReply-To: $cadmin\nX-pJJ-IP: {$_SERVER['REMOTE_ADDR']}\nX-pJJ-Chat: http://pjj.cc/{$chatpath}/\nX-pJJ-Auth: {$_REQUEST['login']}\n");
+							mail($new_email, $subject, $message, "From: $cadmin\nReply-To: $cadmin\nX-pJJ-IP: {$_SERVER['REMOTE_ADDR']}\nX-pJJ-Chat: https://pjj.cc/{$chatpath}/\nX-pJJ-Auth: {$_REQUEST['login']}\n");
 							echo "Mail sent to $new_email.";
 						}
 						else {
@@ -241,7 +241,7 @@ function GetFile($file) {
 					$message = $_REQUEST['message'];
 					$new_mail = $_REQUEST['new_mail'];
 					if (($subject) && ($message) && ($new_email)) {
-						mail($new_email, $subject, $message, "From: $cadmin\nReply-To: $cadmin\nX-pJJ-IP: {$_SERVER['REMOTE_ADDR']}\nX-pJJ-Chat: http://pjj.cc/{$chatpath}/\nX-pJJ-Auth: {$_REQUEST['login']}\n");
+						mail($new_email, $subject, $message, "From: $cadmin\nReply-To: $cadmin\nX-pJJ-IP: {$_SERVER['REMOTE_ADDR']}\nX-pJJ-Chat: https://pjj.cc/{$chatpath}/\nX-pJJ-Auth: {$_REQUEST['login']}\n");
 						echo "Email sent to $new_email.";
 					}
 					else {
@@ -335,9 +335,9 @@ function GetFile($file) {
 						echo <<<PHPEND
 <script type="text/javascript">
   _editor_lang = "en";
-  _editor_url = "http://pjj.cc/common/htmlarea/";
+  _editor_url = "https://pjj.cc/common/htmlarea/";
 </script>
-<script type="text/javascript" src="http://pjj.cc/common/htmlarea/htmlarea.js"></script>
+<script type="text/javascript" src="https://pjj.cc/common/htmlarea/htmlarea.js"></script>
 
 <style type="text/css">
 textarea { background-color: #ffffff; border: 1px solid #000000; }
@@ -735,9 +735,9 @@ PHPEND;
 						echo <<<PHPEND
 <script type="text/javascript">
   _editor_lang = "en";
-  _editor_url = "http://pjj.cc/common/htmlarea/";
+  _editor_url = "https://pjj.cc/common/htmlarea/";
 </script>
-<script type="text/javascript" src="http://pjj.cc/common/htmlarea/htmlarea.js"></script>
+<script type="text/javascript" src="https://pjj.cc/common/htmlarea/htmlarea.js"></script>
 
 <style type="text/css">
 textarea { background-color: #ffffff; border: 1px solid #000000; }
@@ -1150,7 +1150,7 @@ PHPEND;
 							count_mysql_query("UPDATE uo_chat_regapps SET appstat=2 WHERE chat='{$chatpath}' AND id='{$decline}'", $handler);
 							$rsubject = "Application for chat {$ctitle} declined";
 							$rmessage = "Your application for chat {$ctitle} with the username {$runame}, has been declined and deleted from the database.\n\n". ucwords($login)."\nAdministrator of $ctitle.";
-							mail($rmail, $rsubject, $rmessage, "From: $cadmin\nReply-To: $cadmin\nX-pJJ-IP: {$_SERVER['REMOTE_ADDR']}\nX-pJJ-Chat: http://pjj.cc/{$chatpath}/\nX-pJJ-Auth: {$_REQUEST['login']}\n");
+							mail($rmail, $rsubject, $rmessage, "From: $cadmin\nReply-To: $cadmin\nX-pJJ-IP: {$_SERVER['REMOTE_ADDR']}\nX-pJJ-Chat: https://pjj.cc/{$chatpath}/\nX-pJJ-Auth: {$_REQUEST['login']}\n");
 							echo "Declined applicant {$runame}<BR>";
 						}
 
@@ -1310,19 +1310,19 @@ PHPEND;
 	<p>
 			<table cellspacing=1 cellpadding=0 border=0 width=450><tr align=center>
 			<tr align=center>
-				<td>-<a href=\"http://pjj.cc/common/help.php?man=pref\" target=_blank>Preference help</a>-</td>
+				<td>-<a href=\"https://pjj.cc/common/help.php?man=pref\" target=_blank>Preference help</a>-</td>
 				<td>-<a href=../gui_set.php target=_blank>Settings</a>-</td>
 				<td>-<a href=biglist.php target=_blank>Complete Userlist</a>-</td>
 				<td>-<a href=adminlog.php target=_blank>Admin Log</a>-</td>
 			</tr>
 			<tr align=center>
-				<td>-<a href=\"http://pjj.cc/common/help.php?man=flag\" target=_blank>Flag help</a>-</td>
+				<td>-<a href=\"https://pjj.cc/common/help.php?man=flag\" target=_blank>Flag help</a>-</td>
 				<td>-<a href=../gui_opt.php target=_blank>Options</a>-</td>
 				<td>-<a href=viewer.php target=_blank>Profiles</a>-</td>
 				<td>-<a href='adminlog.php?log=cpanel' target=_blank>CPanel Log</a>-</td>
 			</tr>
 			<tr align=center>
-				<td>-<a href=\"http://pjj.cc/common/help.php?man=chat\" target=_blank>ChatPrefs</a>-</td>
+				<td>-<a href=\"https://pjj.cc/common/help.php?man=chat\" target=_blank>ChatPrefs</a>-</td>
 				<td>-<a href=../gui_icon.php target=_blank>Icons</a>-</td>
 				<td>-<a href=biglog.php target=_blank>Old Chat Logs</a>-</td>
 				<td>-<a href=../jbb/ target=_blank>Board</a>-</td>
@@ -1331,16 +1331,16 @@ PHPEND;
 				<td>-</td>
 				<td>-<a href=../gui_lang.php target=_blank>Language</a>-</td>
 				<td>-<a href=dblog.php target=_blank>Chat Logs</a>-</td>
-				<td>-<a href=\"http://pjj.cc/common/vote.php?chatpath=$chatpath\" target=_blank>Poll</a>-</td>
+				<td>-<a href=\"https://pjj.cc/common/vote.php?chatpath=$chatpath\" target=_blank>Poll</a>-</td>
 			</tr>
 			</table><!-- Debug: $cqs -->";
 ?>
-<center><img src="http://pjj.cc/gfx/null.gif" border=0></center>
+<center><img src="https://pjj.cc/gfx/null.gif" border=0></center>
 </td>
 	<td valign="top" align="right" height="100%" width=80> </td></tr>
 	</table>
 </td></tr>
-<tr><td background="http://pjj.cc/gfx/dn_tile.gif" align="center" valign="bottom" height="32"> </td></tr>
+<tr><td background="https://pjj.cc/gfx/dn_tile.gif" align="center" valign="bottom" height="32"> </td></tr>
 </table>
 </body>
 </html>

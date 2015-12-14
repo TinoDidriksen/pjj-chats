@@ -66,7 +66,7 @@ if (window != window.top) {
 <body text="#000000" bgcolor="#FFFFFF" link="#0783FF" vlink="#0783FF" alink="#0682FE" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0">
 
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
-<tr><td background="http://pjj.cc/gfx/up_tile.gif" valign="top" align="left" height="32"> </td></tr>
+<tr><td background="https://pjj.cc/gfx/up_tile.gif" valign="top" align="left" height="32"> </td></tr>
 <tr><td valign="top" width="100%" height="100%">
 	<div style="height: 20px;"></div>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
@@ -131,9 +131,9 @@ if (window != window.top) {
 				$headers .= "BCC: ".implode(', ', $emails)."\n";
 				$headers .= "Reply-To: $master_email\n";
 				$headers .= "X-pJJ-IP: {$_SERVER['REMOTE_ADDR']}\n";
-				$headers .= "X-pJJ-Chat: http://pjj.cc/{$chatpath}/\n";
+				$headers .= "X-pJJ-Chat: https://pjj.cc/{$chatpath}/\n";
 				$message = '';
-				$message .= "New registration application in http://pjj.cc/{$chatpath}/ from $nu_handle <$nu_email>\n";
+				$message .= "New registration application in https://pjj.cc/{$chatpath}/ from $nu_handle <$nu_email>\n";
 				//$message .= "BCC: ".implode(', ', $emails)."\n";
 				mail($master_email, "pJJ: New Regapp in /$chatpath", $message, $headers);
 
@@ -229,7 +229,7 @@ foreach ($vals as $v) {
 	<td valign="top" align="right" height="100%" width=80> </td></tr>
 	</table>
 </td></tr>
-<tr><td background="http://pjj.cc/gfx/dn_tile.gif" align="center" valign="bottom" height="32"> </td></tr>
+<tr><td background="https://pjj.cc/gfx/dn_tile.gif" align="center" valign="bottom" height="32"> </td></tr>
 </table>
 </body>
 </html>
