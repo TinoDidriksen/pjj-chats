@@ -38,7 +38,7 @@ if (window != window.top)
 
 function NewPass($uid, $key, $stamp) {
 	global $handler, $master_name_filter, $master_name, $master_email;
-	
+
 	mysql_query("DELETE FROM uo_chat_newpass WHERE pass_stamp < DATE_SUB(now(), INTERVAL 15 MINUTE)", $handler);
 
 	if (!preg_match('@^\w+$@', $key)) {
@@ -53,7 +53,7 @@ function NewPass($uid, $key, $stamp) {
 		WHERE pass_uid=$uid AND pass_key='".$key."' AND pass_stamp='".$stamp."'", $handler);
 	$verify = mysql_fetch_assoc($result);
 	mysql_free_result($result);
-	
+
 	if (empty($verify['pass_uid']) || $verify['pass_uid'] != $uid) {
 		echo "<p>Invalid or expired reset link.<br>\n";
 		return -1;
@@ -84,10 +84,10 @@ function NewPass($uid, $key, $stamp) {
 	$chat = trim(substr($cuser['chat'], 4));
 	$username = trim($cuser['username']);
 	$email = trim($cuser['email']);
-	
+
 	$newpass = RandomPass();
 	$md5pass = md5($newpass);
-	
+
 	mysql_query("UPDATE uo_chat_database SET password='".$md5pass."' WHERE uid=$uid", $handler);
 	mysql_query("DELETE FROM uo_chat_newpass WHERE pass_uid=$uid", $handler);
 
@@ -149,7 +149,7 @@ function RequestPass($chat, $username) {
 		echo "<p>System Administrators know their passwords.<br>\n";
 		return -2;
 	}
-	
+
 	$key = sha1(uniqid().mt_rand().mt_rand().mt_rand());
 	$stamp = date('Y-m-d H:i:s');
 
@@ -172,7 +172,7 @@ function RequestPass($chat, $username) {
 On {$stamp} someone from IP {$_SERVER['REMOTE_ADDR']} requested a new password for user {$username} (uid:{$cuser['uid']}).
 
 To generate a new password, click:
-http://pjj.cc/common/password.php?uid={$cuser['uid']}&key={$key}&stamp={$urlstamp}
+https://pjj.cc/common/password.php?uid={$cuser['uid']}&key={$key}&stamp={$urlstamp}
 
 The link will remain valid for 15 minutes or until someone successfully logs in to the account.
 

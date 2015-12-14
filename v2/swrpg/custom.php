@@ -15,10 +15,10 @@
 	echo $ctitle;
 
 	if ($_SERVER['HTTP_HOST']) {
-		$cpath = "http://".$_SERVER['HTTP_HOST'].ereg_replace("(.*)custom.php", "\\1", $_SERVER['PHP_SELF']);
+		$cpath = "https://".$_SERVER['HTTP_HOST'].ereg_replace("(.*)custom.php", "\\1", $_SERVER['PHP_SELF']);
 	}
 	else {
-		$cpath = "http://".$_SERVER['SERVER_NAME'].ereg_replace("(.*)custom.php", "\\1", $_SERVER['PHP_SELF']);
+		$cpath = "https://".$_SERVER['SERVER_NAME'].ereg_replace("(.*)custom.php", "\\1", $_SERVER['PHP_SELF']);
 	}
 
 	if (empty($initlink)) {
@@ -121,7 +121,7 @@ if (window != window.top) {
 				</FRAMESET>";
 			}
 		}
-		echo "<frame src='http://pjj.cc/common/xmlsocket/worker.php?chatid=".$GLOBALS['biglog']['real_id']."' name='XMLSocket' SCROLLING='auto' MARGINWIDTH='0' MARGINHEIGHT='0'>
+		echo "<frame src='https://pjj.cc/common/xmlsocket/worker.php?chatid=".$GLOBALS['biglog']['real_id']."' name='XMLSocket' SCROLLING='auto' MARGINWIDTH='0' MARGINHEIGHT='0'>
 		</frameset>";
 	}
 	else {

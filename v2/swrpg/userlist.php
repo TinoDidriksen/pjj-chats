@@ -34,8 +34,8 @@ function getmicrotime() {
 	echo "\n<!-- Head: ".round(getmicrotime()-$start, 2)." secs / $cqs queries -->\n";
 	echo "<meta http-equiv='refresh' content='$userlistspeed;URL=userlist.php?noimg={$_REQUEST['noimg']}'>
 	<title>$ctitle</title>
-	<link href='http://pjj.cc/common/css/common.css' rel='stylesheet' type='text/css'>
-	<script type='text/javascript' src='http://pjj.cc/common/js/functions.js'></script>
+	<link href='https://pjj.cc/common/css/common.css' rel='stylesheet' type='text/css'>
+	<script type='text/javascript' src='https://pjj.cc/common/js/functions.js'></script>
 	<style type='text/css'>
 	$csshead
 	</style>
@@ -49,10 +49,6 @@ function getmicrotime() {
 $ubodytag";
 ?>
 <center>
-<!--
-<a href="http://stopie.com/" title="StopIE.com - Stop Internet Explorer" target="_blank" class="AvatarTopImg"><img src="http://www.stopie.com/stopie88.gif" alt="StopIE.com - Stop Internet Explorer" border="0" vspace="2" hspace="2"></a>
-<a href="http://www.weaponmasters.com/index/?AID=579594238ac2a70f8ddc8c41" title="Swords" target="_blank" class="AvatarTopImg"><img src="http://i.pjj.cc/ccce62bbfd9ce5da52c7348807e76453.gif" border="0" vspace="3" hspace="2" alt="Swords" style="border: 2px solid black;"></a>
--->
 <!--[if lte IE 6]>
 <div class="avatarfirefox" style="text-align: left;">
 <script type="text/javascript">
@@ -175,12 +171,12 @@ Your browser is outdated. Please upgrade to one of these:
 <b>Other:</b><br>
 - <a href="https://plus.google.com/communities/115521193128885558520" target="_blank">Google+ Community</a><br>
 - <a href="http://facebook.com/groups/pjj.chats/" target="_blank">Facebook Group</a><br>
-- <a href="http://pjj.cc/characters.php" target="_blank">Character Manager</a><br>
+- <a href="https://pjj.cc/characters.php" target="_blank">Character Manager</a><br>
 - <a href="custom.php" target="_top">Customize Layout</a><br>
 - <a href="reader.php?urls=1" target="TextWindow">Recent URLs</a><br>
 - <a href="register/viewer.php" target="_blank">Profiles</a><br>
 - <a href="manual.php" target="TextWindow">Manual</a><br>
-- <a href="http://pjj.cc/legal/" target="TextWindow">ToS</a><br>
+- <a href="https://pjj.cc/legal/" target="TextWindow">ToS</a><br>
 - <a href="reader.php?p=inspect" target="TextWindow">Debug Info</a><br>
 - <a href="/common/vstat.php?chat=<?php echo $rpath; ?>" target="_blank">Statistics</a><br>
 
@@ -197,7 +193,7 @@ Your browser is outdated. Please upgrade to one of these:
 </script>
 
 <!--
-<script src='http://pjj.cc/common/js/userlist.js' type='text/javascript'></script>
+<script src='https://pjj.cc/common/js/userlist.js' type='text/javascript'></script>
 <script type='text/javascript'>
     jj_userlist.collectImages();
     jj_userlist.setImageSizes(<?=$pimgx;?>, <?=$pimgy;?>);

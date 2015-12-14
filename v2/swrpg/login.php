@@ -75,9 +75,9 @@
 	$c = count($images);
 	for($i=0;$i<$c;$i++) {
 		if (strstr($images[$i], '../master/'))
-			$images[$i] = str_replace('../master/', 'http://master.pjj.cc/', $images[$i]);
+			$images[$i] = str_replace('../master/', 'https://master.pjj.cc/', $images[$i]);
 		if (strstr($images[$i], '../'))
-			$images[$i] = str_replace('../', 'http://pjj.cc/', $images[$i]);
+			$images[$i] = str_replace('../', 'https://pjj.cc/', $images[$i]);
 	}
 
 	echo "<!DOCTYPE html>
@@ -85,7 +85,7 @@
 <head>
 	<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
 	<META NAME='ROBOTS' CONTENT='NOARCHIVE'>
-	<script type='text/javascript' src='http://pjj.cc/common/js/functions.js'></script>
+	<script type='text/javascript' src='https://pjj.cc/common/js/functions.js'></script>
 	<style>
 	$csshead
 	</style>
@@ -112,7 +112,7 @@ echo "
 	<td>Adv: <input class=boxes type=checkbox name=\"mode_advanced\"></td>
 </tr>
 <tr valign=top>
-	<td><b>Password</b> (<a href=\"http://pjj.cc/common/password.php?chat=$newpath\" target=_blank style=\"font-size: 8pt;\">lost?</a>): </td>
+	<td><b>Password</b> (<a href=\"https://pjj.cc/common/password.php?chat=$newpath\" target=_blank style=\"font-size: 8pt;\">lost?</a>): </td>
 	<td><input type=password name=\"password\" maxlenght=32 size=6 value=\"$password\"></td>
 	<td><b>Icon</b>: </td>
 	<td>";
@@ -183,8 +183,7 @@ echo "</td><td></td></tr>
 <td align=center valign=top>
 <a href='reader.php?cspeed=22&motd=on' target='TextWindow'>$refresh</a><p>
 <a href='manual.php' target='_blank'>$manual</a><p>
-<!-- <a href='http://projectjj.com/' target='_blank'><img alt='Copyright 2000-2003 Project JJ' src='$images[1]' border=0></a> -->
 </td></tr></table>
-<div align='right'><a href='http://pjj.cc/legal/' target='TextWindow'>Terms of Service</a></div>
+<div align='right'><a href='https://pjj.cc/legal/' target='TextWindow'>Terms of Service</a></div>
 </body>
 </html>";

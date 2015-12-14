@@ -66,12 +66,12 @@ body { font-family: verdana, arial, sans-serif; }
 
 <body text="#000000" bgcolor="#FFFFFF" link="#0783FF" vlink="#0783FF" alink="#0682FE" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0">
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
-<tr><td background="http://pjj.cc/gfx/up_tile.gif" valign="top" align="left" height="32"> </td></tr>
+<tr><td background="https://pjj.cc/gfx/up_tile.gif" valign="top" align="left" height="32"> </td></tr>
 <tr><td valign="top" width="100%" height="100%">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
-	<tr><td valign="top" align="left" height="100%"><img src='http://pjj.cc/gfx/null.gif' border=0></td>
+	<tr><td valign="top" align="left" height="100%"><img src='https://pjj.cc/gfx/null.gif' border=0></td>
 	<td valign="top" height="100%">
-<center><img src='http://pjj.cc/gfx/null.gif' border=0></center>
+<center><img src='https://pjj.cc/gfx/null.gif' border=0></center>
 <?php
 	function CheckImage($id) {
 		if (strstr($id, '<img')) {
@@ -259,7 +259,7 @@ if (\$c_bgimg != \"\")
 	</tr>
 -->
 </table>
-<img src=\"http://pjj.cc/gfx/null.gif\" border=0 width=10 height=10>
+<img src=\"https://pjj.cc/gfx/null.gif\" border=0 width=10 height=10>
 
 <table border=0 cellspacing=0 cellpadding=0><tr valign=top><td>
 	<table border=0 cellspacing=1 cellpadding=2 bgcolor=#000000>
@@ -293,7 +293,7 @@ if (\$c_bgimg != \"\")
 		</tr>
 	</table>
 </td><td>
-<img src=\"http://pjj.cc/gfx/null.gif\" border=0 width=10 height=10>
+<img src=\"https://pjj.cc/gfx/null.gif\" border=0 width=10 height=10>
 </td><td>
 	<table border=0 cellspacing=1 cellpadding=2 bgcolor=#000000>
 		<tr bgcolor=#eeeeee>
@@ -321,10 +321,10 @@ if (\$c_bgimg != \"\")
 		</tr>
 	</table>
 </td><td>
-<img src=\"http://pjj.cc/gfx/null.gif\" border=0 width=10 height=10>
+<img src=\"https://pjj.cc/gfx/null.gif\" border=0 width=10 height=10>
 </td>
 </tr></table>
-<img src=\"http://pjj.cc/gfx/null.gif\" border=0 width=10 height=10>
+<img src=\"https://pjj.cc/gfx/null.gif\" border=0 width=10 height=10>
 <table border=0 cellspacing=1 cellpadding=2 bgcolor=#000000>
 	<tr bgcolor=#eeeeee>
 		<td colspan=1><b>Cascading Style Sheet (CSS)</b></td>
@@ -333,7 +333,7 @@ if (\$c_bgimg != \"\")
 		<td>&lt;style type=\"text/css\"&gt;<br><textarea name=\"csshead\" cols=60 rows=15>".htmlentities($csshead)."</textarea><br>&lt;/style&gt;</td>
 	</tr>
 </table>
-<img src=\"http://pjj.cc/gfx/null.gif\" border=0 width=10 height=10>
+<img src=\"https://pjj.cc/gfx/null.gif\" border=0 width=10 height=10>
 
 <table border=0 cellspacing=1 cellpadding=2 bgcolor=#000000>
 	<tr bgcolor=#eeeeee>
@@ -366,10 +366,10 @@ if (\$c_bgimg != \"\")
 	<tr bgcolor=#ffffff valign=top>
 		<td>User Image Size</td>
 		<td><input name=\"pimgx\" value=\"$pimgx\" size=3>x<input name=\"pimgy\" value=\"$pimgy\" size=3> pixels</td>
-		<td bgcolor=\"$s_bgcol\"><img src=\"http://pjj.cc/gfx/scanback.gif\" width=$pimgx height=$pimgy border=1></td>
+		<td bgcolor=\"$s_bgcol\"><img src=\"https://pjj.cc/gfx/scanback.gif\" width=$pimgx height=$pimgy border=1></td>
 	</tr>
 </table>
-<img src=\"http://pjj.cc/gfx/null.gif\" border=0 width=10 height=10>
+<img src=\"https://pjj.cc/gfx/null.gif\" border=0 width=10 height=10>
 
 <table border=0 cellspacing=1 cellpadding=2 bgcolor=#000000>
 	<tr bgcolor=#eeeeee>
@@ -420,7 +420,7 @@ if (\$c_bgimg != \"\")
 		<td><input name=\"identxtsize\" value=\"$identxtsize\" size=4></td>
 	</tr>
 </table>
-<img src=\"http://pjj.cc/gfx/null.gif\" border=0 width=10 height=10>
+<img src=\"https://pjj.cc/gfx/null.gif\" border=0 width=10 height=10>
 
 <table border=0 cellspacing=1 cellpadding=2 bgcolor=#000000>
 	<tr bgcolor=#eeeeee>
@@ -445,7 +445,7 @@ if (\$c_bgimg != \"\")
 		<td><input name=\"tzone\" value=\"$tzone\" size=3></td>
 	</tr>
 </table>
-<img src=\"http://pjj.cc/gfx/null.gif\" border=0 width=10 height=10><br>
+<img src=\"https://pjj.cc/gfx/null.gif\" border=0 width=10 height=10><br>
 
 <table border=0 cellspacing=1 cellpadding=2 bgcolor=#000000>
 	<tr bgcolor=#eeeeee>
@@ -467,12 +467,12 @@ if (\$c_bgimg != \"\")
 </form>
 ";
 ?>
-<center><img src="http://pjj.cc/gfx/null.gif" border=0></center>
+<center><img src="https://pjj.cc/gfx/null.gif" border=0></center>
 </td>
-	<td valign="top" align="right" height="100%"><img src='http://pjj.cc/gfx/null.gif' border=0></td></tr>
+	<td valign="top" align="right" height="100%"><img src='https://pjj.cc/gfx/null.gif' border=0></td></tr>
 	</table>
 </td></tr>
-<tr><td background="http://pjj.cc/gfx/dn_tile.gif" align="center" valign="bottom" height="32"> </td></tr>
+<tr><td background="https://pjj.cc/gfx/dn_tile.gif" align="center" valign="bottom" height="32"> </td></tr>
 </table>
 </body>
 </html>

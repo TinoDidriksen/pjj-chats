@@ -37,10 +37,10 @@ function getmicrotime() {
 
 	$newpath = mb_substr($chatpath, 4);
 	if ($_SERVER['HTTP_HOST']) {
-		$cpath = 'http://'.$_SERVER['HTTP_HOST'].ereg_replace('(.*)/sendmsg.php', '\1', $_SERVER['PHP_SELF']);
+		$cpath = 'https://'.$_SERVER['HTTP_HOST'].ereg_replace('(.*)/sendmsg.php', '\1', $_SERVER['PHP_SELF']);
 	}
 	else {
-		$cpath = 'http://'.$_SERVER['SERVER_NAME'].ereg_replace('(.*)/sendmsg.php', '\1', $_SERVER['PHP_SELF']);
+		$cpath = 'https://'.$_SERVER['SERVER_NAME'].ereg_replace('(.*)/sendmsg.php', '\1', $_SERVER['PHP_SELF']);
 	}
 
 	if (!empty($_SESSION[$realpath]['ident'])) {
@@ -886,7 +886,7 @@ function getmicrotime() {
 					$tag = '';
 				}
 
-				if (stripos($tag, 'http://') === 0) {
+				if (stripos($tag, 'http://') === 0 || stripos($tag, 'https://') === 0) {
 					$tag = '<img src="'.htmlentities($tag).'" border="0">&nbsp;';
 				}
 
@@ -1089,10 +1089,10 @@ function getmicrotime() {
 	$c = count($images);
 	for($i=0;$i<$c;$i++) {
 		if (strstr($images[$i], '../master/')) {
-			$images[$i] = str_replace('../master/', 'http://pjj.cc/master/', $images[$i]);
+			$images[$i] = str_replace('../master/', 'https://pjj.cc/master/', $images[$i]);
 		}
 		if (strstr($images[$i], '../')) {
-			$images[$i] = str_replace('../', 'http://pjj.cc/', $images[$i]);
+			$images[$i] = str_replace('../', 'https://pjj.cc/', $images[$i]);
 		}
 	}
 
@@ -1107,12 +1107,12 @@ function getmicrotime() {
 	<meta name="robots" content="nofollow">
 	<meta http-equiv="content-type" content="text/html;charset=utf-8">
 	<title>', $ctitle, '</title>
-	<script type="text/javascript" src="http://pjj.cc/common/js/functions.js"></script>
+	<script type="text/javascript" src="https://pjj.cc/common/js/functions.js"></script>
 	<style type="text/css">', $csshead, '</style>
 </head>', $cbodytag;
 
 if (!empty($falselog)) {
-	echo 'Wrong password for ', $falselog, '(<a href="http://pjj.cc/common/password.php?chat=', $newpath, '" target=_blank style="font-size: 8pt;">Have you lost it? Click here.</a>).<br>';
+	echo 'Wrong password for ', $falselog, '(<a href="https://pjj.cc/common/password.php?chat=', $newpath, '" target=_blank style="font-size: 8pt;">Have you lost it? Click here.</a>).<br>';
 }
 if (CheckGag($ident,$chatpath)) {
 	echo $language[17];
@@ -1360,7 +1360,7 @@ OUTPUT;
 	<option value="/me jumps around like a frog on drugs.">Action: /me</option>
 	<option value="/nick Guess Who!">Change handle: /nick</option>
 	<option value="/link http://example.com/">Change link: /link</option>
-	<option value="/image http://i.pjj.cc/08e14eb330404bf7ef95f81e0be4b0d8.gif">Change image: /image</option>
+	<option value="/image https://i.pjj.cc/08e14eb330404bf7ef95f81e0be4b0d8.gif">Change image: /image</option>
 	<option value="/dice 5d20 +5">Roll dice: /dice</option>
 	<option value="/xball">Magic 8-Ball</option>
 	<option value="/whois Tino Didriksen">Get information: /whois</option>

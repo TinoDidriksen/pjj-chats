@@ -1,7 +1,7 @@
 <?php
 	if (strpos(strtolower($_SERVER['HTTP_HOST']), 'chat.projectjj.') !== false) {
 		header('HTTP/1.1 301 Moved Permanently');
-		header("Location: http://pjj.cc/");
+		header("Location: https://pjj.cc/");
 		die();
 	}
 
@@ -45,10 +45,10 @@ a:hover {
 
 <body text="#000000" bgcolor="#FFFFFF" link="#0783FF" vlink="#0783FF" alink="#0682FE" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr><td valign="top" align="left" height="32" style="background-image: URL('http://pjj.cc/gfx/up_tile.gif'); background-repeat: repeat-x;">
+<tr><td valign="top" align="left" height="32" style="background-image: URL('//pjj.cc/gfx/up_tile.gif'); background-repeat: repeat-x;">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" height="32">
-	<tr><td valign="top" align="left"width="151"><a href="http://projectjj.com/"><img src="gfx/projectjj2.gif" border="0"></a></td>
-	<td valign="top" align="right" width="151"><a href="http://projectjj.com/" target=_blank><img src="gfx/phpchat2.gif" border="0"></a></td></tr>
+	<tr><td valign="top" align="left"width="151"><a href="https://tinodidriksen.com/"><img src="gfx/projectjj2.gif" border="0"></a></td>
+	<td valign="top" align="right" width="151"><a href="https://tinodidriksen.com/" target=_blank><img src="gfx/phpchat2.gif" border="0"></a></td></tr>
 	</table>
 </td></tr>
 </table>
@@ -60,7 +60,8 @@ a:hover {
 <td><b>Want a chat?</b> (it's free)<br>
 Use the <a href="rq.php"><b>Chat Request Form</b></a>
 </td>
-<td><a href="https://www.facebook.com/groups/247742028634729/"><b>Facebook Group</b></a><br>
+<td><a href="https://www.facebook.com/groups/pjj.chats/"><b>Facebook</b></a><br>
+<a href="https://plus.google.com/communities/115521193128885558520"><b>Google+</b></a><br>
 </td>
 </tr>
 <tr valign="top" align="center">
@@ -551,20 +552,15 @@ Use the <a href="recover.php"><b>Chat Recover Form</b></a>
 </blockquote>
 </td></tr></table>
 <br>
-<!--
-<center>
-<a href="http://www.serverbeach.com/?REF=SUY9Q94N9U" title="ServerBeach"><img src="http://i.pjj.cc/5c5e0de85031c654782ce024af7bd537.gif" border="0" alt="ServerBeach"></a>
-</center>
--->
 <div align="center">
     <a href="legal/">Terms of Service</a>
     |
     <a href="mailto:legal@projectjj.com">Copyright 1999-<?=date('Y');?> Project JJ</a>
 </div>
-<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+<script src="https://www.google-analytics.com/urchin.js" type="text/javascript"></script>
 <script type="text/javascript">_uacct = "UA-87771-3"; urchinTracker();</script>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr><td background="gfx/dn_tile.gif" align="center" valign="bottom" height="32"><center><a href="http://projectjj.com/" target=_blank><img src="gfx/worlds.gif" border="0"></a></center></td></tr>
+<tr><td background="gfx/dn_tile.gif" align="center" valign="bottom" height="32"><center><a href="https://tinodidriksen.com/" target=_blank><img src="gfx/worlds.gif" border="0"></a></center></td></tr>
 </table>
 </body>
 </html>

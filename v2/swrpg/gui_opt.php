@@ -68,12 +68,12 @@ body { font-family: verdana, arial, sans-serif; }
 
 <body text="#000000" bgcolor="#FFFFFF" link="#0783FF" vlink="#0783FF" alink="#0682FE" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0">
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
-<tr><td background="http://pjj.cc/gfx/up_tile.gif" valign="top" align="left" height="32"> </td></tr>
+<tr><td background="https://pjj.cc/gfx/up_tile.gif" valign="top" align="left" height="32"> </td></tr>
 <tr><td valign="top" width="100%" height="100%">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
 	<tr><td valign="top" align="left" height="100%" width=80> </td>
 	<td valign="top" height="100%">
-<center><img src="http://pjj.cc/gfx/null.gif" border=0></center>
+<center><img src="https://pjj.cc/gfx/null.gif" border=0></center>
 <?php
 
 	$_REQUEST = TrimArray($_REQUEST);
@@ -269,7 +269,7 @@ body { font-family: verdana, arial, sans-serif; }
 	if (empty($jbbc[15]))
 		$jbbc[15] = "DESC";
 
-	echo "</table></td><td width=10><img width=10 src='http://pjj.cc/gfx/null.gif' border=0></td><td><table cellspacing=1 cellpadding=3 border=0 bgcolor=#000000>";
+	echo "</table></td><td width=10><img width=10 src='https://pjj.cc/gfx/null.gif' border=0></td><td><table cellspacing=1 cellpadding=3 border=0 bgcolor=#000000>";
 	echo "<tr bgcolor=#ffffff><td colspan=2><b>Customize Board</b></td></tr>";
 	echo "<tr bgcolor=#ffffff><td>Text</td>			<td><input type=text name='jbbc[0]' value='$jbbc[0]'></td></tr>";
 	echo "<tr bgcolor=#ffffff><td>Link</td>			<td><input type=text name='jbbc[1]' value='$jbbc[1]'></td></tr>";
@@ -461,12 +461,12 @@ PHPEND;
 	echo "</form><p>\n";
 
 ?>
-<center><img src="http://pjj.cc/gfx/null.gif" border=0></center>
+<center><img src="https://pjj.cc/gfx/null.gif" border=0></center>
 </td>
 	<td valign="top" align="right" height="100%" width=80> </td></tr>
 	</table>
 </td></tr>
-<tr><td background="http://pjj.cc/gfx/dn_tile.gif" align="center" valign="bottom" height="32"> </td></tr>
+<tr><td background="https://pjj.cc/gfx/dn_tile.gif" align="center" valign="bottom" height="32"> </td></tr>
 </table>
 
 <script type="text/javascript">

@@ -1,7 +1,7 @@
 <?php
 
 $GLOBALS['language'] = array(
-	0 => "This chat can only be used by registered users.<p>If you are one you must log in and possibly also post before you can see anything.<p>In case you are not, <a href='http://pjj.cc/' target=_top>the portal</a> may have something else of interest.",
+	0 => "This chat can only be used by registered users.<p>If you are one you must log in and possibly also post before you can see anything.<p>In case you are not, <a href='https://pjj.cc/' target=_top>the portal</a> may have something else of interest.",
 	1 => "<u>JOIN</u>: {USERNAME} has entered.<br>",
 	2 => "<u>EXIT</u>: {USERNAME} has left the chat ( <i>{MESSAGE}</i> ).<br>",
 	3 => "<u>BAN</u>: <font color='#{COLOR}'>{USERNAME} banned {BANIDENT} for {BANDURATION} seconds.</font><br>",

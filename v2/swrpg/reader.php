@@ -351,7 +351,7 @@ STUFF;
 
 	', $csshead, '
 	</style>
-	<script type="text/javascript" src="http://pjj.cc/common/js/functions.js"></script>
+	<script type="text/javascript" src="https://pjj.cc/common/js/functions.js"></script>
 	<base target="TextWindow">
 </head>', $bodytag;
 
@@ -569,12 +569,12 @@ STUFF;
 	<META NAME="ROBOTS" CONTENT="NOFOLLOW, NOARCHIVE">
 	<meta http-equiv="refresh" content="$respeed;URL=reader.php?cspeed={$_REQUEST['cspeed']}&reverse={$_REQUEST['reverse']}{$down}&random=$random$down">
 	<title>{$ctitle}</title>
-	<link href="http://pjj.cc/common/css/common.css" rel="stylesheet" type="text/css">
-	<script type="text/javascript" src="http://pjj.cc/common/js/functions.js"></script>
+	<link href="https://pjj.cc/common/css/common.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="https://pjj.cc/common/js/functions.js"></script>
 	<script type="text/javascript">
 	var refreshID;
 	function RefreshPage() {
-		window.location = 'http://pjj.cc/$rpath/reader.php?cspeed={$_REQUEST['cspeed']}&reverse={$_REQUEST['reverse']}&random=$random$down';
+		window.location = 'https://pjj.cc/$rpath/reader.php?cspeed={$_REQUEST['cspeed']}&reverse={$_REQUEST['reverse']}&random=$random$down';
 	}
 	function RefreshPageDelayed() {
 		if (refreshID) {

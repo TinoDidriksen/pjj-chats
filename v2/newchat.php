@@ -185,7 +185,7 @@ ALTER TABLE chatv2index.index_{$chat} OWNER TO projectjj;
 				}
 			}
 
-			$cpath = "http://pjj.cc";
+			$cpath = "https://pjj.cc";
 
 			$username = ucwords($username);
 			$master_name = ucwords($master_name);
@@ -208,7 +208,7 @@ ALTER TABLE chatv2index.index_{$chat} OWNER TO projectjj;
 			$message .= "Chat Pref Help: $cpath/common/help.php?man=chat\n";
 			$message .= "Portal: $cpath/\n";
 			$message .= "\n";
-			$message .= "It is also a good idea to look at http://board.projectjj.com/ to get the latest developments.\n";
+			$message .= "It is also a good idea to look at https://plus.google.com/communities/115521193128885558520 or https://www.facebook.com/groups/pjj.chats/ to get the latest developments.\n";
 			$message .= "\n";
 			$message .= "-- Tino Didriksen / Project JJ\n";
 			mail("$username <$email>", $subject, $message, "From: $master_name <$master_email>\nReply-To: $master_name <$master_email>\nBcc: $master_name <$master_email>\n");

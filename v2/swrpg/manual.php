@@ -13,7 +13,7 @@
 <body bgcolor=#000000 text=#ffffff alink=#eeeeee vlink=#dddddd link=#eeeeee>
 <br>
 <blockquote>
-<font color="#FF8040"><b>The <a href="http://pjj.cc/legal/">Terms of Service</a> is required reading!</b></font><p>
+<font color="#FF8040"><b>The <a href="https://pjj.cc/legal/">Terms of Service</a> is required reading!</b></font><p>
 <a href='manual.php'><u>Login Screen</u></a><br>
 Fill out the form and click 'Enter Chat'.<br>
 The 'Reload' box only applies to registered users. It is used to reload your last used color/link/image so you don't need to fill in those parts.<p>
@@ -63,7 +63,7 @@ People not posting within <b>$timeout</b> seconds won't appear in userlist.<br>
 Images are $pimgx x $pimgy.
 </blockquote><p>
 <center><hr width=50%><p>
-&copy; 2000-2002 <a href='http://projectjj.com'>Project JJ</a><br>
+&copy; 2000-2015 <a href='http://tinodidriksen.com'>Tino Didriksen</a><br>
 All rights reserved
 </center>
 </body>

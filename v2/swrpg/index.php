@@ -3,13 +3,13 @@
 	if (strpos(strtolower($_SERVER['HTTP_HOST']), 'chat.projectjj.') !== false) {
 		$chat = preg_replace('@.*/([^/]+)/index.php@', '\1', $_SERVER['PHP_SELF']);
 		header('HTTP/1.1 301 Moved Permanently');
-		header('Location: http://pjj.cc/'.$chat.'/');
+		header('Location: https://pjj.cc/'.$chat.'/');
 		die();
 	}
 	if (strpos(strtolower($_SERVER['HTTP_HOST']), '.pjj.cc') !== false) {
 		$chat = preg_replace('@^(.+)\.pjj\.cc$@', '\1', $_SERVER['HTTP_HOST']);
 		header('HTTP/1.1 301 Moved Permanently');
-		header('Location: http://pjj.cc/'.$chat.'/');
+		header('Location: https://pjj.cc/'.$chat.'/');
 		die();
 	}
 
@@ -69,6 +69,6 @@ if (window != window.top) {
 </body>
     </noframes>
 </frameset>
-<frame src="http://pjj.cc/common/xmlsocket/worker.php?chatid=<?=$GLOBALS['biglog']['real_id'];?>" name="XMLSocket" scrolling="auto" marginwidth="0" marginheight="0" >
+<frame src="//pjj.cc/common/xmlsocket/worker.php?chatid=<?=$GLOBALS['biglog']['real_id'];?>" name="XMLSocket" scrolling="auto" marginwidth="0" marginheight="0" >
 </frameset>
 </html>

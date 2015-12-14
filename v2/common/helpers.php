@@ -520,67 +520,67 @@ function ShowList($chatpath) {
 
 		if (!CheckFlags("m", $cpref)) {
 			if (!empty($fixhandle) && stristr($profs, $fixhandle)) {
-				echo "<a href='http://pjj.cc/$rpath/register/viewer.php?su=".urlencode($usel[2])."&fm=view' target='_blank'><img alt='Profile' src='http://pjj.cc/gfx/im/prof2.gif' border='0'></a>";
+				echo "<a href='https://pjj.cc/$rpath/register/viewer.php?su=".urlencode($usel[2])."&fm=view' target='_blank'><img alt='Profile' src='https://pjj.cc/gfx/im/prof2.gif' border='0'></a>";
             }
 
 			if (CheckFlags("M", $upref[0]) && !empty($upref[1])) {
-				echo "<a href='mailto:$upref[1]'><img alt='Email' src='http://pjj.cc/gfx/im/email.gif' border=0></a>";
+				echo "<a href='mailto:$upref[1]'><img alt='Email' src='https://pjj.cc/gfx/im/email.gif' border=0></a>";
 			}
 
 			$upref[2] = str_replace(" ", "", $upref[2]);
 			if (!empty($upref[2])) {
 				echo "<a href='aim:GoIM?ScreenName=$upref[2]' title='AIM'>";
-				echo "<img alt='AIM' src='http://pjj.cc/gfx/im/aimonline.gif' border='0'>";
+				echo "<img alt='AIM' src='https://pjj.cc/gfx/im/aimonline.gif' border='0'>";
 				echo "</a>";
 			}
 			if (!empty($upref[3])) {
 				echo "<a href='http://www.icq.com/$upref[3]' target='_blank' title='ICQ'>";
-				echo "<img alt='ICQ' src='http://pjj.cc/gfx/im/icqonline.gif' border='0'>";
+				echo "<img alt='ICQ' src='https://pjj.cc/gfx/im/icqonline.gif' border='0'>";
 				echo "</a>";
 			}
 			if (!empty($upref[4])) {
 				echo "<a href=\"http://profiles.yahoo.com/$upref[4]\" target='_blank' title='YM'>";
-				echo "<img border='0' src=\"http://pjj.cc/gfx/im/yahooonline.gif\" alt='YM'>";
+				echo "<img border='0' src=\"https://pjj.cc/gfx/im/yahooonline.gif\" alt='YM'>";
 				echo "</a>";
 			}
 			if (!empty($upref[5])) {
 				echo "<a href=\"http://members.msn.com/$upref[5]\" target='_blank' title='MSN'>";
-				echo "<img border='0' src='http://pjj.cc/gfx/im/msnonline.gif' alt='MSN'>";
+				echo "<img border='0' src='https://pjj.cc/gfx/im/msnonline.gif' alt='MSN'>";
 				echo "</a>";
 			}
 			if (!empty($upref[9])) {
 				echo "<a href=\"http://www.last.fm/user/{$upref[9]}/\" target='_blank' title='Last.fm'>";
-				echo "<img border='0' src='http://pjj.cc/gfx/im/lastfm.png' alt='Last.fm'>";
+				echo "<img border='0' src='https://pjj.cc/gfx/im/lastfm.png' alt='Last.fm'>";
 				echo "</a>";
 			}
 			if (!empty($upref[10])) {
 				echo "<a href='http://flickr.com/photos/$upref[10]/' target='_blank' title='Flickr'>";
-				echo "<img border='0' hspace='2' src='http://i.pjj.cc/c8b1694ee96e780aa35f426abc3e67d7.gif' alt='Flickr'>";
+				echo "<img border='0' hspace='2' src='https://i.pjj.cc/c8b1694ee96e780aa35f426abc3e67d7.gif' alt='Flickr'>";
 				echo "</a>";
 			}
 			if (!empty($upref[11])) {
 				echo "<a href='http://www.facebook.com/$upref[11]' target='_blank' title='Facebook'>";
-				echo "<img border='0' hspace='2' src='http://pjj.cc/gfx/im/facebook.png' alt='Facebook'>";
+				echo "<img border='0' hspace='2' src='https://pjj.cc/gfx/im/facebook.png' alt='Facebook'>";
 				echo "</a>";
 			}
 			if (!empty($upref[12])) {
 				echo "<a href='http://plus.google.com/$upref[12]' target='_blank' title='Google Plus'>";
-				echo "<img border='0' hspace='2' src='http://pjj.cc/gfx/im/googleplus.png' alt='Google Plus'>";
+				echo "<img border='0' hspace='2' src='https://pjj.cc/gfx/im/googleplus.png' alt='Google Plus'>";
 				echo "</a>";
 			}
 			if (!empty($upref[13])) {
 				echo "<a href='http://steamcommunity.com/id/$upref[13]' target='_blank' title='Steam'>";
-				echo "<img border='0' hspace='2' src='http://pjj.cc/gfx/im/steam.png' alt='Steam'>";
+				echo "<img border='0' hspace='2' src='https://pjj.cc/gfx/im/steam.png' alt='Steam'>";
 				echo "</a>";
 			}
 			if (!empty($upref[8])) {
 				echo "<a href='callto:$upref[8]' title='Skype'>";
-				echo "<img border='0' hspace='2' src='http://i.pjj.cc/3e818c5e24ac3e9e9aa2155129f55f10.gif' alt='Skype'>";
+				echo "<img border='0' hspace='2' src='https://i.pjj.cc/3e818c5e24ac3e9e9aa2155129f55f10.gif' alt='Skype'>";
 				echo "</a>";
 			}
 			if (!empty($upref[6])) {
 				echo "<a href='$upref[6]' target='_blank'>";
-				echo "<img alt='Homepage' src='http://pjj.cc/gfx/im/prof.gif' border='0'>";
+				echo "<img alt='Homepage' src='https://pjj.cc/gfx/im/prof.gif' border='0'>";
 				echo "</a>";
 			}
 		}
