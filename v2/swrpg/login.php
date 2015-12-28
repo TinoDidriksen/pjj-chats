@@ -80,6 +80,10 @@
 			$images[$i] = str_replace('../', 'https://pjj.cc/', $images[$i]);
 	}
 
+	$bodytag = str_replace('<body ', '<body class="console" ', $bodytag);
+	$cbodytag = str_replace('<body ', '<body class="console" ', $cbodytag);
+	$ubodytag = str_replace('<body ', '<body class="console" ', $ubodytag);
+
 	echo "<!DOCTYPE html>
 <html>
 <head>

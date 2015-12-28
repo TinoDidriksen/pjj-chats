@@ -82,6 +82,10 @@ function getmicrotime() {
 		}
 	}
 
+	$bodytag = str_replace('<body ', '<body class="console" ', $bodytag);
+	$cbodytag = str_replace('<body ', '<body class="console" ', $cbodytag);
+	$ubodytag = str_replace('<body ', '<body class="console" ', $ubodytag);
+
 	$host = gethostbyaddr($_SERVER['REMOTE_ADDR']);
 	$xcnt = count($banip);
 	for ($cc=0;$cc<$xcnt;$cc++) {

@@ -10,7 +10,7 @@
 <head>
 	<title>Project JJ Chat Manual</title>
 </head>
-<body bgcolor=#000000 text=#ffffff alink=#eeeeee vlink=#dddddd link=#eeeeee>
+<body bgcolor="#000000" text="#ffffff" alink="#eeeeee" vlink="#dddddd" link="#eeeeee" class="reader">
 <br>
 <blockquote>
 <font color="#FF8040"><b>The <a href="https://pjj.cc/legal/">Terms of Service</a> is required reading!</b></font><p>

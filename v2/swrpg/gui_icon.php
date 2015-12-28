@@ -135,7 +135,7 @@ body { font-family: verdana, arial, sans-serif; }
 		$picons = array();
 	}
 
-	echo "Link 1: <a href=http://chat.projectjj.com/common/icon/ target=_blank>Project JJ Common Icons</a> for usage by anyone.<br>";
+	echo "Link 1: <a href=https://pjj.cc/common/icon/ target=_blank>Project JJ Common Icons</a> for usage by anyone.<br>";
 	echo "Link 2: <a href=http://image.projectjj.com/ target=_blank>Project JJ Image Service</a> for uploading icons if you don't have another host.<p>";
 	echo "<form action='gui_icon.php' method='post' target='_top'>\n<table border=0 cellspacing=1 cellpadding=2 bgcolor=#000000 id='reg_icons'>\n";
 	echo "<thead>";

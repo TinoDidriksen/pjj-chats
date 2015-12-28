@@ -180,6 +180,10 @@ XMLEND;
 		$ident = mb_substr(md5($_SERVER['REMOTE_ADDR'].$realpath), 0, $identlenght);
 	}
 
+	$bodytag = str_replace('<body ', '<body class="reader" ', $bodytag);
+	$cbodytag = str_replace('<body ', '<body class="reader" ', $cbodytag);
+	$ubodytag = str_replace('<body ', '<body class="reader" ', $ubodytag);
+
 	echo "\n<!-- Before X-Forward: ".round(getmicrotime()-$start, 2)." secs / $cqs queries -->\n";
 	$xcnt = count($banip);
 	$_SERVER['REMOTE_HOST'] = gethostbyaddr($_SERVER['REMOTE_ADDR']);

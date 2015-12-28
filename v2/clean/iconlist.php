@@ -5,5 +5,5 @@
 $icons = array (
 "None" => "",
 "------Misc------" => "",
-"Undecided/Unaffiliated" => "http://chat.projectjj.com/common/icon/nobody.gif",
+"Undecided/Unaffiliated" => "https://pjj.cc/common/icon/nobody.gif",
 );

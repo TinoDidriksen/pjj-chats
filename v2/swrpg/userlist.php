@@ -27,6 +27,10 @@ function getmicrotime() {
 	$realpath = 'chat'.$realpath;
 	$chatpath = $realpath;
 
+	$bodytag = str_replace('<body ', '<body class="userlist" ', $bodytag);
+	$cbodytag = str_replace('<body ', '<body class="userlist" ', $cbodytag);
+	$ubodytag = str_replace('<body ', '<body class="userlist" ', $ubodytag);
+
 	echo '<!DOCTYPE html>', "\n", '<html><head>';
 	echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
 	echo '<META NAME="ROBOTS" CONTENT="NOFOLLOW">';
