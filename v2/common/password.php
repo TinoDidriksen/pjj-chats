@@ -150,7 +150,7 @@ function RequestPass($chat, $username) {
 		return -2;
 	}
 
-	$key = sha1(uniqid().mt_rand().mt_rand().mt_rand());
+	$key = sha1(shell_exec('head -n2 /dev/urandom'));
 	$stamp = date('Y-m-d H:i:s');
 
 	mysql_query("INSERT INTO uo_chat_newpass (pass_uid, pass_key, pass_stamp)
