@@ -575,10 +575,13 @@ PHPEND;
 
 					if (($modaction) && ($selecteduser) && CheckFlags("pDRFXZmM", $userlevel)) {
 						$newname = $_REQUEST['newname'];
+						/*
 						if ($modaction == "resetpass") {
 							ResetPass($selecteduser, $login, $password, $chatpath);
 						}
-						else if ($modaction == "delete") {
+						else
+						//*/
+						if ($modaction == "delete") {
 							DeleteUser($login, $password, $selecteduser, $chatpath);
 						}
 						else if ($modaction == "rename") {

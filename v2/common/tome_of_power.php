@@ -379,6 +379,7 @@ function ChangeUser($ad_name, $ad_pass, $username, $userlevel, $chatpath) {
 	return -1;
 }
 
+/*
 function ResetPass($username, $ad_name, $ad_pass, $chatpath) {
 	global $handler;
 
@@ -414,6 +415,7 @@ function ResetPass($username, $ad_name, $ad_pass, $chatpath) {
 	}
 	return -1;
 }
+//*/
 
 function RenameUser($username, $ad_name, $ad_pass, $new_name, $chatpath) {
 	global $handler, $master_name_filter;
@@ -574,8 +576,10 @@ function ListUsersModify($userlevel, $chatpath) {
 	<br><SELECT NAME='modaction'>";
 	if (CheckFlags("FXZmM", $userlevel))
 		echo "<OPTION value='faction'>Change Faction";
+	/*
 	if (CheckFlags("pXZmM", $userlevel))
 		echo "<OPTION value='resetpass'>Reset Password";
+	//*/
 	if (CheckFlags("RXZmM", $userlevel))
 		echo "<OPTION value='rename'>Rename";
 	if (CheckFlags("DXZmM", $userlevel))
