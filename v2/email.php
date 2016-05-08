@@ -61,7 +61,7 @@ if (window != window.top)
 		$_REQUEST['subject'] = 'Chat Mail: '.$_REQUEST['subject'];
 		$_REQUEST['body'] = "Target chat: https://pjj.cc/{$_REQUEST['chat']}/\nSender IP: {$_SERVER['REMOTE_ADDR']}\n\n".$_REQUEST['body'];
 
-		$res = mail($cadmin, $_REQUEST['subject'], $_REQUEST['body'], "Return-Path: <{$_REQUEST['email']}>\r\nFrom: \"{$_REQUEST['name']}\" <{$_REQUEST['email']}>\r\nReply-To: \"{$_REQUEST['name']}\" <{$_REQUEST['email']}>\r\nBcc: \"{$_REQUEST['name']}\" <{$_REQUEST['email']}>, \"$master_name\" <$master_email>\r\nX-pJJ-IP: {$_SERVER['REMOTE_ADDR']}\r\nX-pJJ-Chat: https://pjj.cc/{$_REQUEST['chat']}/\r\n");
+		$res = mail($cadmin, $_REQUEST['subject'], $_REQUEST['body'], "From: $master_email\r\nReply-To: \"{$_REQUEST['name']}\" <{$_REQUEST['email']}>\r\nBcc: \"{$_REQUEST['name']}\" <{$_REQUEST['email']}>, \"$master_name\" <$master_email>\r\nX-pJJ-IP: {$_SERVER['REMOTE_ADDR']}\r\nX-pJJ-Chat: https://pjj.cc/{$_REQUEST['chat']}/\r\n");
 		if ($res == 1)
 			echo "<b>success</b><p>\n";
 		else
