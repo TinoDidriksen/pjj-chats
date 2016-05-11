@@ -1,7 +1,4 @@
 <?php
-if (!empty($_POST['nu_email']) && $_POST['nu_email'] === 'sample@email.tst') {
-	die("No, go away sample@email.tst !");
-}
 $altdata = null; // Chat ident
 $ctitle = null; // Chat title
 $handler = null; // MySQL
@@ -121,6 +118,7 @@ if (window != window.top) {
 					}
 				}
 				mysql_free_result($rez);
+				$emails[] = $master_email;
 				sort($emails);
 				$emails = array_unique($emails);
 
@@ -128,14 +126,15 @@ if (window != window.top) {
 
 				$headers = '';
 				$headers .= "From: $master_email\n";
-				$headers .= "BCC: ".implode(', ', $emails)."\n";
 				$headers .= "Reply-To: $master_email\n";
 				$headers .= "X-pJJ-IP: {$_SERVER['REMOTE_ADDR']}\n";
 				$headers .= "X-pJJ-Chat: https://pjj.cc/{$chatpath}/\n";
 				$message = '';
 				$message .= "New registration application in https://pjj.cc/{$chatpath}/ from $nu_handle <$nu_email>\n";
 				//$message .= "BCC: ".implode(', ', $emails)."\n";
-				mail($master_email, "pJJ: New Regapp in /$chatpath", $message, $headers);
+				foreach ($emails as $email) {
+					mail($email, "pJJ: New Regapp in /$chatpath", $message, $headers);
+				}
 
 				print("Your application has been saved in the database.<BR>\n You will be notified by e-mail at ". $nu_email ." regarding wether or not your request has been accepted, as soon as an administrator has had a look at the application.<BR>\n<a href='?'>Back (New application)</a>");
 			}

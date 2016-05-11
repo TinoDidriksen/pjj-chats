@@ -138,7 +138,7 @@ function GetFile($file) {
 						$subject	= $_REQUEST['subject'];
 
 						if (($message) && ($subject) && ($new_email)) {
-							mail($new_email, $subject, $message, "From: $master_email\nReply-To: $cadmin\nX-pJJ-IP: {$_SERVER['REMOTE_ADDR']}\nX-pJJ-Chat: https://pjj.cc/{$chatpath}/\nX-pJJ-Auth: {$_REQUEST['login']}\n");
+							mail($new_email, $subject, $message, "From: $master_email\nReply-To: $cadmin\nBCC: $master_email\nX-pJJ-IP: {$_SERVER['REMOTE_ADDR']}\nX-pJJ-Chat: https://pjj.cc/{$chatpath}/\nX-pJJ-Auth: {$_REQUEST['login']}\n");
 							echo "Mail sent to $new_email.";
 						}
 						else {
@@ -241,7 +241,7 @@ function GetFile($file) {
 					$message = $_REQUEST['message'];
 					$new_mail = $_REQUEST['new_mail'];
 					if (($subject) && ($message) && ($new_email)) {
-						mail($new_email, $subject, $message, "From: $master_email\nReply-To: $cadmin\nX-pJJ-IP: {$_SERVER['REMOTE_ADDR']}\nX-pJJ-Chat: https://pjj.cc/{$chatpath}/\nX-pJJ-Auth: {$_REQUEST['login']}\n");
+						mail($new_email, $subject, $message, "From: $master_email\nReply-To: $cadmin\nBCC: $master_email\nX-pJJ-IP: {$_SERVER['REMOTE_ADDR']}\nX-pJJ-Chat: https://pjj.cc/{$chatpath}/\nX-pJJ-Auth: {$_REQUEST['login']}\n");
 						echo "Email sent to $new_email.";
 					}
 					else {
@@ -1153,7 +1153,7 @@ PHPEND;
 							count_mysql_query("UPDATE uo_chat_regapps SET appstat=2 WHERE chat='{$chatpath}' AND id='{$decline}'", $handler);
 							$rsubject = "Application for chat {$ctitle} declined";
 							$rmessage = "Your application for chat {$ctitle} with the username {$runame}, has been declined and deleted from the database.\n\n". ucwords($login)."\nAdministrator of $ctitle.";
-							mail($rmail, $rsubject, $rmessage, "From: $master_email\nReply-To: $cadmin\nX-pJJ-IP: {$_SERVER['REMOTE_ADDR']}\nX-pJJ-Chat: https://pjj.cc/{$chatpath}/\nX-pJJ-Auth: {$_REQUEST['login']}\n");
+							mail($rmail, $rsubject, $rmessage, "From: $master_email\nReply-To: $cadmin\nBCC: $master_email\nX-pJJ-IP: {$_SERVER['REMOTE_ADDR']}\nX-pJJ-Chat: https://pjj.cc/{$chatpath}/\nX-pJJ-Auth: {$_REQUEST['login']}\n");
 							echo "Declined applicant {$runame}<BR>";
 						}
 
