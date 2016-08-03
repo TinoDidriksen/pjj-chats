@@ -379,15 +379,12 @@ function ChangeUser($ad_name, $ad_pass, $username, $userlevel, $chatpath) {
 	return -1;
 }
 
-/*
 function ResetPass($username, $ad_name, $ad_pass, $chatpath) {
 	global $handler;
 
 	$flags = VerifyLogin($ad_name, $ad_pass, $chatpath);
 	if (CheckFlags("pXZmM", $flags)) {
-
-
-		$result = @count_mysql_query("SELECT username,flags FROM uo_chat_database WHERE chat='$chatpath' AND username='$username' AND dtime IS NULL", $handler);
+		$result = @count_mysql_query("SELECT username,flags,lastlogin FROM uo_chat_database WHERE chat='$chatpath' AND username='$username' AND dtime IS NULL", $handler);
 		$cuser = mysql_fetch_row($result);
 
 		if (CheckFlags("M", $cuser[1])) {
@@ -400,6 +397,10 @@ function ResetPass($username, $ad_name, $ad_pass, $chatpath) {
 		}
 		else if (CheckFlags("ZP", $cuser[1]) && !CheckFlags("mM", $flags)) {
 			echo "<p>You cannot reset Masters or Protected users.<br>\n";
+			return -2;
+		}
+		else if (!empty($cuser[2])) {
+			echo "<p>You cannot reset users who have successfully logged in.<br>\n";
 			return -2;
 		}
 
@@ -415,7 +416,6 @@ function ResetPass($username, $ad_name, $ad_pass, $chatpath) {
 	}
 	return -1;
 }
-//*/
 
 function RenameUser($username, $ad_name, $ad_pass, $new_name, $chatpath) {
 	global $handler, $master_name_filter;
@@ -576,10 +576,8 @@ function ListUsersModify($userlevel, $chatpath) {
 	<br><SELECT NAME='modaction'>";
 	if (CheckFlags("FXZmM", $userlevel))
 		echo "<OPTION value='faction'>Change Faction";
-	/*
 	if (CheckFlags("pXZmM", $userlevel))
 		echo "<OPTION value='resetpass'>Reset Password";
-	//*/
 	if (CheckFlags("RXZmM", $userlevel))
 		echo "<OPTION value='rename'>Rename";
 	if (CheckFlags("DXZmM", $userlevel))
