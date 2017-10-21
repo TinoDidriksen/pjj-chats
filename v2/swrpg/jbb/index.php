@@ -115,10 +115,10 @@ INSERT INTO uo_chat_threads SELECT * FROM tmpa ;
 
 			require_once '../../common/akismet.php';
 			$GLOBALS['akismet_home'] = str_replace('{PATH}', substr($realpath, 4), $GLOBALS['akismet_home']);
-			if (akismet_check($_REQUEST)) {
+			if (stripos($_REQUEST['post'], 'akismet') === false && akismet_check($_REQUEST)) {
 				header('HTTP/1.0 403 Spam');
 				header('Content-Type: text/plain');
-				echo "Akismet thinks your post is spam:\n\n";
+				echo "Akismet thinks your post is spam. You can bypass this check by adding the word akismet anywhere, even in invisible text.\n\n";
 				echo var_export($_REQUEST, true), "\n";
 				exit(0);
 			}

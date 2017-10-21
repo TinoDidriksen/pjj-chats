@@ -175,6 +175,7 @@ Your browser is outdated. Please upgrade to one of these:
 <b>Other:</b><br>
 - <a href="https://plus.google.com/communities/115521193128885558520" target="_blank">Google+ Community</a><br>
 - <a href="http://facebook.com/groups/pjj.chats/" target="_blank">Facebook Group</a><br>
+- <a href="https://discord.gg/PkNf559" target="_blank">Discord Server</a><br>
 - <a href="https://pjj.cc/characters.php" target="_blank">Character Manager</a><br>
 - <a href="custom.php" target="_top">Customize Layout</a><br>
 - <a href="reader.php?urls=1" target="TextWindow">Recent URLs</a><br>
