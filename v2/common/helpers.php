@@ -595,21 +595,28 @@ function ShowList($chatpath) {
 	return 1;
 }
 
+function _parseSpecial_helper($m) {
+	$url = $m[1];
+	$txts = preg_split('~(.{50})~us', $url, -1, PREG_SPLIT_DELIM_CAPTURE);
+	$url = htmlspecialchars($url);
+	return '<a href="'.$url.'" target="_blank" title="'.$url.'">'.htmlspecialchars(implode("\xc2\xad", $txts)).'</a>';
+}
+
 function ParseSpecial($mline) {
-	$mline = " ".$mline." ";
-	$mline = ereg_replace(" /([^/[:space:]]+)/ ", " <i>\\1</i> ", $mline);
-	$mline = ereg_replace(" _([^_[:space:]]+)_ ", " <u>\\1</u> ", $mline);
-	$mline = ereg_replace(" -([^-[:space:]]+)- ", " <b>\\1</b> ", $mline);
-	$mline = eregi_replace("((f|ht)tps?://[^[:space:]\r]*[^[:space:]\r,.:!?)])", "<a href='\\1' target='_blank'>\\1</a>", $mline);
-	$mline = eregi_replace("(irc://[^[:space:]\r]*[^[:space:]\r,.:!?)])", "<a href='\\1' title='IRC: \\1'>\\1</a>", $mline);
-	$mline = eregi_replace("(aim:[^[:space:]\r]*[^[:space:]\r,.:!?)])", "<a href='\\1' title='AIM: \\1'>\\1</a>", $mline);
-	$mline = eregi_replace("(callto:[^[:space:]\r]*[^[:space:]\r,.:!?)])", "<a href='\\1' title='Skype: \\1'>\\1</a>", $mline);
+	$mline = ' '.$mline.' ';
+	$mline = preg_replace('~ /([^/\s]+)/ ~u', ' <i>\1</i> ', $mline);
+	$mline = preg_replace('~ _([^_\s]+)_ ~u', ' <u>\1</u> ', $mline);
+	$mline = preg_replace('~ -([^-\s]+)- ~u', ' <b>\1</b> ', $mline);
+	$mline = preg_replace_callback('~((f|ht)tps?://[^\s\r]*[^\s\r,.:!?)])~ui', _parseSpecial_helper, $mline);
+	$mline = preg_replace('~(irc://[^\s\r]*[^\s\r,.:!?)])~ui', '<a href="\1" title="IRC: \1">\1</a>', $mline);
+	$mline = preg_replace('~(aim:[^\s\r]*[^\s\r,.:!?)])~ui', '<a href="\1" title="AIM: \1">\1</a>', $mline);
+	$mline = preg_replace('~(callto:[^\s\r]*[^\s\r,.:!?)])~ui', '<a href="\1" title="Skype: \1">\1</a>', $mline);
 
 	return trim($mline);
 }
 
 function ExtractUrls($line, $handle) {
-	if (preg_match_all("@((f|ht)tps?://\S*[^\s,.:!?)])@is", $line, $urls)) {
+	if (preg_match_all('@((f|ht)tps?://\S*[^\s,.:!?)])@isu', $line, $urls)) {
         $urls = $urls[1];
         foreach ($urls as $url) {
             $url = $GLOBALS['sql']->escapeString(trim($url));
