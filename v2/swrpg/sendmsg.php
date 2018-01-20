@@ -1146,10 +1146,10 @@ else {
     if (mysql_num_rows($rez) > 0) {
 		echo '<span title="/msg ...">';
 		if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
-			echo '<select name="channel" style="width: 15%; font-size: 70%;">', "\n";
+			echo '<select class="select-channel" name="channel" style="width: 15%; font-size: 70%;">', "\n";
 		}
 		else {
-			echo '<select name="channel" style="width: 15%;">', "\n";
+			echo '<select class="select-channel" name="channel" style="width: 15%;">', "\n";
 		}
 		echo '<option value="*" selected>(public)</option>', "\n";
 		while($row = mysql_fetch_assoc($rez)) {
@@ -1212,7 +1212,7 @@ if ($_REQUEST['mode_simple'] != 'on') {
         for ($i=0;$i<$numicons;$i++) {
             $icon = $_REQUEST['icons'][$i];
             if (!CheckFlags("c", $client['prefs'])) {
-                echo '<select name="icons[', $i, ']">', "\n";
+                echo '<select class="select-icons" name="icons[', $i, ']">', "\n";
                 echo '<option value="">No Icon</option>';
                 if (!empty($facticon)) {
                     if ($icon == $facticon) {
@@ -1326,7 +1326,7 @@ option.jjemotimages {
 }
 </style>
 
-<select name="emoticons" onchange="JJEmoticon(this); return 1;" style="width: 12ex;">
+<select class="select-emoticons" name="emoticons" onchange="JJEmoticon(this); return 1;" style="width: 12ex;">
 
 OUTPUT;
 
@@ -1463,7 +1463,7 @@ echo '</table>';
 
 	if (!empty($client['chain']) && is_array($client['chain'])) {
 		echo '<form action="sendmsg.php" method="post" name="changer">
-		<select name="handle" onChange="form.submit()">', "\n";
+		<select class="select-handle" name="handle" onChange="form.submit()">', "\n";
 
 		echo '<option value="', htmlentities($handle), '">Chain</option>', "\n";
 		foreach ($client['chain'] as $ch) {
