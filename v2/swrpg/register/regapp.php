@@ -109,6 +109,7 @@ if (window != window.top) {
 					WHERE chat='".$chatpath."'
 					AND email IS NOT NULL AND email != ''
 					AND (flags LIKE BINARY '%m%' OR flags LIKE BINARY '%A%' OR flags LIKE BINARY '%X%' OR flags LIKE BINARY '%Z%')
+					AND dtime IS NULL
 					";
 				$rez = count_mysql_query($query, $handler);
 				while ($row = mysql_fetch_assoc($rez)) {
