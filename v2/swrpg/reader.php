@@ -249,7 +249,7 @@ HEADER;
 		echo "</pre>";
 	}
 	else if (!empty($_REQUEST['xml']) || $_REQUEST['p'] == 'xml') {
-		$_REQUEST['handle'] = strtolower(ereg_replace($master_name_filter, '', $_REQUEST['handle']));
+		$_REQUEST['handle'] = strtolower(preg_replace('~'.$master_name_filter.'~', '', $_REQUEST['handle']));
 		$userlevel = ChatVerifyLogin($_REQUEST['handle'], $_REQUEST['password'], $chatpath);
 		if ($memonly <= 1 || $userlevel > 0) {
 			UpdateViewers($realpath);

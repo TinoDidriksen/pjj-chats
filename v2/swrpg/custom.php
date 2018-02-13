@@ -15,10 +15,10 @@
 	echo $ctitle;
 
 	if ($_SERVER['HTTP_HOST']) {
-		$cpath = "https://".$_SERVER['HTTP_HOST'].ereg_replace("(.*)custom.php", "\\1", $_SERVER['PHP_SELF']);
+		$cpath = "https://".$_SERVER['HTTP_HOST'].preg_replace("~(.*)custom.php~", "\\1", $_SERVER['PHP_SELF']);
 	}
 	else {
-		$cpath = "https://".$_SERVER['SERVER_NAME'].ereg_replace("(.*)custom.php", "\\1", $_SERVER['PHP_SELF']);
+		$cpath = "https://".$_SERVER['SERVER_NAME'].preg_replace("~(.*)custom.php~", "\\1", $_SERVER['PHP_SELF']);
 	}
 
 	if (empty($initlink)) {
