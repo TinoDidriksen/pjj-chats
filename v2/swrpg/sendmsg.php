@@ -37,10 +37,10 @@ function getmicrotime() {
 
 	$newpath = mb_substr($chatpath, 4);
 	if ($_SERVER['HTTP_HOST']) {
-		$cpath = 'https://'.$_SERVER['HTTP_HOST'].ereg_replace('(.*)/sendmsg.php', '\1', $_SERVER['PHP_SELF']);
+		$cpath = 'https://'.$_SERVER['HTTP_HOST'].preg_replace('~(.*)/sendmsg.php~', '\1', $_SERVER['PHP_SELF']);
 	}
 	else {
-		$cpath = 'https://'.$_SERVER['SERVER_NAME'].ereg_replace('(.*)/sendmsg.php', '\1', $_SERVER['PHP_SELF']);
+		$cpath = 'https://'.$_SERVER['SERVER_NAME'].preg_replace('~(.*)/sendmsg.php~', '\1', $_SERVER['PHP_SELF']);
 	}
 
 	if (!empty($_SESSION[$realpath]['ident'])) {
@@ -224,7 +224,7 @@ function getmicrotime() {
 	$_SESSION[$realpath]['image'] = $image;
 
 	if ($handle === '(random)') {
-		$fixhandle = strtolower(ereg_replace($master_name_filter, '', $_REQUEST['oldhandle']));
+		$fixhandle = strtolower(preg_replace('~'.$master_name_filter.'~', '', $_REQUEST['oldhandle']));
 		$client = ChatVerifyLoginFetch($fixhandle, $_REQUEST['password'], $chatpath);
 
 		$client['chain'] = trim($client['chain']);
@@ -244,7 +244,7 @@ function getmicrotime() {
 		$handle = $client['chain'][ array_rand($client['chain']) ];
 	}
 
-	$fixhandle = strtolower(ereg_replace($master_name_filter, '', $handle));
+	$fixhandle = strtolower(preg_replace('~'.$master_name_filter.'~', '', $handle));
 
 	$client = ChatVerifyLoginFetch($fixhandle, $_REQUEST['password'], $chatpath);
 
@@ -270,7 +270,7 @@ function getmicrotime() {
 		$falselog = $handle;
 		$handle = $noname;
 		$client = array('status' => 0);
-		$fixhandle = strtolower(ereg_replace($master_name_filter, '', $handle));
+		$fixhandle = strtolower(preg_replace('~'.$master_name_filter.'~', '', $handle));
 	}
 	if (!empty($client['uid'])) {
 		if (strcmp($client['displayname'], $handle)) {
@@ -427,13 +427,13 @@ function getmicrotime() {
 			$message = str_replace('<', '&lt;', $message);
 			$message = str_replace('>', '&gt;', $message);
 
-			$message = eregi_replace("\\[i\\]([^[]*[^/]*[^i]*[^]]*)\\[/i\\]", "<i>\\1</i>", $message);
-			$message = eregi_replace("\\[u\\]([^[]*[^/]*[^u]*[^]]*)\\[/u\\]", "<u>\\1</u>", $message);
-			$message = eregi_replace("\\[b\\]([^[]*[^/]*[^b]*[^]]*)\\[/b\\]", "<b>\\1</b>", $message);
-			$message = eregi_replace("\\[s\\]([^[]*[^/]*[^s]*[^]]*)\\[/s\\]", "<s>\\1</s>", $message);
-			$message = eregi_replace("\\[t\\]([^[]*[^/]*[^t]*[^]]*)\\[/t\\]", "<tt>\\1</tt>", $message);
+			$message = preg_replace("~\\[i\\]([^[]*[^/]*[^i]*[^]]*)\\[/i\\]~i", "<i>\\1</i>", $message);
+			$message = preg_replace("~\\[u\\]([^[]*[^/]*[^u]*[^]]*)\\[/u\\]~i", "<u>\\1</u>", $message);
+			$message = preg_replace("~\\[b\\]([^[]*[^/]*[^b]*[^]]*)\\[/b\\]~i", "<b>\\1</b>", $message);
+			$message = preg_replace("~\\[s\\]([^[]*[^/]*[^s]*[^]]*)\\[/s\\]~i", "<s>\\1</s>", $message);
+			$message = preg_replace("~\\[t\\]([^[]*[^/]*[^t]*[^]]*)\\[/t\\]~i", "<tt>\\1</tt>", $message);
 			if (CheckFlags('c', $cpref) == 0) {
-				$message = eregi_replace("\\[c([[:alnum:]]*)\\]([^[]*[^/]*[^c]*[^]]*)\\[/c\\]", "<font color='#\\1'>\\2</font>", $message);
+				$message = preg_replace("~\\[c([[:alnum:]]*)\\]([^[]*[^/]*[^c]*[^]]*)\\[/c\\]~i", "<font color='#\\1'>\\2</font>", $message);
 			}
 
 			if (CheckFlags('s', $cpref)) {
@@ -525,8 +525,8 @@ function getmicrotime() {
 				$addok = 0;
 				$ident = $_SESSION[$realpath]['ident'];
 				$result = count_mysql_query("SELECT posttime FROM uo_chat_log WHERE chat='$realpath' AND ident='$ident' AND ip='{$_SERVER['REMOTE_ADDR']}' ORDER BY posttime DESC", $handler, "sendmsg.php: /undo 1/2");
-				$row = mysql_fetch_row($result);
-				mysql_free_result($result);
+				$row = mysqli_fetch_row($result);
+				mysqli_free_result($result);
 				count_mysql_query("DELETE FROM uo_chat_log WHERE chat='$realpath' AND ident='$ident' AND ip='{$_SERVER['REMOTE_ADDR']}' AND posttime='$row[0]'", $handler, "sendmsg.php: /undo 2/2");
                 MMC_Unset($realpath.'.xml.last');
                 MMC_Unset($realpath.'.xml.output');
@@ -534,7 +534,7 @@ function getmicrotime() {
 			else if (stristr(mb_substr($message, 0, 7), "/strike")) {
 				$reminf = str_replace("'", "`", mb_substr($message, 8));
 				$result = count_mysql_query("SELECT line FROM uo_chat_log WHERE chat='$realpath' AND ident='$ident'", $handler, "sendmsg.php: /strike 1/2");
-				while($row = mysql_fetch_row($result)) {
+				while($row = mysqli_fetch_row($result)) {
 					$eline = addslashes($row[0]);
 					$row[0] = stripslashes($row[0]);
 					if (!empty($reminf) && (stristr($row[0], $reminf))) {
@@ -542,7 +542,7 @@ function getmicrotime() {
 						count_mysql_query("UPDATE uo_chat_log SET line='$row[0]' WHERE chat='$realpath' AND line='$eline'", $handler, "sendmsg.php: /strike 2/2");
 					}
 				}
-				mysql_free_result($result);
+				mysqli_free_result($result);
 
 				unset($eline);
 				unset($row);
@@ -558,14 +558,14 @@ function getmicrotime() {
 				if (CheckFlags("rxXZmM", $client['flags'])) {
 					$reminf = str_replace("'", "`", mb_substr($message, 5));
 					$result = count_mysql_query("SELECT line FROM uo_chat_log WHERE chat='$realpath'", $handler, "sendmsg.php: /rem 1/2");
-					while($row = mysql_fetch_row($result)) {
+					while($row = mysqli_fetch_row($result)) {
 						$eline = addslashes($row[0]);
 						$row[0] = stripslashes($row[0]);
 						if (stristr($row[0], $reminf)) {
 							count_mysql_query("DELETE FROM uo_chat_log WHERE chat='$realpath' AND line='$eline'", $handler, "sendmsg.php: /rem 2/2");
 						}
 					}
-					mysql_free_result($result);
+					mysqli_free_result($result);
 					unset($eline);
                     MMC_Unset($realpath.'.xml.last');
                     MMC_Unset($realpath.'.xml.output');
@@ -755,8 +755,8 @@ function getmicrotime() {
 			}
 			else if ((stristr(mb_substr($message, 0, 4), '/msg')) && !CheckBan($ident, $chatpath) && !CheckGag($ident, $chatpath) && !CheckFlags('P', $cpref)) {
 				$ident = $_SESSION[$realpath]['ident'];
-				$recipient = eregi_replace("^/msg[[:space:]]*([^[:space:]]+)[[:space:]]*.*$", "\\1", $message);
-				$message = eregi_replace("^/msg[[:space:]]*[^[:space:]]+[[:space:]]*(.*)$", "\\1", $message);
+				$recipient = preg_replace("~^/msg[[:space:]]*([^[:space:]]+)[[:space:]]*.*$~i", "\\1", $message);
+				$message = preg_replace("~^/msg[[:space:]]*[^[:space:]]+[[:space:]]*(.*)$~i", "\\1", $message);
 				$message = FilterWords($message);
 
 				$xml['private'] = true;
@@ -764,7 +764,7 @@ function getmicrotime() {
 
 				$recipient = strtolower($recipient);
 				$recipient = trim(str_replace('_', ' ', $recipient));
-				$recipient = ereg_replace($master_name_filter, '', $recipient);
+				$recipient = preg_replace('~'.$master_name_filter.'~', '', $recipient);
 
 				$auth = mq($handle);
 				$auth_uid = 'null';
@@ -775,8 +775,8 @@ function getmicrotime() {
 
 				$result = @count_mysql_query("SELECT username,displayname,uid FROM uo_chat_database
 					WHERE username='$recipient' AND chat='$chatpath' AND dtime IS NULL", $handler, "sendmsg.php: /msg 1/4");
-				$row = @mysql_fetch_assoc($result);
-				@mysql_free_result($result);
+				$row = @mysqli_fetch_assoc($result);
+				@mysqli_free_result($result);
 				if (!empty($row['username'])) {
 					$recipient = ucwords($row['username']);
 					if (!empty($row['displayname'])) {
@@ -785,7 +785,7 @@ function getmicrotime() {
 					$rcpt_uid = $row['uid'];
 					$time = time();
 
-					$message = mysql_real_escape_string(stripslashes($message));
+					$message = mysqli_real_escape_string($handler, stripslashes($message));
 					@count_mysql_query("INSERT INTO uo_chat_message (msg,auth,unread,rcpt_uid,auth_uid,msg_stamp)
 						VALUES ('$message', $auth, 'yes', $rcpt_uid, $auth_uid, now())", $handler, "sendmsg.php: 2/4");
 
@@ -797,8 +797,8 @@ function getmicrotime() {
 				else {
 					$result = @count_mysql_query("SELECT username,displayname,uid FROM uo_chat_database
 						WHERE username LIKE '%$recipient%' AND chat='$chatpath' AND dtime IS NULL", $handler, "sendmsg.php: 3/4");
-					$row = @mysql_fetch_assoc($result);
-					@mysql_free_result($result);
+					$row = @mysqli_fetch_assoc($result);
+					@mysqli_free_result($result);
 					if (!empty($row['username'])) {
 						$recipient = ucwords($row['username']);
 						if (!empty($row['displayname'])) {
@@ -807,7 +807,7 @@ function getmicrotime() {
 						$rcpt_uid = $row['uid'];
 						$time = time();
 
-						$message = mysql_real_escape_string(stripslashes($message));
+						$message = mysqli_real_escape_string($handler, stripslashes($message));
 						@count_mysql_query("INSERT INTO uo_chat_message (msg,auth,unread,rcpt_uid,auth_uid,msg_stamp)
 							VALUES ('$message', $auth, 'yes', $rcpt_uid, $auth_uid, now())", $handler, "sendmsg.php: 4/4");
 
@@ -834,11 +834,11 @@ function getmicrotime() {
 				unset($message);
 
 				$recipient = str_replace("_", " ", strtolower($recipient));
-				$recipient = ereg_replace($master_name_filter, '', $recipient);
+				$recipient = preg_replace('~'.$master_name_filter.'~', '', $recipient);
 
 				$result = @count_mysql_query("SELECT lastlogin FROM uo_chat_database WHERE chat='$chatpath' AND username='$recipient' AND dtime IS NULL", $handler, "sendmsg.php: /whois 1/1");
-				$lastlogin = @mysql_fetch_row($result);
-				@mysql_free_result($result);
+				$lastlogin = @mysqli_fetch_row($result);
+				@mysqli_free_result($result);
 
 				if ($lastlogin[0] > 0) {
 					$ox = $language[9];
@@ -987,7 +987,7 @@ function getmicrotime() {
 				$currenthour = date('H');
 				$currenthour = "h{$currenthour}=h{$currenthour}+1";
 				count_mysql_query("UPDATE uo_chat_stats SET {$currenthour} WHERE chat='$realpath' AND date='{$currentday}'", $handler, "sendmsg.php: Updated 'stats' 1/3");
-				if (mysql_affected_rows($handler) < 1) {
+				if (mysqli_affected_rows($handler) < 1) {
 					if (mt_rand(1,100) == 50) {
 						count_mysql_query("DELETE FROM uo_chat_stats WHERE date<=DATE_SUB(NOW(), INTERVAL 28 DAY)", $handler, "sendmsg.php: Updated 'stats' 2/3");
 					}
@@ -997,7 +997,7 @@ function getmicrotime() {
 			}
 
 			if ($client['password']) {
-				@count_mysql_query("UPDATE uo_chat_database SET lastlogin='".(time())."',plink='".(mysql_real_escape_string($link))."',pimage='".mysql_real_escape_string($image)."',picon='".mysql_real_escape_string(serialize($_REQUEST['icons']))."',pcolor='$color' WHERE chat='$chatpath' AND username='$fixhandle' AND dtime IS NULL", $handler, "sendmsg.php: Updated 'reload' 1/1");
+				@count_mysql_query("UPDATE uo_chat_database SET lastlogin='".(time())."',plink='".(mysqli_real_escape_string($handler, $link))."',pimage='".mysqli_real_escape_string($handler, $image)."',picon='".mysqli_real_escape_string($handler, serialize($_REQUEST['icons']))."',pcolor='$color' WHERE chat='$chatpath' AND username='$fixhandle' AND dtime IS NULL", $handler, "sendmsg.php: Updated 'reload' 1/1");
 				time_point(__FILE__, __LINE__);
 			}
 		}
@@ -1018,13 +1018,13 @@ function getmicrotime() {
 		$write_me = str_replace('{IMAGE}', $image, $write_me);
 		$write_me = str_replace('{ICON}', $outicon, $write_me);
 
-		$tpack = mysql_real_escape_string($write_me);
+		$tpack = mysqli_real_escape_string($handler, $write_me);
 
 		if (empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 		    $proxyip = 'NULL';
 		}
 		else {
-		    $proxyip = "'".mysql_real_escape_string(preg_replace('@([0-9.]+)(.*?)@', '\1', $_SERVER['HTTP_X_FORWARDED_FOR']))."'";
+		    $proxyip = "'".mysqli_real_escape_string($handler, preg_replace('@([0-9.]+)(.*?)@', '\1', $_SERVER['HTTP_X_FORWARDED_FOR']))."'";
         }
 
 		$uid = 'null';
@@ -1044,11 +1044,11 @@ function getmicrotime() {
 			rawpost,xmlpost,color,uid
 			)
 			VALUES
-			('$realpath','$ident','$tpack','".mysql_real_escape_string($handle)."','{$_SERVER['REMOTE_ADDR']}',
+			('$realpath','$ident','$tpack','".mysqli_real_escape_string($handler, $handle)."','{$_SERVER['REMOTE_ADDR']}',
 			{$proxyip},INET_ATON('{$_SERVER['REMOTE_ADDR']}'), now(),
-			'".mysql_real_escape_string($xml['rawpost'])."',
-			'".mysql_real_escape_string($xml['post'])."',
-			'".mysql_real_escape_string($color)."', ".$uid."
+			'".mysqli_real_escape_string($handler, $xml['rawpost'])."',
+			'".mysqli_real_escape_string($handler, $xml['post'])."',
+			'".mysqli_real_escape_string($handler, $color)."', ".$uid."
 			)", $handler, "sendmsg.php: Post 2/3");
 		time_point(__FILE__, __LINE__);
 
@@ -1143,7 +1143,7 @@ else {
 //*
 //if ($client['password']) {
     $rez = count_mysql_query("SELECT username,displayname FROM uo_chat_database WHERE chat='{$realpath}' AND username!='{$fixhandle}' AND lastlogin>UNIX_TIMESTAMP()-2592000 AND dtime IS NULL ORDER BY username ASC", $handler, 'sendmsg.php: Msglist 1/1');
-    if (mysql_num_rows($rez) > 0) {
+    if (mysqli_num_rows($rez) > 0) {
 		echo '<span title="/msg ...">';
 		if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
 			echo '<select class="select-channel" name="channel" style="width: 15%; font-size: 70%;">', "\n";
@@ -1152,7 +1152,7 @@ else {
 			echo '<select class="select-channel" name="channel" style="width: 15%;">', "\n";
 		}
 		echo '<option value="*" selected>(public)</option>', "\n";
-		while($row = mysql_fetch_assoc($rez)) {
+		while($row = mysqli_fetch_assoc($rez)) {
 			if (empty($row['displayname'])) {
 				$row['displayname'] = ucwords($row['username']);
 			}
@@ -1163,7 +1163,7 @@ else {
 		}
 		echo '</select></span> ';
     }
-    mysql_free_result($rez);
+    mysqli_free_result($rez);
 //}
 //*/
 //echo '</td><td style="white-space: nowrap;">';
@@ -1543,23 +1543,23 @@ echo "</td>
 	//*
 	if (!empty($_SESSION[$realpath]['user']['uid'])) {
 		$result = @count_mysql_query("SELECT count(*) as cnt FROM uo_chat_message WHERE rcpt_uid=".$_SESSION[$realpath]['user']['uid']." AND archived='no'", $handler, "sendmsg.php: Check 'private msg' 1/1");
-		$nmsg = mysql_fetch_assoc($result);
+		$nmsg = mysqli_fetch_assoc($result);
 		$rmsg = intval($nmsg['cnt']);
-		mysql_free_result($result);
+		mysqli_free_result($result);
 
 		$result = @count_mysql_query("SELECT count(*) as cnt FROM uo_chat_message WHERE rcpt_uid=".$_SESSION[$realpath]['user']['uid']." AND unread='yes'", $handler, "sendmsg.php: Check 'private msg' 1/1");
-		$nmsg = mysql_fetch_assoc($result);
+		$nmsg = mysqli_fetch_assoc($result);
 		$umsg = intval($nmsg['cnt']);
-		mysql_free_result($result);
+		mysqli_free_result($result);
 
 		if (!empty($umsg)) {
 			echo '[<span style="color: #ff0000;">', $umsg, '</span>] ';
 		}
 
 		$result = @count_mysql_query("SELECT count(*) as cnt FROM uo_chat_message WHERE rcpt_uid=".$_SESSION[$realpath]['user']['uid']." AND archived='yes'", $handler, "sendmsg.php: Check 'private msg' 1/1");
-		$nmsg = mysql_fetch_assoc($result);
+		$nmsg = mysqli_fetch_assoc($result);
 		$amsg = intval($nmsg['cnt']);
-		mysql_free_result($result);
+		mysqli_free_result($result);
 
 		$button = "<img alt='$umsg/$rmsg/$amsg  unread/read/archived messages' src='{$images[6]}' border=0>";
 		if (!preg_match('@^(ht|f)tps?://@ui', $images[6])) {

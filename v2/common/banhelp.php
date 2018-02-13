@@ -11,8 +11,8 @@ function CheckBan($new_ident, $chatpath) {
 	global $handler;
 
 	$result = @count_mysql_query("SELECT ident FROM uo_chat_ban WHERE chat='$chatpath' AND ident='$new_ident' AND utime>'".(time())."'", $handler, "banhelp.php: CheckBan() 1/1");
-	$usel = @mysql_fetch_row($result);
-	@mysql_free_result($result);
+	$usel = @mysqli_fetch_row($result);
+	@mysqli_free_result($result);
 
 	if (!empty($usel[0])) {
 		return 1;
@@ -38,8 +38,8 @@ function CheckGag($new_ident, $chatpath) {
 	global $handler;
 
 	$result = @count_mysql_query("SELECT ident FROM uo_chat_gag WHERE chat='$chatpath' AND ident='$new_ident' AND utime>'".(time())."'", $handler, "banhelp.php: CheckGag() 1/1");
-	$usel = @mysql_fetch_row($result);
-	@mysql_free_result($result);
+	$usel = @mysqli_fetch_row($result);
+	@mysqli_free_result($result);
 
 	if (!empty($usel[0])) {
 		return 1;

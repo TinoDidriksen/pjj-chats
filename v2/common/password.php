@@ -39,7 +39,7 @@ if (window != window.top)
 function NewPass($uid, $key, $stamp) {
 	global $handler, $master_name_filter, $master_name, $master_email;
 
-	mysql_query("DELETE FROM uo_chat_newpass WHERE pass_stamp < DATE_SUB(now(), INTERVAL 15 MINUTE)", $handler);
+	mysqli_query($handler, "DELETE FROM uo_chat_newpass WHERE pass_stamp < DATE_SUB(now(), INTERVAL 15 MINUTE)");
 
 	if (!preg_match('@^\w+$@', $key)) {
 		echo "<p>Invalid key '$key'.<br>\n";
@@ -48,11 +48,11 @@ function NewPass($uid, $key, $stamp) {
 	$uid = intval($uid);
 	$stamp = date('Y-m-d H:i:s', strtotime($stamp));
 
-	$result = mysql_query("SELECT pass_uid, pass_key, pass_stamp
+	$result = mysqli_query($handler, "SELECT pass_uid, pass_key, pass_stamp
 		FROM uo_chat_newpass
-		WHERE pass_uid=$uid AND pass_key='".$key."' AND pass_stamp='".$stamp."'", $handler);
-	$verify = mysql_fetch_assoc($result);
-	mysql_free_result($result);
+		WHERE pass_uid=$uid AND pass_key='".$key."' AND pass_stamp='".$stamp."'");
+	$verify = mysqli_fetch_assoc($result);
+	mysqli_free_result($result);
 
 	if (empty($verify['pass_uid']) || $verify['pass_uid'] != $uid) {
 		echo "<p>Invalid or expired reset link.<br>\n";
@@ -67,11 +67,11 @@ function NewPass($uid, $key, $stamp) {
 		return -1;
 	}
 
-	$result = mysql_query("SELECT chat, uid, username, email
+	$result = mysqli_query($handler, "SELECT chat, uid, username, email
 		FROM uo_chat_database
-		WHERE uid=$uid", $handler);
-	$cuser = mysql_fetch_assoc($result);
-	mysql_free_result($result);
+		WHERE uid=$uid");
+	$cuser = mysqli_fetch_assoc($result);
+	mysqli_free_result($result);
 
 	if (empty($cuser['username']) || $cuser['uid'] != $uid) {
 		echo "<p>User $uid was not found in the database.<br>\n";
@@ -88,8 +88,8 @@ function NewPass($uid, $key, $stamp) {
 	$newpass = RandomPass();
 	$md5pass = md5($newpass);
 
-	mysql_query("UPDATE uo_chat_database SET password='".$md5pass."' WHERE uid=$uid", $handler);
-	mysql_query("DELETE FROM uo_chat_newpass WHERE pass_uid=$uid", $handler);
+	mysqli_query($handler, "UPDATE uo_chat_database SET password='".$md5pass."' WHERE uid=$uid");
+	mysqli_query($handler, "DELETE FROM uo_chat_newpass WHERE pass_uid=$uid");
 
 	$username = ucwords($username);
 
@@ -126,14 +126,14 @@ function RequestPass($chat, $username) {
 	}
 
 	$username = strtolower($username);
-	$username = eregi_replace($master_name_filter, '', $username);
+	$username = preg_replace('~'.$master_name_filter.'~i', '', $username);
 
 	$chatpath = "chat".$chat;
-	$result = mysql_query("SELECT chat, uid, username, flags, email
+	$result = mysqli_query($handler, "SELECT chat, uid, username, flags, email
 		FROM uo_chat_database
-		WHERE chat='$chatpath' AND username='$username'", $handler);
-	$cuser = mysql_fetch_assoc($result);
-	mysql_free_result($result);
+		WHERE chat='$chatpath' AND username='$username'");
+	$cuser = mysqli_fetch_assoc($result);
+	mysqli_free_result($result);
 
 	if (empty($cuser['username']) || $cuser['username'] != $username) {
 		echo "<p>User '$username' was not found in the database.<br>\n";
@@ -153,10 +153,10 @@ function RequestPass($chat, $username) {
 	$key = sha1(shell_exec('head -n2 /dev/urandom'));
 	$stamp = date('Y-m-d H:i:s');
 
-	mysql_query("INSERT INTO uo_chat_newpass (pass_uid, pass_key, pass_stamp)
+	mysqli_query($handler, "INSERT INTO uo_chat_newpass (pass_uid, pass_key, pass_stamp)
 		VALUES (".$cuser['uid'].", '".$key."', '".$stamp."')
 		ON DUPLICATE KEY UPDATE pass_key='".$key."', pass_stamp='".$stamp."'
-		", $handler);
+		");
 
 	$username = ucwords($username);
 	$urlstamp = urlencode($stamp);

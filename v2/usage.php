@@ -50,9 +50,9 @@ if (window != window.top)
 		$warnc[$i] = "#".dechex((int)$grad)."0000";
 	}
 
-	$result = @mysql_query("SELECT chat,utime,numwarn,ctime FROM uo_chat_last WHERE utime<=(UNIX_TIMESTAMP()-({$maxdays}*86400-86400)) ORDER BY utime ASC", $handler);
+	$result = @mysqli_query($handler, "SELECT chat,utime,numwarn,ctime FROM uo_chat_last WHERE utime<=(UNIX_TIMESTAMP()-({$maxdays}*86400-86400)) ORDER BY utime ASC");
 
-	while ($row = mysql_fetch_row($result)) {
+	while ($row = mysqli_fetch_row($result)) {
 		$path = mb_substr($row[0], 4);
 		if ((is_dir($path)) && (file_exists($path."/sendmsg.php")) && (file_exists($path."/settings.php"))) {
 			$stamp = round((time()-$row[1])/86400);

@@ -40,11 +40,11 @@ function SQLConnect() {
 		include __DIR__.'/mysql-secret.php';
 	}
 
-	$GLOBALS['handler'] = @mysql_pconnect($db_server, $db_username, $db_password);
+	$GLOBALS['handler'] = mysqli_connect($db_server, $db_username, $db_password);
 	if ($GLOBALS['handler'] === FALSE) {
 		echo '<b>MySQL connection failed. Trying to recover...</b><p>';
 		usleep(200000);
-		$GLOBALS['handler'] = @mysql_pconnect($db_server, $db_username, $db_password);
+		$GLOBALS['handler'] = mysqli_connect($db_server, $db_username, $db_password);
 		if ($GLOBALS['handler'] === FALSE) {
 			header('Refresh: 10; URL='.$_SERVER['REQUEST_URI']);
 			echo '<meta http-equiv="Refresh" content="10; URL='.$_SERVER['REQUEST_URI'].'">';
@@ -53,8 +53,8 @@ function SQLConnect() {
 			die();
 		}
 	}
-	mysql_set_charset('utf8');
-	mysql_select_db($db_database, $GLOBALS['handler']);
+	mysqli_set_charset($GLOBALS['handler'], 'utf8');
+	mysqli_select_db($GLOBALS['handler'], $db_database);
 }
 
 if (!function_exists('count_mysql_query')) {
@@ -66,16 +66,16 @@ if (!function_exists('count_mysql_query')) {
 		$GLOBALS['querylog'][$cqs]['T'] = xm();
 		$GLOBALS['querylog'][$cqs]['Q'] = $query;
 		$GLOBALS['querylog'][$cqs]['L'] = $reason;
-		$rez = @mysql_query($query, $hand);
-		if ($err = @mysql_errno()) {
+		$rez = mysqli_query($hand, $query);
+		if ($err = mysqli_errno($hand)) {
 			if ($err == 1062)
 			    return $rez;
 			echo '<br><b>MySQL Error '.$err.' occured. Trying to recover...</b><p>';
-			@mysql_close();
+			mysqli_close($GLOBALS['handler']);
 			SQLConnect();
-			$rez = @mysql_query($query, $hand);
+			$rez = mysqli_query($hand, $query);
 			$ere=0;
-			if ($ere = @mysql_errno()) {
+			if ($ere = mysqli_errno($hand)) {
 				@mail('mysql@projectjj.com', 'MySQL Error: '.$err.','.$ere, $err.','.$ere.' occured at '.date('g:ia, F d (T)')." for query:\n".$query);
 				die('<br><b>Could not recover. Secondary error '.$ere.' occured.</b>');
 			}
@@ -91,14 +91,14 @@ if (!function_exists('mq')) {
 		if (empty($e)) {
 			return 'null';
 		}
-		return "'".mysql_real_escape_string($e)."'";
+		return "'".mysqli_real_escape_string($GLOBALS['handler'], $e)."'";
 	}
 }
 
 SQLConnect();
 
 if (!empty($_COOKIE['X-pJJ-Session'])) {
-	mysql_query("INSERT INTO tracker (track_ip) VALUES ('".$_SERVER['REMOTE_ADDR']."')");
+	mysqli_query($GLOBALS['handler'], "INSERT INTO tracker (track_ip) VALUES ('".$_SERVER['REMOTE_ADDR']."')");
 }
 
 $handler = $GLOBALS['handler'];

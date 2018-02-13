@@ -10,7 +10,7 @@
 	require_once '../common/language.php';
 	require '../common/fixup.php';
 
-	$realpath = ereg_replace('.*/([^/]+)/gui_lang.php$', 'chat\1', $_SERVER['PHP_SELF']);
+	$realpath = preg_replace('~.*/([^/]+)/gui_lang.php$~', 'chat\1', $_SERVER['PHP_SELF']);
 	if (($_SERVER['HTTP_HOST'] != 'v2.pjj.cc') && strstr($_SERVER['HTTP_HOST'], '.pjj.cc')) {
 		$realpath = preg_replace('/(.*?)\.pjj\.cc/is', 'chat\1', $_SERVER['HTTP_HOST']);
 	}
@@ -66,7 +66,7 @@ body { font-family: verdana, arial, sans-serif; }
 		$chatpath = $altdata;
 	}
 	else {
-		$chatpath = ereg_replace(".*/([^/]+)/gui_lang.php$", "chat\\1", $_SERVER['PHP_SELF']);
+		$chatpath = preg_replace("~.*/([^/]+)/gui_lang.php$~", "chat\\1", $_SERVER['PHP_SELF']);
 		if (($_SERVER['HTTP_HOST'] != 'v2.pjj.cc') && strstr($_SERVER['HTTP_HOST'], '.pjj.cc')) {
 			$chatpath = preg_replace('/(.*?)\.pjj\.cc/is', 'chat\1', $_SERVER['HTTP_HOST']);
 		}

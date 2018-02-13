@@ -27,8 +27,8 @@ function GenerateXML($last=0, $info=0) {
 	header('Content-Type: text/xml');
 
 	$rez = count_mysql_query("SELECT UNIX_TIMESTAMP(MAX(posttime)) as stamp FROM uo_chat_log WHERE chat='$realpath'", $handler, "reader.php: GenerateXML() 1/1");
-	$row = mysql_fetch_assoc($rez);
-	mysql_free_result($rez);
+	$row = mysqli_fetch_assoc($rez);
+	mysqli_free_result($rez);
 
 	if (!empty($last) && $last >= intval($row['stamp'])) {
 		header('HTTP/1.1 304 Not Modified');
@@ -52,14 +52,14 @@ function GenerateXML($last=0, $info=0) {
 	$path = mb_substr($realpath, 4);
 
 	$rez = @count_mysql_query("SELECT count(chat) FROM uo_chat_ulist WHERE chat='$realpath' AND utime>".(time()-300)."", $handler, "reader.php: GenerateXML() 1/1");
-	$active = mysql_fetch_row($rez);
+	$active = mysqli_fetch_row($rez);
 	$active = intval($active[0]);
-	mysql_free_result($rez);
+	mysqli_free_result($rez);
 
 	$rez = @count_mysql_query("SELECT count(chat) FROM uo_chat_ulist WHERE chat='$realpath'", $handler, "reader.php: GenerateXML() 1/1");
-	$chatters = mysql_fetch_row($rez);
+	$chatters = mysqli_fetch_row($rez);
 	$chatters = intval($chatters[0]);
-	mysql_free_result($rez);
+	mysqli_free_result($rez);
 
 	$output = '';
 	$output .= '<'.'?xml version="1.0" encoding="UTF-8"?'.">\n";
@@ -95,7 +95,7 @@ XMLEND;
 		ORDER BY posttime DESC LIMIT $maxlines
 		", $handler, "reader.php: GenerateXML() 1/1");
 
-	for ($i=0 ; $row = mysql_fetch_assoc($rez) ; $i++) {
+	for ($i=0 ; $row = mysqli_fetch_assoc($rez) ; $i++) {
 		$row['line'] = EncodeLtGt($row['line']);
 		$row['rawpost'] = EncodeLtGt($row['rawpost']);
 		$row['xmlpost'] = EncodeLtGt($row['xmlpost']);
@@ -413,13 +413,13 @@ STUFF;
 					WHERE rcpt_uid = ".$_REQUEST['uid']." AND message_id < ".$_REQUEST['offset']." ORDER BY message_id DESC LIMIT ".$_REQUEST['limit'];
 			}
 			$rez = count_mysql_query($query, $handler);
-			while ($row = mysql_fetch_assoc($rez)) {
+			while ($row = mysqli_fetch_assoc($rez)) {
 				$msgs[$row['message_id']] = $row;
 				$uids[intval($row['rcpt_uid'])] = intval($row['rcpt_uid']);
 				$uids[intval($row['auth_uid'])] = intval($row['auth_uid']);
 				$oldest = min($oldest, $row['message_id']);
 			}
-			mysql_free_result($rez);
+			mysqli_free_result($rez);
 
 			if (empty($msgs)) {
 				echo '<p>You do not have any messages.';
@@ -429,10 +429,10 @@ STUFF;
 					$query = "SELECT count(*) as cnt FROM uo_chat_message
 						WHERE rcpt_uid = ".$_REQUEST['uid']." AND archived='yes'";
 					$rez = count_mysql_query($query, $handler);
-					while ($row = mysql_fetch_assoc($rez)) {
+					while ($row = mysqli_fetch_assoc($rez)) {
 						$count += $row['cnt'];
 					}
-					mysql_free_result($rez);
+					mysqli_free_result($rez);
 					if (!empty($count)) {
 						echo ' <a href="reader.php?p=msgs&amp;uid=', $_REQUEST['uid'],'&amp;offset=2147483647">View Archive (', $count, ' messages)</a>';
 					}
@@ -448,23 +448,23 @@ STUFF;
 						WHERE auth_uid = ".$_REQUEST['uid']." AND message_id < ".$_REQUEST['offset']." AND message_id >= $oldest ORDER BY message_id DESC";
 				}
 				$rez = count_mysql_query($query, $handler);
-				while ($row = mysql_fetch_assoc($rez)) {
+				while ($row = mysqli_fetch_assoc($rez)) {
 					$msgs[$row['message_id']] = $row;
 					$uids[intval($row['rcpt_uid'])] = intval($row['rcpt_uid']);
 					$uids[intval($row['auth_uid'])] = intval($row['auth_uid']);
 				}
-				mysql_free_result($rez);
+				mysqli_free_result($rez);
 
 				// Fetch one message I've sent that is older than the oldest non-archived message I've received
 				$query = "SELECT message_id,msg,rcpt_uid,auth_uid,username,UNIX_TIMESTAMP(msg_stamp) as utime FROM uo_chat_message
 					WHERE auth_uid = ".$_REQUEST['uid']." AND message_id < $oldest ORDER BY message_id DESC LIMIT 1";
 				$rez = count_mysql_query($query, $handler);
-				while ($row = mysql_fetch_assoc($rez)) {
+				while ($row = mysqli_fetch_assoc($rez)) {
 					$msgs[$row['message_id']] = $row;
 					$uids[intval($row['rcpt_uid'])] = intval($row['rcpt_uid']);
 					$uids[intval($row['auth_uid'])] = intval($row['auth_uid']);
 				}
-				mysql_free_result($rez);
+				mysqli_free_result($rez);
 
 				// Fetch names for every UID seen so far
 				sort($uids);
@@ -474,7 +474,7 @@ STUFF;
 					WHERE uid IN ".$uids;
 				$rez = count_mysql_query($query, $handler);
 				$uids = array();
-				while ($row = mysql_fetch_assoc($rez)) {
+				while ($row = mysqli_fetch_assoc($rez)) {
 					if (empty($row['displayname'])) {
 						$row['displayname'] = ucwords($row['username']);
 					}
@@ -484,7 +484,7 @@ STUFF;
 					$row['pcolor'] = FixColor($row['pcolor']);
 					$uids[$row['uid']] = $row;
 				}
-				mysql_free_result($rez);
+				mysqli_free_result($rez);
 
 				krsort($msgs);
 
@@ -670,7 +670,7 @@ HEADER;
 				}
 				else {
 					$result = count_mysql_query("SELECT ident,line,username FROM uo_chat_log WHERE chat='$realpath' ORDER BY posttime DESC", $handler);
-					while($line = mysql_fetch_assoc($result)) {
+					while($line = mysqli_fetch_assoc($result)) {
 						$line['line'] = stripslashes($line['line']);
 						if (!CheckIgnore($line['ident'])) {
 							if ($pJJChat_NoColor == "on") {
@@ -679,7 +679,7 @@ HEADER;
 							echo str_replace("", "'", $line['line']);
 						}
 					}
-					mysql_free_result($result);
+					mysqli_free_result($result);
 				}
 
 				if ($lastpos > 0) {

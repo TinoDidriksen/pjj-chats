@@ -56,7 +56,7 @@
 	}
 
 	if (($autolog == "on") && ($logout != 1)) {
-		$somepath = eregi_replace("(.*)/login.php$", "\\1", $_SERVER['PHP_SELF']);
+		$somepath = preg_replace("~(.*)/login.php$~", "\\1", $_SERVER['PHP_SELF']);
 		header(
 		"Location: $somepath/sendmsg.php?handle=".urlencode($handle).
 		"&image=".urlencode($image).

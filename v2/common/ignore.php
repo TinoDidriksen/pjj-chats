@@ -34,9 +34,9 @@ function CheckAnyIgnore($chatpath, $auth) {
 
 		@count_mysql_query("DELETE FROM uo_chat_ignore WHERE chat='$chatpath' AND utime<'".(time())."'", $handler, "ignore.php: CheckAnyIgnore() 1/2");
 		$result = @count_mysql_query("SELECT ident,auth FROM uo_chat_ignore WHERE chat='$chatpath' AND auth='$auth'", $handler, "ignore.php: CheckAnyIgnore() 2/2");
-		while ($usel = mysql_fetch_assoc($result))
+		while ($usel = mysqli_fetch_assoc($result))
 			$GLOBALS['ignores'][] = $usel;
-		mysql_free_result($result);
+		mysqli_free_result($result);
 	}
 
 	return count($GLOBALS['ignores']);

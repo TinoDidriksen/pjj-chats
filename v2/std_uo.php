@@ -6,7 +6,7 @@ if (!function_exists("count_mysql_query")) {
 
 		$cqs++;
 
-		return mysql_query($query, $hand);
+		return mysqli_query($hand, $query);
 	}
 }
 
@@ -25,10 +25,10 @@ function UpdateViewers($pid, $ip='', $pip='') {
 		return;
 	}
 
-	$ip = mysql_escape_string($ip);
-	$pip = mysql_escape_string($pip);
+	$ip = mysqli_escape_string($handler, $ip);
+	$pip = mysqli_escape_string($handler, $pip);
 
-	$ua = mysql_escape_string($_SERVER['HTTP_USER_AGENT']);
+	$ua = mysqli_escape_string($handler, $_SERVER['HTTP_USER_AGENT']);
     $pid = trim($pid);
 
 	@count_mysql_query("INSERT INTO uo_chat (utime,ip,chat,proxyip,user_agent) VALUES ('".(time())."',INET_ATON('$ip'),'$pid',INET_ATON('$pip'),'$ua')", $handler, "std_uo.php: UpdateViewers() 1/2");
@@ -44,8 +44,8 @@ function GetViewers($pid) {
 	if (mt_rand(0,10) == 5)
 		@count_mysql_query("DELETE FROM uo_chat WHERE utime<'".(time()-300)."'", $handler, "std_uo.php: GetViewers() 1/2");
 	$result = @count_mysql_query("SELECT DISTINCT ip FROM uo_chat WHERE chat='$pid' AND utime>'".(time()-300)."'", $handler, "std_uo.php: GetViewers() 2/2");
-	$numview = @mysql_numrows($result);
-	@mysql_free_result($result);
+	$numview = @mysqli_num_rows($result);
+	@mysqli_free_result($result);
 
 	return $numview;
 }

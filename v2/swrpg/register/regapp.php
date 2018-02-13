@@ -112,13 +112,13 @@ if (window != window.top) {
 					AND dtime IS NULL
 					";
 				$rez = count_mysql_query($query, $handler);
-				while ($row = mysql_fetch_assoc($rez)) {
+				while ($row = mysqli_fetch_assoc($rez)) {
 					$row['email'] = mb_strtolower($row['email']);
 					if (preg_match('/^[-@.+_\pL\pN\pM]+$/u', $row['email'])) {
 						$emails[] = $row['email'];
 					}
 				}
-				mysql_free_result($rez);
+				mysqli_free_result($rez);
 				$emails[] = $master_email;
 				sort($emails);
 				$emails = array_unique($emails);

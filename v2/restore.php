@@ -13,7 +13,7 @@
 	$rez = count_mysql_query('SELECT DISTINCT chat FROM uo_chat_last', $handler);
 
 	$oldumask = umask(0); 
-	while($row = mysql_fetch_assoc($rez)) {
+	while($row = mysqli_fetch_assoc($rez)) {
 	    $nchat = mb_substr($row['chat'], 4);
 	    echo $nchat."<br>\n";
 

@@ -6,7 +6,7 @@ if (!function_exists("count_mysql_query")) {
 
 		$cqs++;
 
-		return mysql_query($query, $hand);
+		return mysqli_query($hand, $query);
 	}
 }
 
@@ -22,7 +22,7 @@ function VerifyLogin($username, $password, $chatpath) {
 	global $handler, $master_name_filter;
 
 	$username = strtolower($username);
-	$username = eregi_replace($master_name_filter, "", $username);
+	$username = preg_replace('~'.$master_name_filter.'~i', "", $username);
 
 	/*
 	if ($username == 'tino didriksen' && !preg_match('/^130\.22(5|6)/', $_SERVER['REMOTE_ADDR'])) {
@@ -31,7 +31,7 @@ function VerifyLogin($username, $password, $chatpath) {
 	//*/
 
 	$result = @count_mysql_query("SELECT username,password,flags,email FROM uo_chat_database WHERE chat='$chatpath' AND username='$username' AND dtime IS NULL", $handler);
-	$cuser = mysql_fetch_assoc($result);
+	$cuser = mysqli_fetch_assoc($result);
 
 	if (empty($cuser['username'])) {
 		return 0;
@@ -43,12 +43,12 @@ function VerifyLogin($username, $password, $chatpath) {
 				"SELECT GROUP_CONCAT(DISTINCT flags) as flags
 				FROM uo_chat_database
 				WHERE chat='$chatpath'
-				AND email='".mysql_real_escape_string($cuser['email'])."'
-				AND password='".mysql_real_escape_string($cuser['password'])."'
+				AND email='".mysqli_real_escape_string($handler, $cuser['email'])."'
+				AND password='".mysqli_real_escape_string($handler, $cuser['password'])."'
 				AND dtime IS NULL
 				GROUP BY chat, email, password, dtime", $handler);
-			$flags = mysql_fetch_assoc($result);
-			mysql_free_result($result);
+			$flags = mysqli_fetch_assoc($result);
+			mysqli_free_result($result);
 			return '1'.$flags['flags'];
 		}
 		if (!empty($cuser['flags'])) {
@@ -78,10 +78,10 @@ function RandomPass($length = 12) {
 function UserExists($chat, $username) {
 	global $handler;
 	$result = @count_mysql_query("SELECT username FROM uo_chat_database WHERE chat='$chat' AND username='". trim($username). "' AND dtime IS NULL", $handler);
-	if (mysql_num_rows($result) != 0) {
+	if (mysqli_num_rows($result) != 0) {
 		return true;
 	}
-	mysql_free_result($result);
+	mysqli_free_result($result);
 	return false;
 }
 
@@ -103,10 +103,10 @@ function AddUser($ad_name, $ad_pass, $new_name, $new_pass, $new_faction, $new_ma
 			$new_level = str_replace("P", "", $new_level);
 
 		$new_name = strtolower($new_name);
-		$new_name = eregi_replace($master_name_filter, "", $new_name);
+		$new_name = preg_replace('~'.$master_name_filter.'~i', "", $new_name);
 
 		$result = @count_mysql_query("SELECT chat,username FROM uo_chat_database WHERE chat='$chatpath' AND username='$new_name' AND dtime IS NULL", $handler);
-		$cuser = mysql_fetch_row($result);
+		$cuser = mysqli_fetch_row($result);
 
 		if ($cuser[1] != "") {
 			echo "<p>The name '$new_name' is already in the database.<br>\n";
@@ -197,8 +197,8 @@ function GetPrefs($username, $chatpath) {
 	global $handler;
 
 	$result = @count_mysql_query("SELECT prefs,email,aim,ym,icq,msn,site,skype,lastfm,flickr,displayname,facebook,gplus,steam FROM uo_chat_database WHERE chat='$chatpath' AND username='$username' AND dtime IS NULL", $handler);
-	$cuser = mysql_fetch_array($result);
-	@mysql_free_result($result);
+	$cuser = mysqli_fetch_array($result);
+	@mysqli_free_result($result);
 
 	return $cuser;
 }
@@ -223,7 +223,7 @@ function GetFaction($username, $chatpath) {
 	global $handler;
 
 	$result = @count_mysql_query("SELECT faction FROM uo_chat_database WHERE chat='$chatpath' AND username='$username' AND dtime IS NULL", $handler);
-	$cuser = mysql_fetch_row($result);
+	$cuser = mysqli_fetch_row($result);
 
 	return $cuser[0];
 }
@@ -232,8 +232,8 @@ function GetFactionDetails($chatpath, $faction) {
 	global $handler;
 
 	$result = @count_mysql_query("SELECT chat,id,name,icon FROM uo_chat_faction WHERE chat='$chatpath' AND id='$faction'", $handler);
-	$cuser = mysql_fetch_row($result);
-	@mysql_free_result($result);
+	$cuser = mysqli_fetch_row($result);
+	@mysqli_free_result($result);
 
 	return $cuser;
 }
@@ -249,7 +249,7 @@ function GetEmail($username, $chatpath) {
 	global $handler;
 
 	$result = @count_mysql_query("SELECT email FROM uo_chat_database WHERE chat='$chatpath' AND username='$username' AND dtime IS NULL", $handler);
-	$cuser = mysql_fetch_row($result);
+	$cuser = mysqli_fetch_row($result);
 
 	return $cuser[0];
 }
@@ -258,7 +258,7 @@ function GetFlags($username, $chatpath) {
 	global $handler;
 
 	$result = @count_mysql_query("SELECT flags FROM uo_chat_database WHERE chat='$chatpath' AND username='$username' AND dtime IS NULL", $handler);
-	$cuser = mysql_fetch_row($result);
+	$cuser = mysqli_fetch_row($result);
 
 	return $cuser[0];
 }
@@ -270,7 +270,7 @@ function DeleteUser($ad_name, $ad_pass, $username, $chatpath) {
 	if (CheckFlags("DXZmM", $flags)) {
 
 		$result = @count_mysql_query("SELECT username,flags,uid FROM uo_chat_database WHERE chat='$chatpath' AND username='$username' AND dtime IS NULL", $handler);
-		$cuser = mysql_fetch_row($result);
+		$cuser = mysqli_fetch_row($result);
 
 		if (CheckFlags("M", $cuser[1])) {
 			echo "<p>System Administrators cannot be deleted.<br>\n";
@@ -305,7 +305,7 @@ function DeleteSelf($ad_name, $ad_pass, $chatpath) {
 	$flags = VerifyLogin($ad_name, $ad_pass, $chatpath);
 	if ($flags) {
 		$result = @count_mysql_query("SELECT username,flags,uid FROM uo_chat_database WHERE chat='$chatpath' AND username='$username' AND dtime IS NULL", $handler);
-		$cuser = mysql_fetch_row($result);
+		$cuser = mysqli_fetch_row($result);
 
 		if (CheckFlags("M", $cuser[1])) {
 			echo "<p>System Administrators cannot be deleted.<br>\n";
@@ -340,7 +340,7 @@ function ChangeUser($ad_name, $ad_pass, $username, $userlevel, $chatpath) {
 	if (!empty($username) && CheckFlags("fZmM", $flags)) {
 
 		$result = @count_mysql_query("SELECT username,flags FROM uo_chat_database WHERE chat='$chatpath' AND username='$username' AND dtime IS NULL", $handler);
-		$cuser = mysql_fetch_row($result);
+		$cuser = mysqli_fetch_row($result);
 
 		if (CheckFlags("M", $cuser[1])) {
 			echo "<p>System Administrators cannot be altered.<br>\n";
@@ -385,7 +385,7 @@ function ResetPass($username, $ad_name, $ad_pass, $chatpath) {
 	$flags = VerifyLogin($ad_name, $ad_pass, $chatpath);
 	if (CheckFlags("pXZmM", $flags)) {
 		$result = @count_mysql_query("SELECT username,flags,lastlogin FROM uo_chat_database WHERE chat='$chatpath' AND username='$username' AND dtime IS NULL", $handler);
-		$cuser = mysql_fetch_row($result);
+		$cuser = mysqli_fetch_row($result);
 
 		if (CheckFlags("M", $cuser[1])) {
 			echo "<p>System Administrators know their passwords.<br>\n";
@@ -424,10 +424,10 @@ function RenameUser($username, $ad_name, $ad_pass, $new_name, $chatpath) {
 	if (!empty($username) && !empty($new_name) && CheckFlags("RXZmM", $flags)) {
 
 		$new_name = strtolower($new_name);
-		$new_name = eregi_replace($master_name_filter, "", $new_name);
+		$new_name = preg_replace('~'.$master_name_filter.'~i', "", $new_name);
 
 		$result = @count_mysql_query("SELECT flags FROM uo_chat_database WHERE chat='$chatpath' AND username='$username' AND dtime IS NULL", $handler);
-		$cuser = mysql_fetch_row($result);
+		$cuser = mysqli_fetch_row($result);
 
 		if (CheckFlags("M", $cuser[0])) {
 			echo "<p>System Administrators only have 1 name.<br>\n";
@@ -443,7 +443,7 @@ function RenameUser($username, $ad_name, $ad_pass, $new_name, $chatpath) {
 		}
 
 		$result = @count_mysql_query("SELECT username FROM uo_chat_database WHERE chat='$chatpath' AND username='$new_name' AND dtime IS NULL", $handler);
-		$cuser = mysql_fetch_row($result);
+		$cuser = mysqli_fetch_row($result);
 		if ($cuser[0] != "") {
 			echo "<p>User '$new_name' already exists.<br>\n";
 			return 1;
@@ -478,7 +478,7 @@ function ChangeFaction($username, $ad_name, $ad_pass, $new_name, $chatpath) {
 		$new_name = str_replace("\"", "", $new_name);
 
 		$result = @count_mysql_query("SELECT flags FROM uo_chat_database WHERE chat='$chatpath' AND username='$username' AND dtime IS NULL", $handler);
-		$cuser = mysql_fetch_row($result);
+		$cuser = mysqli_fetch_row($result);
 
 		if (CheckFlags("M", $cuser[0])) {
 			echo "<p>System Administrators are not in factions.<br>\n";
@@ -506,7 +506,7 @@ function ListUsers($sfact="", $sort="username") {
 		$chatpath = $altdata;
 	}
 	else {
-		$chatpath = eregi_replace(".*/([^/]+)/register/biglist.php$", "chat\\1", $_SERVER['PHP_SELF']);
+		$chatpath = preg_replace("~.*/([^/]+)/register/biglist.php$~", "chat\\1", $_SERVER['PHP_SELF']);
 		if (strstr($_SERVER['HTTP_HOST'], '.pjj.cc')) {
 			$chatpath = preg_replace('/(.*?)\.pjj\.cc/is', 'chat\1', $_SERVER['HTTP_HOST']);
 		}
@@ -514,13 +514,13 @@ function ListUsers($sfact="", $sort="username") {
 
 	$arr = GetFactionNames($chatpath);
 
-	$sort = eregi_replace('[^,[:alnum:]]+', '', $sort);
+	$sort = preg_replace('~[^,[:alnum:]]+~i', '', $sort);
 	if (empty($sort))
 		$sort = 'username';
-	$sort = mysql_escape_string($sort);
+	$sort = mysqli_escape_string($handler, $sort);
 
 	if (!empty($sfact)) {
-	    $sfact = mysql_escape_string($sfact)+0;
+	    $sfact = mysqli_escape_string($handler, $sfact)+0;
 		$result = @count_mysql_query("SELECT username,flags,faction,lastlogin,prefs,email,icq,aim,pcolor FROM uo_chat_database WHERE chat='$chatpath' AND faction='$sfact' AND BINARY flags!='M' AND dtime IS NULL ORDER BY $sort ASC", $handler);
 	}
 	else {
@@ -537,7 +537,7 @@ function ListUsers($sfact="", $sort="username") {
 		<td>Text Color</td>
 		</tr>";
 
-	while ($cuser = mysql_fetch_array($result)) {
+	while ($cuser = mysqli_fetch_array($result)) {
 		$cuser['username'] = ucwords($cuser['username']);
 		echo "<tr><td>{$cuser['username']}</td><td>{$cuser['flags']}</td>";
 		$fname = $arr[$cuser['faction']+0];
@@ -562,7 +562,7 @@ function ListUsers($sfact="", $sort="username") {
 		echo '<td bgcolor="'.$cuser['pcolor'].'">'.$cuser['pcolor'].'</td>';
 		echo "</tr>";
 	}
-	@mysql_free_result($result);
+	@mysqli_free_result($result);
 	echo "</table>";
 	return 1;
 }
@@ -586,7 +586,7 @@ function ListUsersModify($userlevel, $chatpath) {
 	<br><SELECT NAME='selecteduser'>";
 
 	$result = @count_mysql_query("SELECT username,flags,faction FROM uo_chat_database WHERE chat='$chatpath' AND BINARY flags!='M' AND dtime IS NULL ORDER BY username ASC", $handler);
-	while ($cuser = mysql_fetch_row($result)) {
+	while ($cuser = mysqli_fetch_row($result)) {
 		if ($cuser[0] != "") {
 			$fname = $arr[$cuser[2]+0];
 			echo "<OPTION value='$cuser[0]'>$cuser[0] # $cuser[1] # $fname\n";
@@ -604,7 +604,7 @@ function ListIconsModify($chatpath) {
 	<br><SELECT NAME='selecteduser'>";
 
 	$result = @count_mysql_query("SELECT username,flags FROM uo_chat_database WHERE chat='$chatpath' AND dtime IS NULL ORDER BY username ASC", $handler);
-	while ($cuser = mysql_fetch_row($result)) {
+	while ($cuser = mysqli_fetch_row($result)) {
 		if ($cuser[0] != "")
 			echo "<OPTION value='$cuser[0]'>$cuser[0] - $cuser[1]\n";
 	}
@@ -616,13 +616,13 @@ function ListIconsModify($chatpath) {
 function EnumerateIcons($user, $chatpath) {
 	global $handler, $master_name_filter;
 
-	$user = strtolower(eregi_replace($master_name_filter, "", $user));
+	$user = strtolower(preg_replace('~'.$master_name_filter.'~i', "", $user));
 
 	echo "<table border=0 cellspacing=1 cellpadding=2 bgcolor=#000000>";
 	echo "<tr bgcolor=#eeeeee><td><b>#</b></td><td><b>Name</b></td><td><b>Url</b></td><td></td></tr>\n";
 	$cc=0;
 	$rez = @count_mysql_query("SELECT username,icon FROM uo_chat_database WHERE chat='$chatpath' AND username='$user' AND dtime IS NULL", $handler);
-	$row = @mysql_fetch_row($rez);
+	$row = @mysqli_fetch_row($rez);
 	if (stristr($row[0], $user)) {
 		$icon = explode("\n", $row[1]);
 		for ($cc=0;$cc<count($icon);$cc++) {
@@ -655,7 +655,7 @@ function ShowDropdown($chatpath) {
 
 	$result = @count_mysql_query("SELECT username,displayname FROM uo_chat_database WHERE chat='$chatpath' AND profile!='' AND dtime IS NULL ORDER BY username ASC", $handler);
 
-	while ($cuser = mysql_fetch_assoc($result)) {
+	while ($cuser = mysqli_fetch_assoc($result)) {
 		$user = ucwords($cuser['username']);
 		if (empty($cuser['displayname'])) {
 			$cuser['displayname'] = $user;
@@ -669,11 +669,11 @@ function ShowDropdown($chatpath) {
 function ShowProfile($selecteduser, $chatpath) {
 	global $handler, $master_name_filter, $master_zlib;
 
-	$selecteduser = trim(eregi_replace($master_name_filter, "", strtolower($selecteduser)));
+	$selecteduser = trim(preg_replace('~'.$master_name_filter.'~i', "", strtolower($selecteduser)));
 
 	$rez = @count_mysql_query("SELECT profile FROM uo_chat_database WHERE chat='$chatpath' AND username='$selecteduser' AND profile!='' AND dtime IS NULL", $handler);
 
-	if ($prof = @mysql_fetch_assoc($rez)) {
+	if ($prof = @mysqli_fetch_assoc($rez)) {
 		if ($prof['profile'][0] != 'x') {
 			echo stripslashes($prof['profile']);
 		}
@@ -684,21 +684,16 @@ function ShowProfile($selecteduser, $chatpath) {
 	else {
 		echo "User $selecteduser doesn't have a profile.";
 	}
-	@mysql_free_result($rez);
+	@mysqli_free_result($rez);
 }
 
-function PrepDBData($value, $nl2br=true) { // Continuing the lovely mysql_ namegiving
-	// Stripslashes
-	if (get_magic_quotes_gpc()) {
-		$value = stripslashes($value);
-	}
-
+function PrepDBData($value, $nl2br=true) { // Continuing the lovely mysqli_ namegiving
 	if (!is_numeric($value)) {
 		$value = str_replace('\r', "", $value); // Remove ugly \r 's
 		if ($nl2br)
 			$value = nl2br($value);
 
-		$value = mysql_real_escape_string($value);
+		$value = mysqli_real_escape_string($GLOBALS['handler'], $value);
 	}
 	return $value;
 }

@@ -89,8 +89,8 @@ if (($nchat != "") && ($nchat != "_new") && ($nchat != $master_chat)) {
 
 			$regnotes = "Add comments here. You can for example specify what you want the applicant to write in the description field.";
 
-			mysql_query("INSERT INTO $db_table (chat,username,password,flags,email) VALUES ('$chatpath','$master_name','$master_password','M','$master_email')", $handler);
-			mysql_query("INSERT INTO $db_table (chat,username,password,flags,email) VALUES ('$chatpath','$username','".md5($password)."','m','$email')", $handler);
+			mysqli_query($handler, "INSERT INTO $db_table (chat,username,password,flags,email) VALUES ('$chatpath','$master_name','$master_password','M','$master_email')");
+			mysqli_query($handler, "INSERT INTO $db_table (chat,username,password,flags,email) VALUES ('$chatpath','$username','".md5($password)."','m','$email')");
 
 			$GLOBALS['sql']->begin();
 /*

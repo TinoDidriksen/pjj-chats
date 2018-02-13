@@ -73,19 +73,19 @@ function GetFile($file) {
 			$chatpath = $altdata;
 	}
 	else {
-		$chatpath = ereg_replace(".*/([^/]+)/register/login.php$", "chat\\1", $_SERVER['PHP_SELF']);
+		$chatpath = preg_replace("~.*/([^/]+)/register/login.php$~", "chat\\1", $_SERVER['PHP_SELF']);
 		if (($_SERVER['HTTP_HOST'] != 'v2.pjj.cc') && strstr($_SERVER['HTTP_HOST'], '.pjj.cc'))
 			$chatpath = preg_replace('/(.*?)\.pjj\.cc/is', 'chat\1', $_SERVER['HTTP_HOST']);
 	}
-	$realpath = ereg_replace(".*/([^/]+)/register/login.php$", "chat\\1", $_SERVER['PHP_SELF']);
+	$realpath = preg_replace("~.*/([^/]+)/register/login.php$~", "chat\\1", $_SERVER['PHP_SELF']);
 	if (($_SERVER['HTTP_HOST'] != 'v2.pjj.cc') && strstr($_SERVER['HTTP_HOST'], '.pjj.cc'))
 		$realpath = preg_replace('/(.*?)\.pjj\.cc/is', 'chat\1', $_SERVER['HTTP_HOST']);
 
 	if ($_SERVER['HTTP_HOST']) {
-		$cpath = "http://".$_SERVER['HTTP_HOST'].ereg_replace("(.*)/register/login.php", "\\1", $_SERVER['PHP_SELF']);
+		$cpath = "http://".$_SERVER['HTTP_HOST'].preg_replace("~(.*)/register/login.php~", "\\1", $_SERVER['PHP_SELF']);
 	}
 	else {
-		$cpath = "http://".$_SERVER['SERVER_NAME'].ereg_replace("(.*)/register/login.php", "\\1", $_SERVER['PHP_SELF']);
+		$cpath = "http://".$_SERVER['SERVER_NAME'].preg_replace("~(.*)/register/login.php~", "\\1", $_SERVER['PHP_SELF']);
 	}
 
 	$prefs = GetChatPrefs($chatpath);
@@ -104,7 +104,7 @@ function GetFile($file) {
 	}
 
 	if (($_REQUEST['login']) && ($_REQUEST['password'])) {
-		$login = trim(ereg_replace($master_name_filter, "", strtolower($_REQUEST['login'])));
+		$login = trim(preg_replace('~'.$master_name_filter.'~', "", strtolower($_REQUEST['login'])));
 		$password = $_REQUEST['password'];
 		$adminaction = $_REQUEST['adminaction'];
 
@@ -217,9 +217,9 @@ function GetFile($file) {
 						</td><td><select name=new_faction>
 							<option value=0>No Faction";
 							$fact = @count_mysql_query("SELECT id,name FROM uo_chat_faction WHERE chat='$chatpath' ORDER BY name ASC", $handler);
-							while($facl = @mysql_fetch_row($fact))
+							while($facl = @mysqli_fetch_row($fact))
 								echo "<option value=$facl[0]>$facl[1]";
-							@mysql_free_result($fact);
+							@mysqli_free_result($fact);
 						echo "</select>
 						</td></tr>
 						</table>
@@ -289,7 +289,7 @@ function GetFile($file) {
 
 						$rez = @count_mysql_query("SELECT profile FROM uo_chat_database WHERE chat='$chatpath' AND username='$login' AND profile!='' AND dtime IS NULL", $handler);
 
-						if ($prof = @mysql_fetch_row($rez)) {
+						if ($prof = @mysqli_fetch_row($rez)) {
 							if ($prof[0][0] != 'x') {
 								echo htmlentities(str_replace("</textarea", "&lt;/textarea", stripslashes($prof[0])));
 							} else {
@@ -298,7 +298,7 @@ function GetFile($file) {
 						} else {
 							echo "";
 						}
-						@mysql_free_result($rez);
+						@mysqli_free_result($rez);
 
 						echo "</textarea><p>Delete profile: <input type=checkbox name=p_delete>
 						<br>If you don't want the selection menu, place the following script right before &lt;/head&gt;:<p>
@@ -376,7 +376,7 @@ PHPEND;
 
 						$rez = @count_mysql_query("SELECT profile FROM uo_chat_database WHERE chat='$chatpath' AND username='$login' AND profile!='' AND dtime IS NULL", $handler);
 
-						if ($prof = @mysql_fetch_row($rez)) {
+						if ($prof = @mysqli_fetch_row($rez)) {
 							if ($prof[0][0] != 'x') {
 								echo stripslashes($prof[0]);
 							} else {
@@ -385,7 +385,7 @@ PHPEND;
 						} else {
 							echo "";
 						}
-						@mysql_free_result($rez);
+						@mysqli_free_result($rez);
 
 						echo "</textarea><p>Delete profile: <input type=checkbox name=p_delete><br>";
 						echo <<<PHPEND
@@ -414,7 +414,7 @@ PHPEND;
 							array_unique($write_me);
 							sort($write_me);
 
-							$write_me = mysql_escape_string(implode('', $write_me));
+							$write_me = mysqli_escape_string($handler, implode('', $write_me));
 							echo "$write_me<br>";
 							count_mysql_query("UPDATE uo_chat_database SET icon='$write_me' WHERE chat='$chatpath' AND username='$selecteduser' AND dtime IS NULL", $handler);
 
@@ -506,7 +506,7 @@ PHPEND;
 							if (CheckFlags("Z", $vflag))
 								$vflag = "Z";
 							if (CheckFlags("X", $vflag))
-								$vflag = ereg_replace("[ADRpFsoiIOCBbra]", "", $vflag);
+								$vflag = preg_replace("~[ADRpFsoiIOCBbra]~", "", $vflag);
 
 							ChangeUser($login, $password, $selecteduser, $vflag, $chatpath);
 						} else {
@@ -639,9 +639,9 @@ PHPEND;
 					} else {
 						echo "Edit faction <select name=fedit>";
 							$fact = @count_mysql_query("SELECT id,name FROM uo_chat_faction WHERE chat='$chatpath' ORDER BY name ASC", $handler);
-							while($facl = @mysql_fetch_row($fact))
+							while($facl = @mysqli_fetch_row($fact))
 								echo "<option value=$facl[0]>$facl[1]";
-							@mysql_free_result($fact);
+							@mysqli_free_result($fact);
 						echo "</select><p>";
 						echo "<input type=hidden name=adminaction value=$adminaction>";
 					}
@@ -661,9 +661,9 @@ PHPEND;
 					} else {
 						echo "Rename faction <select name=old_id>";
 							$fact = @count_mysql_query("SELECT id,name FROM uo_chat_faction WHERE chat='$chatpath' ORDER BY name ASC", $handler);
-							while($facl = @mysql_fetch_row($fact))
+							while($facl = @mysqli_fetch_row($fact))
 								echo "<option value=$facl[0]>$facl[1]";
-							@mysql_free_result($fact);
+							@mysqli_free_result($fact);
 						echo "</select>";
 						echo " to <input type=text name=newf><p>";
 						echo "<input type=hidden name=adminaction value=$adminaction>";
@@ -675,16 +675,16 @@ PHPEND;
 					} else {
 						echo "Delete faction <select name=old_id>";
 							$fact = @count_mysql_query("SELECT id,name FROM uo_chat_faction WHERE chat='$chatpath' ORDER BY name ASC", $handler);
-							while($facl = @mysql_fetch_row($fact))
+							while($facl = @mysqli_fetch_row($fact))
 								echo "<option value=$facl[0]>$facl[1]";
-							@mysql_free_result($fact);
+							@mysqli_free_result($fact);
 						echo "</select><p>";
 						echo "<input type=hidden name=adminaction value=$adminaction>";
 					}
 				} else if (($adminaction == "poll") && CheckFlags("VZmM", $userlevel)) {
 					$result = @count_mysql_query("SELECT chat,topic,nselect,ta,ca,tb,cb,tc,cc,td,cd,te,ce FROM uo_chat_poll WHERE chat='$chatpath'", $handler);
-					$poll = mysql_fetch_row($result);
-					@mysql_free_result($poll);
+					$poll = mysqli_fetch_row($result);
+					@mysqli_free_result($poll);
 
 					$ptopic = $_REQUEST['ptopic'];
 					$npoll = $_REQUEST['npoll'];
@@ -824,7 +824,7 @@ PHPEND;
 					echo "<p><b>Chatters:</b><br>";
 					echo "<table cellspacing=1 cellpadding=3 border=0 bgcolor=#000000>";
 					echo "<tr bgcolor=#eeeeee><td><b>Name</b></td><td><b>IPs</b></td><td><b>Ident</b></td><td><b>Hostnames</b></td></tr>";
-					while ($uun = mysql_fetch_assoc($result)) {
+					while ($uun = mysqli_fetch_assoc($result)) {
                         $proxy = '';
                         $isproxy = Proxy_IsProxy($uun['ip']);
                         if ($isproxy !== false) {
@@ -838,13 +838,13 @@ PHPEND;
 						$known[$uun['proxyip']] = $uun['username'];
 					}
 					echo "</table>";
-					@mysql_free_result($result);
+					@mysqli_free_result($result);
 
 					$result = @count_mysql_query("SELECT DISTINCT INET_NTOA(ip) as ip,INET_NTOA(proxyip) as pip, user_agent as ua FROM uo_chat WHERE chat='$realpath' ORDER BY ip ASC", $handler);
 					echo "<p><b>Lurkers, Viewers, Everybody Else:</b><br>";
 					echo "<table cellspacing=1 cellpadding=3 border=0 bgcolor=#000000>";
 					echo "<tr bgcolor=#eeeeee><td>#</td><td><b>Chatter</b></td><td><b>IPs</b></td><td><b>Hostnames</b><td><b>User Agent</b></td></tr>";
-					for ($i=1 ; $uun = mysql_fetch_assoc($result) ; $i++) {
+					for ($i=1 ; $uun = mysqli_fetch_assoc($result) ; $i++) {
                         $proxy = '';
                         $isproxy = Proxy_IsProxy($uun['ip']);
                         if ($isproxy !== false) {
@@ -858,20 +858,20 @@ PHPEND;
 						echo "<td>".(@gethostbyaddr($uun['ip']))."<div><i>".(@gethostbyaddr($uun['pip']))."</i></div>$proxy</td><td>".htmlentities($uun['ua'])."</td></tr>";
 					}
 					echo "</table>";
-					@mysql_free_result($result);
+					@mysqli_free_result($result);
 				}
 				else if ($adminaction == "chain") {
 					$xchan = $_REQUEST['xchan'];
 					$chain = $_REQUEST['chain'];
 
 					if ($xchan) {
-						$row = mysql_escape_string(implode("\n", $chain));
+						$row = mysqli_escape_string($handler, implode("\n", $chain));
 						$result = count_mysql_query("UPDATE uo_chat_database SET chain='$row' WHERE chat='$chatpath' AND username='$login' AND dtime IS NULL", $handler);
 					}
 					else {
 						$result = count_mysql_query("SELECT chain FROM uo_chat_database WHERE chat='$chatpath' AND username='$login' AND dtime IS NULL", $handler);
-						$row = @mysql_fetch_row($result);
-						@mysql_free_result($result);
+						$row = @mysqli_fetch_row($result);
+						@mysqli_free_result($result);
 
 						$row[0] = trim($row[0]);
 						$chain = array_unique(explode("\n", $row[0]));
@@ -1097,7 +1097,7 @@ PHPEND;
 					$arr = GetFactionNames($chatpath);
 
 					if ($ruid) {
-						$reguser = mysql_fetch_row(count_mysql_query("SELECT id,username,email,faction,description,appstat FROM uo_chat_regapps WHERE id=".intval($ruid)." AND chat='{$chatpath}'", $handler));
+						$reguser = mysqli_fetch_row(count_mysql_query("SELECT id,username,email,faction,description,appstat FROM uo_chat_regapps WHERE id=".intval($ruid)." AND chat='{$chatpath}'", $handler));
 						$rfaction = $arr[$reguser[3]];
 
 						echo "
@@ -1170,7 +1170,7 @@ PHPEND;
 																<td style='border: 1px black solid;'>Applied date</td>
 															</tr>";
 
-						while (list($ruid, $rname, $remail, $rfaction, $regtime, $rstat) = mysql_fetch_row($regapps)) {
+						while (list($ruid, $rname, $remail, $rfaction, $regtime, $rstat) = mysqli_fetch_row($regapps)) {
 							$regtime = date("F j, g:i a", $regtime);
 							$rfaction = $arr[$rfaction];
 

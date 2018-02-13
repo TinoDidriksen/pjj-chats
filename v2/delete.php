@@ -46,7 +46,7 @@ if (window != window.top)
 		RmDir($xdir);
 	}
 
-	$cpath = strtolower(eregi_replace("([^-[:alnum:]_]+)", "", $_REQUEST['cpath']));
+	$cpath = strtolower(preg_replace("~([^-[:alnum:]_]+)~i", "", $_REQUEST['cpath']));
 	if ($cpath == $master_chat) {
 		echo "$master_chat is protected.<br>\n";
 		exit();
@@ -73,13 +73,13 @@ if (window != window.top)
 	$email = strtolower($_REQUEST['email']);
 	if ((!empty($_REQUEST['user'])) && (!empty($_REQUEST['pass'])) && (!empty($_REQUEST['email'])) && (!empty($_REQUEST['verify'])) && (!empty($cpath)) && (file_exists($cpath."/sendmsg.php")) && (file_exists($cpath."/settings.php"))) {
 		$user = strtolower($_REQUEST['user']);
-		$user = eregi_replace($master_name_filter, "", $user);
+		$user = preg_replace('~'.$master_name_filter.'~i', "", $user);
 
 		$epass = $_REQUEST['pass'];
 		$pass = md5($_REQUEST['pass']);
-		$result = mysql_query("SELECT chat,username,password FROM uo_chat_database WHERE chat='chat$cpath' AND username='$user' AND password='$pass' AND ( flags='m' OR flags='M' )", $handler);
-		$cuser = mysql_fetch_row($result);
-		@mysql_free_result($result);
+		$result = mysqli_query($handler, "SELECT chat,username,password FROM uo_chat_database WHERE chat='chat$cpath' AND username='$user' AND password='$pass' AND ( flags='m' OR flags='M' )");
+		$cuser = mysqli_fetch_row($result);
+		@mysqli_free_result($result);
 
 		if (($cuser[0] == "chat".$cpath) && (strtolower($cuser[1]) == $user) && ($cuser[2] == $pass)) {
 
@@ -124,7 +124,7 @@ if (window != window.top)
 			for ($q=0;$q<count($tables);$q++) {
 				$query = "UPDATE ".$tables[$q]." SET chat='$newname' WHERE chat='$killme'";
 				echo "...".$query."<br>\n";
-				$query = mysql_query($query, $handler);
+				$query = mysqli_query($handler, $query);
 			}
 
 			// Deleting database entries
@@ -137,7 +137,7 @@ if (window != window.top)
 			for ($q=0;$q<count($tables);$q++) {
 				$query = "DELETE FROM ".$tables[$q]." WHERE chat='$killme'";
 				echo "...".$query."<br>\n";
-				$query = mysql_query($query, $handler);
+				$query = mysqli_query($handler, $query);
 			}
 
 			$subject = "Project JJ: Chat Deleted: $cpath";

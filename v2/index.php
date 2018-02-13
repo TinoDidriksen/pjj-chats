@@ -160,29 +160,29 @@ Use the <a href="recover.php"><b>Chat Recover Form</b></a>
 	$numvis = 0;
 	$numact = 0;
 
-	@mysql_query("DELETE FROM uo_chat WHERE utime<'".(time()-300)."'", $handler);
+	mysqli_query($handler, "DELETE FROM uo_chat WHERE utime<'".(time()-300)."'");
 
 	$alist = array();
-	$result = @mysql_query("SELECT chat FROM uo_chat_ulist WHERE utime>'".(time()-300)."' ORDER BY chat ASC", $handler);
-	while($row = @mysql_fetch_row($result)) {
+	$result = mysqli_query($handler, "SELECT chat FROM uo_chat_ulist WHERE utime>'".(time()-300)."' ORDER BY chat ASC");
+	while($row = mysqli_fetch_row($result)) {
 		$alist[] = $row[0];
 		$numact++;
 	}
-	@mysql_free_result($result);
+	mysqli_free_result($result);
 
 	$ulist = array();
-	$result = @mysql_query("SELECT chat FROM uo_chat_ulist WHERE utime>'".(time()-86400)."' ORDER BY chat ASC", $handler);
-	while($row = @mysql_fetch_row($result)) {
+	$result = mysqli_query($handler, "SELECT chat FROM uo_chat_ulist WHERE utime>'".(time()-86400)."' ORDER BY chat ASC");
+	while($row = mysqli_fetch_row($result)) {
 		$ulist[] = $row[0];
 	}
-	@mysql_free_result($result);
+	mysqli_free_result($result);
 
 	$uview = array();
-	$result = @mysql_query("SELECT DISTINCT chat,ip FROM uo_chat ORDER BY chat ASC", $handler);
-	while($row = @mysql_fetch_row($result)) {
+	$result = mysqli_query($handler, "SELECT DISTINCT chat,ip FROM uo_chat ORDER BY chat ASC");
+	while($row = mysqli_fetch_row($result)) {
 		$uview[] = $row[0];
 	}
-	@mysql_free_result($result);
+	mysqli_free_result($result);
 
     MMC_Lock('portal.lock');
     $clist = array();
@@ -374,9 +374,9 @@ Use the <a href="recover.php"><b>Chat Recover Form</b></a>
 		usort($clist, 'SortListActive');
 	}
 
-	$result = mysql_query("SELECT DISTINCT ip FROM uo_chat", $handler);
-	$numall = mysql_num_rows($result);
-	mysql_free_result($result);
+	$result = mysqli_query($handler, "SELECT DISTINCT ip FROM uo_chat");
+	$numall = mysqli_num_rows($result);
+	mysqli_free_result($result);
 
 	echo "<table border=0 cellspacing=0 cellpadding=3 bgcolor=#FFFFFF width='90%' align='center' style='width: 90%;'>\n";
 	echo "<tr><td align=left><a href=\"?sort=title\"><img src=\"gfx/icon_title.gif\" border=0 alt=\"Chat Title\"></a></td>";

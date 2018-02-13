@@ -19,6 +19,13 @@ if ($GLOBALS['shm_engine'] === 'auto' || empty($GLOBALS['shm_engine'])) {
 		require_once(__DIR__.'/shm_engines/eaccelerator.php');
 	}
 	else if (
+	function_exists('apcu_store')
+	&& function_exists('apcu_delete')
+	&& function_exists('apcu_fetch')
+		) {
+		require_once(__DIR__.'/shm_engines/apcu.php');
+	}
+	else if (
 	function_exists('apc_store')
 	&& function_exists('apc_delete')
 	&& function_exists('apc_fetch')

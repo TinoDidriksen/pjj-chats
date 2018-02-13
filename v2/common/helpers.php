@@ -7,7 +7,7 @@ if (!function_exists('count_mysql_query')) {
     	$cqs++;
     	$creas .= "<br>$reason\n";
 
-    	return mysql_query($query, $hand);
+    	return mysqli_query($hand, $query);
     }
 }
 
@@ -191,7 +191,7 @@ function ChatVerifyLogin($username, $password, $chatpath) {
 	global $handler, $master_name_filter;
 
 	$username = strtolower($username);
-	$username = eregi_replace($master_name_filter, "", $username);
+	$username = preg_replace('~'.$master_name_filter.'~i', "", $username);
 
 	/*
 	if ($username == 'tino didriksen' && !preg_match('/^130\.22(5|6)/', $_SERVER['REMOTE_ADDR'])) {
@@ -200,10 +200,10 @@ function ChatVerifyLogin($username, $password, $chatpath) {
 	//*/
 
 	$result = @count_mysql_query("SELECT username,password,flags,uid,email FROM uo_chat_database WHERE chat='$chatpath' AND username='$username' AND dtime IS NULL", $handler, "helpers.php: ChatVerifyLogin() 1/2");
-	$cuser = mysql_fetch_assoc($result);
+	$cuser = mysqli_fetch_assoc($result);
 	$GLOBALS['biglog']['user_name'] = $cuser['username'];
 	$GLOBALS['biglog']['user_id'] = intval($cuser['uid']+0);
-	mysql_free_result($result);
+	mysqli_free_result($result);
 
 	if (empty($cuser['username'])) {
 		return 0;
@@ -220,12 +220,12 @@ function ChatVerifyLogin($username, $password, $chatpath) {
 				"SELECT GROUP_CONCAT(DISTINCT flags) as flags
 				FROM uo_chat_database
 				WHERE chat='$chatpath'
-				AND email='".mysql_real_escape_string($cuser['email'])."'
-				AND password='".mysql_real_escape_string($cuser['password'])."'
+				AND email='".mysqli_real_escape_string($handler, $cuser['email'])."'
+				AND password='".mysqli_real_escape_string($handler, $cuser['password'])."'
 				AND dtime IS NULL
 				GROUP BY chat, email, password, dtime", $handler, "helpers.php: ChatVerifyLogin() 2/2");
-			$flags = mysql_fetch_assoc($result);
-			mysql_free_result($result);
+			$flags = mysqli_fetch_assoc($result);
+			mysqli_free_result($result);
 			return '1'.$flags['flags'];
 		}
 		if (!empty($cuser['flags'])) {
@@ -248,13 +248,13 @@ function ChatFetchChain($chatpath, $password, $email) {
 	if (!empty($chatpath) && !empty($email) && !empty($password)) {
 		$chain = array();
 		$uids = array();
-		$chatpath = mysql_real_escape_string($chatpath);
-		$email    = mysql_real_escape_string($email);
-		$password = mysql_real_escape_string($password);
+		$chatpath = mysqli_real_escape_string($handler, $chatpath);
+		$email    = mysqli_real_escape_string($handler, $email);
+		$password = mysqli_real_escape_string($handler, $password);
 
 		$query = "SELECT chat,username,displayname,uid,email,password FROM uo_chat_database WHERE chat LIKE 'chat%' AND password='{$password}' AND email='{$email}' AND dtime IS NULL";
 		$result = count_mysql_query($query, $handler, "helpers.php: ChatFetchChain() 1/1");
-		while($row = mysql_fetch_assoc($result)) {
+		while($row = mysqli_fetch_assoc($result)) {
 			if (empty($row['displayname'])) {
 				$row['displayname'] = ucwords($row['username']);
 			}
@@ -267,7 +267,7 @@ function ChatFetchChain($chatpath, $password, $email) {
 			}
 			$_SESSION['uids'][$row['uid']] = $row;
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 
 		return array('chain'=>$chain);
 	}
@@ -279,7 +279,7 @@ function ChatVerifyLoginFetch($username, $password, $chatpath) {
 	global $handler, $master_name_filter;
 
 	$username = strtolower($username);
-	$username = eregi_replace($master_name_filter, "", $username);
+	$username = preg_replace('~'.$master_name_filter.'~i', "", $username);
 
 	/*
 	if ($username == 'tino didriksen' && !preg_match('/^130\.22(5|6)/', $_SERVER['REMOTE_ADDR'])) {
@@ -289,10 +289,10 @@ function ChatVerifyLoginFetch($username, $password, $chatpath) {
 
 	$result = @count_mysql_query("SELECT username,password,flags,faction,prefs,icon,chain,picon,pimage,plink,pcolor,uid,email,skype,lastfm,displayname
 	FROM uo_chat_database WHERE chat='$chatpath' AND username='$username' AND dtime IS NULL", $handler, "helpers.php: ChatVerifyFetchLogin() 1/2");
-	$cuser = mysql_fetch_assoc($result);
+	$cuser = mysqli_fetch_assoc($result);
 	$GLOBALS['biglog']['user_name'] = $username;
 	$GLOBALS['biglog']['user_id'] = intval($cuser['uid']+0);
-	mysql_free_result($result);
+	mysqli_free_result($result);
 
 	$_REQUEST['error']['pwds'] = $cuser['password'].' : '.md5($password);
 	if ($cuser['username'] == $username) {
@@ -315,13 +315,13 @@ function ChatVerifyLoginFetch($username, $password, $chatpath) {
 					"SELECT GROUP_CONCAT(DISTINCT flags) as flags
 					FROM uo_chat_database
 					WHERE chat='$chatpath'
-					AND email='".mysql_real_escape_string($cuser['email'])."'
-					AND password='".mysql_real_escape_string($cuser['password'])."'
+					AND email='".mysqli_real_escape_string($handler, $cuser['email'])."'
+					AND password='".mysqli_real_escape_string($handler, $cuser['password'])."'
 					AND dtime IS NULL
 					GROUP BY chat, email, password, dtime", $handler, "helpers.php: ChatVerifyFetchLogin() 2/2");
-				$flags = mysql_fetch_assoc($result);
+				$flags = mysqli_fetch_assoc($result);
 				$cuser['flags'] = $flags['flags'].'1';
-				mysql_free_result($result);
+				mysqli_free_result($result);
 			}
 
 			return $cuser;
@@ -346,8 +346,8 @@ function GetPrefs($username, $chatpath) {
 	global $handler;
 
 	$result = @count_mysql_query("SELECT prefs FROM uo_chat_database WHERE chat='$chatpath' AND username='$username' AND dtime IS NULL", $handler, $handler, "helpers.php: GetPrefs() 1/1");
-	$cuser = mysql_fetch_row($result);
-	mysql_free_result($result);
+	$cuser = mysqli_fetch_row($result);
+	mysqli_free_result($result);
 
 	return $cuser[0];
 }
@@ -379,8 +379,8 @@ function GetFlags($username, $chatpath) {
 	global $handler;
 
 	$result = @count_mysql_query("SELECT flags FROM uo_chat_database WHERE chat='$chatpath' AND username='$username' AND dtime IS NULL", $handler, "helpers.php: GetFlags() 1/1");
-	$cuser = mysql_fetch_row($result);
-	mysql_free_result($result);
+	$cuser = mysqli_fetch_row($result);
+	mysqli_free_result($result);
 
 	return $cuser[0];
 }
@@ -422,8 +422,8 @@ function FindUser($userident, $chatpath) {
 	global $handler;
 
 	$result = @count_mysql_query("SELECT username FROM uo_chat_ulist WHERE chat='$chatpath' AND ident='$userident'", $handler, "helpers.php: FindUser() 1/1");
-	$usel = @mysql_fetch_row($result);
-	@mysql_free_result($result);
+	$usel = @mysqli_fetch_row($result);
+	@mysqli_free_result($result);
 
 	if (!empty($usel[0])) {
 		return 1;
@@ -442,37 +442,37 @@ function ShowList($chatpath) {
 	$usels = array();
 	$query = "";
 	$result = @count_mysql_query("SELECT chat,ident,username,link,image,utime FROM uo_chat_ulist WHERE chat='$chatpath' ORDER BY utime DESC", $handler, "helpers.php: ShowList() 2/4");
-	while ($usel = @mysql_fetch_row($result)) {
+	while ($usel = @mysqli_fetch_row($result)) {
 		$usel[2] = str_replace('_', ' ', $usel[2]);
 		$usels[] = $usel;
-		$query .= "username='".(trim(eregi_replace($master_name_filter, "", strtolower($usel[2]))))."' OR ";
+		$query .= "username='".(trim(preg_replace('~'.$master_name_filter.'~i', "", strtolower($usel[2]))))."' OR ";
 	}
-	@mysql_free_result($result);
+	@mysqli_free_result($result);
 	if (count($usels) < 1) {
 		return 1;
     }
 	$cpref = GetChatPrefs($chatpath);
 
-	$query = "(".ereg_replace("(.*) OR $","\\1", $query).")";
+	$query = "(".preg_replace("~(.*) OR $~","\\1", $query).")";
 
 	$rez = @count_mysql_query("SELECT username FROM uo_chat_database WHERE chat='$chatpath' AND $query AND profile!='' AND dtime IS NULL", $handler, "helpers.php: ShowList() 3/4");
 	$profs = "";
-	while ($usel = @mysql_fetch_row($rez)) {
+	while ($usel = @mysqli_fetch_row($rez)) {
 		$profs .= "$usel[0]|";
 	}
-	@mysql_free_result($rez);
+	@mysqli_free_result($rez);
 
 	$rez = @count_mysql_query("SELECT prefs,email,aim,icq,ym,msn,site,username,skype,lastfm,flickr,facebook,gplus,steam FROM uo_chat_database WHERE chat='$chatpath' AND $query AND dtime IS NULL", $handler, "helpers.php: ShowList() 4/4");
 	$prefs = array();
-	while ($usel = @mysql_fetch_row($rez)) {
+	while ($usel = @mysqli_fetch_row($rez)) {
 		$prefs[] = $usel;
 	}
-	@mysql_free_result($rez);
+	@mysqli_free_result($rez);
 
 	$cnts = count($usels);
     for($ix=0;$ix<$cnts;$ix++) {
 		$usel = $usels[$ix];
-		$fixhandle = trim(eregi_replace($master_name_filter, "", strtolower($usel[2])));
+		$fixhandle = trim(preg_replace('~'.$master_name_filter.'~i', "", strtolower($usel[2])));
 		echo "<hr width='75%'>\n";
 
 		$usel[3] = htmlentities(str_replace("`","'",$usel[3]));
@@ -649,8 +649,8 @@ function GetFactionDetails($chatpath, $faction) {
 	global $handler;
 
 	$result = @count_mysql_query("SELECT chat,id,name,icon FROM uo_chat_faction WHERE chat='$chatpath' AND id='$faction'", $handler, "helpers.php: GetFactionDetails() 1/1");
-	$cuser = mysql_fetch_row($result);
-	mysql_free_result($result);
+	$cuser = mysqli_fetch_row($result);
+	mysqli_free_result($result);
 
 	return $cuser;
 }
@@ -686,15 +686,15 @@ function ParseMotD($file = "register/motd.dat") {
 				for ($cc=0;$cc<count($regs);$cc++) {
 					$query .= "chat='chat{$regs[$cc]}' OR ";
 				}
-				$query = ereg_replace(" OR \$", ")", $query);
+				$query = preg_replace('~ OR $~', ')', $query);
 
 				$rows = array();
-				$rez = @mysql_query($query, $handler);
-				echo mysql_error();
-				while($row = @mysql_fetch_row($rez)) {
+				$rez = @mysqli_query($handler, $query);
+				echo mysqli_error($handler);
+				while($row = @mysqli_fetch_row($rez)) {
 					$rows[] = $row[0];
 				}
-				@mysql_free_result($rez);
+				@mysqli_free_result($rez);
 
 				sort($rows);
 				for ($cc=0;$cc<count($rows);$cc++) {
@@ -705,7 +705,7 @@ function ParseMotD($file = "register/motd.dat") {
 				}
 
 				for ($cc=0;$cc<count($regs);$cc++) {
-					$motd = ereg_replace("\\[[Cc]={$regs[$cc]}\\]", "{$chatters[$cc]}", $motd);
+					$motd = preg_replace("~\\[[Cc]={$regs[$cc]}\\]~", "{$chatters[$cc]}", $motd);
 				}
 			}
 
@@ -714,15 +714,15 @@ function ParseMotD($file = "register/motd.dat") {
 				for ($cc=0;$cc<count($regs);$cc++) {
 					$query .= "chat='chat{$regs[$cc]}' OR ";
 				}
-				$query = ereg_replace(" OR \$", ")", $query);
+				$query = preg_replace('~ OR $~', ')', $query);
 
 				$rows = array();
-				$rez = @mysql_query($query, $handler);
-				echo mysql_error();
-				while($row = @mysql_fetch_row($rez)) {
+				$rez = @mysqli_query($handler, $query);
+				echo mysqli_error($handler);
+				while($row = @mysqli_fetch_row($rez)) {
 					$rows[] = $row[0];
 				}
-				@mysql_free_result($rez);
+				@mysqli_free_result($rez);
 
 				sort($rows);
 				for ($cc=0;$cc<count($rows);$cc++) {
@@ -733,13 +733,13 @@ function ParseMotD($file = "register/motd.dat") {
 				}
 
 				for ($cc=0;$cc<count($regs);$cc++) {
-					$motd = ereg_replace("\\[[Vv]={$regs[$cc]}\\]", "{$viewers[$cc]}", $motd);
+					$motd = preg_replace("~\\[[Vv]={$regs[$cc]}\\]~", "{$viewers[$cc]}", $motd);
 				}
 			}
 
 			if (strstr($motd, "[CV=")) {
 				for ($cc=0;$cc<count($regs);$cc++) {
-					$motd = ereg_replace("\\[[Cc][Vv]={$regs[$cc]}\\]", "{$chatters[$cc]}/{$viewers[$cc]}", $motd);
+					$motd = preg_replace("~\\[[Cc][Vv]={$regs[$cc]}\\]~", "{$chatters[$cc]}/{$viewers[$cc]}", $motd);
 				}
 			}
 
@@ -750,15 +750,15 @@ function ParseMotD($file = "register/motd.dat") {
 				for ($cc=0;$cc<count($regs);$cc++) {
 					$query .= "chat='chat{$regs[$cc]}' OR ";
 				}
-				$query = ereg_replace(" OR \$", ")", $query);
+				$query = preg_replace('~ OR $~', ')', $query);
 
 				$rows = array();
-				$rez = @mysql_query($query, $handler);
-				echo mysql_error();
-				while($row = @mysql_fetch_row($rez)) {
+				$rez = @mysqli_query($handler, $query);
+				echo mysqli_error($handler);
+				while($row = @mysqli_fetch_row($rez)) {
 					$rows[] = $row[0];
 				}
-				@mysql_free_result($rez);
+				@mysqli_free_result($rez);
 
 				sort($rows);
 				for ($cc=0;$cc<count($rows);$cc++) {
@@ -769,7 +769,7 @@ function ParseMotD($file = "register/motd.dat") {
 				}
 
 				for ($cc=0;$cc<count($regs);$cc++) {
-					$motd = ereg_replace("\\[[Aa]={$regs[$cc]}\\]", "{$viewers[$cc]}", $motd);
+					$motd = preg_replace("~\\[[Aa]={$regs[$cc]}\\]~", "{$viewers[$cc]}", $motd);
 				}
 			}
 
@@ -785,7 +785,7 @@ function CacheChatLines() {
 
 	$oldest = null;
 	$lines = array();
-	while($line = @mysql_fetch_assoc($result)) {
+	while($line = @mysqli_fetch_assoc($result)) {
 		$lines[] = $line['line'];
 		$oldest = $line['posttime'];
 	}
@@ -794,7 +794,7 @@ function CacheChatLines() {
 		$lines[$i] = str_replace("\\'", "'", $lines[$i]);
 	}
 
-	@mysql_free_result($result);
+	@mysqli_free_result($result);
 
 	@count_mysql_query("DELETE FROM uo_chat_log WHERE chat='$realpath' AND posttime < '$oldest'", $handler, "helpers.php: CacheChatLines() 2/2");
 

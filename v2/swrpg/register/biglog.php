@@ -27,9 +27,9 @@ if (window != window.top)
 function FindUser($userident, $chatpath) {
 	global $handler;
 
-	$result = @mysql_query("SELECT username FROM uo_chat_ulist WHERE chat='$chatpath' AND ident='$userident'", $handler);
-	$usel = mysql_fetch_row($result);
-	@mysql_free_result($result);
+	$result = @mysqli_query($handler, "SELECT username FROM uo_chat_ulist WHERE chat='$chatpath' AND ident='$userident'");
+	$usel = mysqli_fetch_row($result);
+	@mysqli_free_result($result);
 
 	if (!empty($usel[0])) {
 		return 1;

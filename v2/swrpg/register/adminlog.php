@@ -49,7 +49,7 @@
 			WHERE alog.chat_id={$GLOBALS['biglog']['chat_id']}
 			ORDER BY alog.entry_id ASC
 			", $handler);
-		if (mysql_num_rows($rez)) {
+		if (mysqli_num_rows($rez)) {
 			$pages = array(
 				1 => 'Settings',
 				2 => 'Options',
@@ -63,7 +63,7 @@
 				<td><b>IP</b></td>
 				<td><b>Timestamp</b></td>
 				</tr>';
-			while($row = mysql_fetch_assoc($rez)) {
+			while($row = mysqli_fetch_assoc($rez)) {
 				$row['page_id'] = $pages[$row['page_id']];
 				$output .= <<<HTMLEND
 				<tr valign="top">
@@ -79,7 +79,7 @@ HTMLEND;
 		else {
 			$output .= "<b>Admin log is empty...</b>";
 		}
-		mysql_free_result($rez);
+		mysqli_free_result($rez);
 	}
 ?>
 
