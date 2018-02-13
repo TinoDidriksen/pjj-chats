@@ -46,7 +46,7 @@ include("../../common/tome_of_power.php");
 include("../../common/zlib.php");
 
 $pass = 1;
-$realpath = ereg_replace(".*/([^/]+)/register/biglog.php$", "chat\\1", $_SERVER['PHP_SELF']);
+$realpath = preg_replace("~.*/([^/]+)/register/biglog.php$~", "chat\\1", $_SERVER['PHP_SELF']);
 if (($_SERVER['HTTP_HOST'] != 'v2.pjj.cc') && strstr($_SERVER['HTTP_HOST'], '.pjj.cc')) {
 	$realpath = preg_replace('/(.*?)\.pjj\.cc/is', 'chat\1', $_SERVER['HTTP_HOST']);
 }

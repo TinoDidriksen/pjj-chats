@@ -15,7 +15,7 @@ if (!empty($altdata)) {
 	$chatpath = $altdata;
 }
 else {
-	$chatpath = ereg_replace('.*/([^/]+)/register/regapp.php$', 'chat\\1', $_SERVER['PHP_SELF']);
+	$chatpath = preg_replace('~.*/([^/]+)/register/regapp.php$~', 'chat\\1', $_SERVER['PHP_SELF']);
 	if (($_SERVER['HTTP_HOST'] != 'v2.pjj.cc') && strstr($_SERVER['HTTP_HOST'], '.pjj.cc')) {
 		$chatpath = preg_replace('/(.*?)\.pjj\.cc/is', 'chat\1', $_SERVER['HTTP_HOST']);
 	}

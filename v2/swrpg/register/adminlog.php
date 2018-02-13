@@ -26,7 +26,7 @@
 	require_once("../options.php");
 	require_once("../../common/tome_of_power.php");
 
-	$realpath = ereg_replace(".*/([^/]+)/register/adminlog.php$", "chat\\1", $_SERVER['PHP_SELF']);
+	$realpath = preg_replace("~.*/([^/]+)/register/adminlog.php$~", "chat\\1", $_SERVER['PHP_SELF']);
 	if (($_SERVER['HTTP_HOST'] != 'v2.pjj.cc') && strstr($_SERVER['HTTP_HOST'], '.pjj.cc'))
 		$realpath = preg_replace('/(.*?)\.pjj\.cc/is', 'chat\1', $_SERVER['HTTP_HOST']);
 
