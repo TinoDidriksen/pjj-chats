@@ -10,9 +10,9 @@ $base = getcwd()."/";
 
 //echo "$base<p>";
 
-$nchat		= strtolower(eregi_replace("([^-[:alnum:]_]+)", "", trim($_REQUEST['nchat'])));
-$username	= strtolower(eregi_replace($master_name_filter, "", trim($_REQUEST['username'])));
-$password	= strtolower(eregi_replace("([^[:alnum:]]+)", "", trim($_REQUEST['password'])));
+$nchat		= strtolower(preg_replace("~([^-[:alnum:]_]+)~i", "", trim($_REQUEST['nchat'])));
+$username	= strtolower(preg_replace('~'.$master_name_filter.'~i', "", trim($_REQUEST['username'])));
+$password	= strtolower(preg_replace("~([^[:alnum:]]+)~i", "", trim($_REQUEST['password'])));
 $email		= strtolower($_REQUEST['email']);
 
 if (($nchat != "") && ($nchat != "_new") && ($nchat != $master_chat)) {
@@ -84,8 +84,8 @@ if (($nchat != "") && ($nchat != "_new") && ($nchat != $master_chat)) {
 			$chatpath = "chat".$nchat;
 
 			$username = str_replace("_", " ", $username);
-			$username = strtolower(eregi_replace($master_name_filter, "", $username));
-			$master_name = strtolower(eregi_replace($master_name_filter, "", $master_name));
+			$username = strtolower(preg_replace('~'.$master_name_filter.'~i', "", $username));
+			$master_name = strtolower(preg_replace('~'.$master_name_filter.'~i', "", $master_name));
 
 			$regnotes = "Add comments here. You can for example specify what you want the applicant to write in the description field.";
 
