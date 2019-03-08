@@ -7,7 +7,11 @@ if (!function_exists('count_mysql_query')) {
     	$cqs++;
     	$creas .= "<br>$reason\n";
 
-    	return mysqli_query($hand, $query);
+		$rez = mysqli_query($hand, $query);
+		if ($err = mysqli_errno($hand)) {
+			echo "\n<!-- MySQL error {$err} for {$query} -->\n";
+		}
+		return $rez;
     }
 }
 
@@ -607,7 +611,7 @@ function ParseSpecial($mline) {
 	$mline = preg_replace('~ /([^/\s]+)/ ~u', ' <i>\1</i> ', $mline);
 	$mline = preg_replace('~ _([^_\s]+)_ ~u', ' <u>\1</u> ', $mline);
 	$mline = preg_replace('~ -([^-\s]+)- ~u', ' <b>\1</b> ', $mline);
-	$mline = preg_replace_callback('~((f|ht)tps?://[^\s\r]*[^\s\r,.:!?)])~ui', _parseSpecial_helper, $mline);
+	$mline = preg_replace_callback('~((f|ht)tps?://[^\s\r]*[^\s\r,.:!?)])~ui', '_parseSpecial_helper', $mline);
 	$mline = preg_replace('~(irc://[^\s\r]*[^\s\r,.:!?)])~ui', '<a href="\1" title="IRC: \1">\1</a>', $mline);
 	$mline = preg_replace('~(aim:[^\s\r]*[^\s\r,.:!?)])~ui', '<a href="\1" title="AIM: \1">\1</a>', $mline);
 	$mline = preg_replace('~(callto:[^\s\r]*[^\s\r,.:!?)])~ui', '<a href="\1" title="Skype: \1">\1</a>', $mline);

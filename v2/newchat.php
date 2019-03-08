@@ -16,7 +16,10 @@ $password	= strtolower(preg_replace("~([^[:alnum:]]+)~i", "", trim($_REQUEST['pa
 $email		= strtolower($_REQUEST['email']);
 
 if (($nchat != "") && ($nchat != "_new") && ($nchat != $master_chat)) {
-	if ((strcasecmp($master_name, $_REQUEST['login']) != 0) || (strcmp($master_password, md5($_REQUEST['pass'])) != 0)) {
+	if (strlen($_REQUEST['pass']) !== 32) {
+		$_REQUEST['pass'] = md5($_REQUEST['pass']);
+	}
+	if ((strcasecmp($master_name, $_REQUEST['login']) != 0) || (strcmp($master_password, $_REQUEST['pass']) != 0)) {
 		die("Unauthorized usage. Please report this to the system admin.<p>");
 	}
 	ob_start();

@@ -2,14 +2,12 @@
     require_once('../mysql.php');
 	if (strpos(strtolower($_SERVER['HTTP_HOST']), 'chat.projectjj.') !== false) {
 		$chat = preg_replace('@.*/([^/]+)/index.php@', '\1', $_SERVER['PHP_SELF']);
-		header('HTTP/1.1 301 Moved Permanently');
-		header('Location: https://pjj.cc/'.$chat.'/');
+		header('Location: https://pjj.cc/'.$chat.'/', true, 301);
 		die();
 	}
 	if (strpos(strtolower($_SERVER['HTTP_HOST']), '.pjj.cc') !== false) {
 		$chat = preg_replace('@^(.+)\.pjj\.cc$@', '\1', $_SERVER['HTTP_HOST']);
-		header('HTTP/1.1 301 Moved Permanently');
-		header('Location: https://pjj.cc/'.$chat.'/');
+		header('Location: https://pjj.cc/'.$chat.'/', true, 301);
 		die();
 	}
 

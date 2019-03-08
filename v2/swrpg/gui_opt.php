@@ -109,14 +109,15 @@ body { font-family: verdana, arial, sans-serif; }
 			now()
 			)", $handler);
 
-		$fi = fopen($fn, "w");
+		$fi = fopen($fn, 'wb');
 		if (!$fi) {
 			die("An error occured trying to write to the file.");
 		}
 		fwrite($fi, "<?php\n\$banwords = array (\n");
-		for ($cc=0;$cc<count($_REQUEST['iname']);$cc++) {
-			if (trim($_REQUEST['iname'][$cc]) != "")
-				fwrite($fi, var_export(stripslashes(trim($_REQUEST['iname'][$cc])), true)." => ".var_export(stripslashes(trim($_REQUEST['ifile'][$cc])), true).",\n");
+		for ($cc=0,$ee=count($_REQUEST['iname']) ; $cc<$ee ; ++$cc) {
+			if (trim($_REQUEST['iname'][$cc]) != '') {
+				fwrite($fi, var_export(trim($_REQUEST['iname'][$cc]), true)." => ".var_export(trim($_REQUEST['ifile'][$cc]), true).",\n");
+			}
 		}
 		fwrite($fi, ");\n\$images = array(\n");
 
@@ -214,8 +215,8 @@ body { font-family: verdana, arial, sans-serif; }
 	$cc=0;
 	while (list($name, $file) = each($banwords)) {
 		$old = $file;
-		$name = htmlentities($name);
-		$file = htmlentities($file);
+		$name = htmlspecialchars($name, ENT_QUOTES);
+		$file = htmlspecialchars($file, ENT_QUOTES);
 		echo "<tr bgcolor=#ffffff><td class='filter_num'>$cc</td><td><input name=iname[$cc] value=\"$name\" type=text size=30 class='filter_find'></td><td><input name=ifile[$cc] value=\"$file\" type=text size=30 class='filter_repl'></td><td align=center>$old</td></tr>";
 		$cc++;
 	}
@@ -450,9 +451,9 @@ PHPEND;
     }
     echo "</select></td></tr>";
 
-	echo "<tr bgcolor=#ffffff><td>Portal Picture<br><i>Max 200x100.</i></td><td><input name=cpicture value=\"".htmlentities(stripslashes($cpicture))."\"></td></tr>";
-	echo "<tr bgcolor=#ffffff><td>Picture Link<br></td><td><input name=cpicturelink value=\"".htmlentities(stripslashes($cpicturelink))."\"></td></tr>";
-	echo "<tr bgcolor=#ffffff valign=top><td>Chat Description<br><i>Max 3 lines, or 1kb.<br>Allowed tags: font,a,b,i,u,tt</i></td><td><textarea name=cdescript cols=50 rows=10>".htmlentities(stripslashes($cdescript))."</textarea></td></tr>";
+	echo "<tr bgcolor=#ffffff><td>Portal Picture<br><i>Max 200x100.</i></td><td><input name=cpicture value=\"".htmlspecialchars($cpicture, ENT_QUOTES)."\"></td></tr>";
+	echo "<tr bgcolor=#ffffff><td>Picture Link<br></td><td><input name=cpicturelink value=\"".htmlspecialchars($cpicturelink, ENT_QUOTES)."\"></td></tr>";
+	echo "<tr bgcolor=#ffffff valign=top><td>Chat Description<br><i>Max 3 lines, or 1kb.<br>Allowed tags: font,a,b,i,u,tt</i></td><td><textarea name=cdescript cols=50 rows=10>".htmlspecialchars($cdescript, ENT_QUOTES)."</textarea></td></tr>";
 	echo "<!-- <tr bgcolor=#ffffff><td>Database (<font color=ff0000>Warning</font>: May mess up everything.)</td><td><input name=altdata value=\"$altdata\" type=text size=12></td></tr> -->";
 	echo "</table>";
 

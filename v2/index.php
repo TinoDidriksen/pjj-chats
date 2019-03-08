@@ -1,4 +1,10 @@
 <?php
+	if (empty($_SERVER['HTTPS'])) {
+		header('Location: https://pjj.cc/', true, 301);
+		die();
+	}
+	header('Strict-Transport-Security: max-age=86400; includeSubDomains');
+
 	if (strpos(strtolower($_SERVER['HTTP_HOST']), 'chat.projectjj.') !== false) {
 		header('HTTP/1.1 301 Moved Permanently');
 		header("Location: https://pjj.cc/");

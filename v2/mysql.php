@@ -1,9 +1,7 @@
 <?php
-/*
-if ($_SERVER['REMOTE_ADDR'] !== '83.92.21.119') {
-	die('Updating to Unicode - check back in a few hours.');
+if (!empty($_SERVER['REMOTE_ADDR'])) {
+	header('Strict-Transport-Security: max-age=86400; includeSubDomains');
 }
-//*/
 
 //*
 function xm() {
@@ -68,8 +66,10 @@ if (!function_exists('count_mysql_query')) {
 		$GLOBALS['querylog'][$cqs]['L'] = $reason;
 		$rez = mysqli_query($hand, $query);
 		if ($err = mysqli_errno($hand)) {
-			if ($err == 1062)
+			if ($err == 1062) {
+				echo "\n<!-- MySQL error 1062 for query {$query} -->\n";
 			    return $rez;
+			}
 			echo '<br><b>MySQL Error '.$err.' occured. Trying to recover...</b><p>';
 			mysqli_close($GLOBALS['handler']);
 			SQLConnect();

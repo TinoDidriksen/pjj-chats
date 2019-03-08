@@ -233,7 +233,7 @@ DROP TABLE IF EXISTS `uo_chat_log`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `uo_chat_log` (
   `chat` varchar(16) NOT NULL DEFAULT '',
-  `ident` varchar(8) NOT NULL DEFAULT '',
+  `ident` varchar(9) NOT NULL DEFAULT '',
   `line` text NOT NULL,
   `username` varchar(64) NOT NULL DEFAULT '',
   `ip` varchar(15) NOT NULL DEFAULT '',
