@@ -102,6 +102,7 @@ Your browser is outdated. Please upgrade to one of these:
 
 	if (CheckBan($ident, $realpath) == 0) {
 		$ident = $oldident;
+		$banip = $banip ?? [];
 		$xcnt = count($banip);
 		for ($cc=0;$cc<$xcnt;$cc++) {
 			if (
