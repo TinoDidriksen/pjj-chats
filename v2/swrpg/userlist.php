@@ -174,17 +174,19 @@ Your browser is outdated. Please upgrade to one of these:
 </center>
 <hr>
 <b>Other:</b><br>
-- <a href="http://facebook.com/groups/pjj.chats/" target="_blank">Facebook Group</a><br>
-- <a href="https://mewe.com/join/pjj_chats" target="_blank">MeWe Group</a><br>
-- <a href="https://discord.gg/PkNf559" target="_blank">Discord Server</a><br>
-- <a href="https://pjj.cc/characters.php" target="_blank">Character Manager</a><br>
 - <a href="custom.php" target="_top">Customize Layout</a><br>
 - <a href="reader.php?urls=1" target="TextWindow">Recent URLs</a><br>
 - <a href="register/viewer.php" target="_blank">Profiles</a><br>
 - <a href="manual.php" target="TextWindow">Manual</a><br>
-- <a href="https://pjj.cc/legal/" target="TextWindow">ToS</a><br>
 - <a href="reader.php?p=inspect" target="TextWindow">Debug Info</a><br>
 - <a href="/common/vstat.php?chat=<?php echo $rpath; ?>" target="_blank">Statistics</a><br>
+<br>
+<b>All pJJ Chats:</b><br>
+- <a href="https://pjj.cc/characters.php" target="_blank">Character Manager</a><br>
+- <a href="http://facebook.com/groups/pjj.chats/" target="_blank">Facebook Group</a><br>
+- <a href="https://mewe.com/join/pjj_chats" target="_blank">MeWe Group</a><br>
+- <a href="https://discord.gg/PkNf559" target="_blank">Discord Server</a><br>
+- <a href="https://pjj.cc/legal/" target="TextWindow">ToS</a><br>
 
 <script type="text/javascript">
   var _gaq = _gaq || [];
