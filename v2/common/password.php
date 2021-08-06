@@ -131,7 +131,7 @@ function RequestPass($chat, $username) {
 	$chatpath = "chat".$chat;
 	$result = mysqli_query($handler, "SELECT chat, uid, username, flags, email
 		FROM uo_chat_database
-		WHERE chat='$chatpath' AND username='$username'");
+		WHERE chat='$chatpath' AND username='$username' AND dtime IS NULL");
 	$cuser = mysqli_fetch_assoc($result);
 	mysqli_free_result($result);
 
