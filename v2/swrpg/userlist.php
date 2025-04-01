@@ -180,12 +180,16 @@ Your browser is outdated. Please upgrade to one of these:
 - <a href="manual.php" target="TextWindow">Manual</a><br>
 - <a href="reader.php?p=inspect" target="TextWindow">Debug Info</a><br>
 - <a href="/common/vstat.php?chat=<?php echo $rpath; ?>" target="_blank">Statistics</a><br>
+<?php
+	if ($rpath !== 'rv') {
+?>
 <br>
 <b>All pJJ Chats:</b><br>
 - <a href="https://pjj.cc/characters.php" target="_blank">Character Manager</a><br>
-- <a href="http://facebook.com/groups/pjj.chats/" target="_blank">Facebook Group</a><br>
-- <a href="https://mewe.com/join/pjj_chats" target="_blank">MeWe Group</a><br>
-- <a href="https://discord.gg/PkNf559" target="_blank">Discord Server</a><br>
+- <a href="https://discord.gg/aASAUT5ZbX" target="_blank">Discord</a><br>
+<?php
+	}
+?>
 - <a href="https://pjj.cc/legal/" target="TextWindow">ToS</a><br>
 
 <script type="text/javascript">
@@ -199,6 +203,21 @@ Your browser is outdated. Please upgrade to one of these:
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 </script>
+
+<script>
+  var _paq = window._paq = window._paq || [];
+  _paq.push(["setCookieDomain", "*.pjj.cc"]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//tinodidriksen.com/matomo/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '4']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//tinodidriksen.com/matomo/matomo.php?idsite=4&amp;rec=1" style="border:0;" alt="" /></p></noscript>
 
 <!--
 <script src='https://pjj.cc/common/js/userlist.js' type='text/javascript'></script>

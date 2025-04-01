@@ -434,7 +434,7 @@ if (\$c_bgimg != \"\")
 	<tr bgcolor=#ffffff>
 		<td>Timestamp Text</td>
 		<td><input name=\"timer\" value=\"$timer\" size=15></td>
-		<td rowspan=3><i>Example:</i><br>$timer ".(date($dtcalc, time(0)+($tzone*3600)))."</td>
+		<td rowspan=3><i>Example:</i><br>$timer ".(date($dtcalc, time()+($tzone*3600)))."</td>
 	</tr>
 	<tr bgcolor=#ffffff>
 		<td>Format (<a href=\"http://www.php.net/date\" target=_blank>help</a>)</td>

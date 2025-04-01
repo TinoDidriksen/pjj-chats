@@ -642,8 +642,8 @@ function FilterWords($message) {
 	global $banwords;
 //	$banwords['geocities.com/sdarkfalls'] = '[blocked by TD]';
 
-	while ($filter = each($banwords)) {
-	    $message = str_ireplace($filter[0], $filter[1], $message);
+	foreach ($banwords as $k => $v) {
+	    $message = str_ireplace($k, $v, $message);
 	}
 
 	return $message;

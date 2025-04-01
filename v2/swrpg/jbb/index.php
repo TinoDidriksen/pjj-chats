@@ -11,8 +11,11 @@ INSERT INTO uo_chat_threads SELECT * FROM tmpa ;
 	/*
 	if ($_SERVER['REMOTE_ADDR'] != '62.198.254.119') {
 		header('HTTP/1.0 403 Temporarily Disabled');
-	    die ('Temporarily disabled due to spam overload.');
 	}
+	//*/
+	/*
+	header('HTTP/1.0 403 Temporarily Disabled');
+	die ('Temporarily disabled due to SQL injection.');
 	//*/
 
 	if (!empty($_REQUEST) && !empty($_REQUEST['post'])) {
@@ -245,16 +248,20 @@ function ShowThreads($chatpath) {
 	echo "<tr bgcolor=#$jbbc[11]><td>OC</td><td>Topic</td><td>Author</td><td>Posts</td><td>Last Post (".date("T").")</td><td>Hits</td></tr>\n";
 
 	$result = @mysqli_query($handler, "SELECT uid,flags,topic,username,utime,hits FROM uo_chat_boards WHERE chat='$chatpath' AND flags LIKE '%S%' AND flags NOT LIKE '%D%' ORDER BY topic ASC");
-	while($thread = mysqli_fetch_row($result)) {
-		$posts = @mysqli_query($handler, "SELECT id FROM uo_chat_threads WHERE chat='$chatpath' AND id='$thread[0]'");
+	while ($thread = mysqli_fetch_row($result)) {
+		$s_thread = mysqli_real_escape_string($handler, $thread[0]);
+		$posts = @mysqli_query($handler, "SELECT id FROM uo_chat_threads WHERE chat='$chatpath' AND id='$_thread'");
 		$posts = mysqli_num_rows($posts);
 		echo "<tr bgcolor=#$jbbc[10]><td>$thread[1]</td><td>&nbsp;<a href=\"?pid=$thread[0]\">".htmlentities($thread[2])."</a></td><td><a href=\"../register/viewer.php?frames=view&selecteduser=".(urlencode($thread[3]))."\" target=_blank>".htmlentities(ucwords($thread[3]))."</a></td><td>$posts</td><td>".(date("g:ia, F d, Y", $thread[4]))."</td><td>".$thread[5]."</td></tr>\n";
 	}
 	@mysqli_free_result($result);
 
-	$result = @mysqli_query($handler, "SELECT uid,flags,topic,username,utime,hits FROM uo_chat_boards WHERE chat='$chatpath' AND flags NOT LIKE '%S%' AND flags NOT LIKE '%D%' ORDER BY $jbbc[14] $jbbc[15]");
-	while($thread = mysqli_fetch_row($result)) {
-		$posts = @mysqli_query($handler, "SELECT id FROM uo_chat_threads WHERE chat='$chatpath' AND id='$thread[0]'");
+	$s_jbbc14 = mysqli_real_escape_string($handler, $jbbc[14]);
+	$s_jbbc15 = mysqli_real_escape_string($handler, $jbbc[15]);
+	$result = @mysqli_query($handler, "SELECT uid,flags,topic,username,utime,hits FROM uo_chat_boards WHERE chat='$chatpath' AND flags NOT LIKE '%S%' AND flags NOT LIKE '%D%' ORDER BY $s_jbbc14 $s_jbbc15");
+	while ($thread = mysqli_fetch_row($result)) {
+		$s_thread = mysqli_real_escape_string($handler, $thread[0]);
+		$posts = @mysqli_query($handler, "SELECT id FROM uo_chat_threads WHERE chat='$chatpath' AND id='$s_thread'");
 		$posts = mysqli_num_rows($posts);
 		echo "<tr bgcolor=#$jbbc[10]><td>$thread[1]</td><td>&nbsp;<a href=\"?pid=$thread[0]\">".htmlentities($thread[2])."</a></td><td><a href=\"../register/viewer.php?frames=view&selecteduser=".(urlencode($thread[3]))."\" target=_blank>".htmlentities(ucwords($thread[3]))."</a></td><td>$posts</td><td>".(date("g:ia, F d, Y", $thread[4]))."</td><td>".$thread[5]."</td></tr>\n";
 	}
@@ -266,6 +273,7 @@ function ShowThreads($chatpath) {
 
 function ShowPosts($chatpath, $pid) {
 	global $handler, $jbbc;
+	$pid = intval($pid);
 
 	$result = @mysqli_query($handler, "SELECT topic,flags FROM uo_chat_boards WHERE chat='$chatpath' AND uid='$pid' AND flags NOT LIKE '%D%'");
 	$thread = mysqli_fetch_array($result);
@@ -311,6 +319,7 @@ function ShowPosts($chatpath, $pid) {
 
 function ShowReplyCreateBox($chatpath, $pid, $act, $but, $show=0, $username, $password) {
 	global $handler, $jbblock, $ctitle, $jbbc;
+	$pid = intval($pid);
 
 	if ($jbblock > 0) {
 		echo "<i>Note: Only members of <b>$ctitle</b> can post or reply on this board.</i><p>";
@@ -333,8 +342,10 @@ function ShowReplyCreateBox($chatpath, $pid, $act, $but, $show=0, $username, $pa
 
 function ShowEditBox($chatpath, $pid, $username, $password, $timer) {
 	global $handler, $jbbc;
+	$pid = intval($pid);
 
-	$result = mysqli_query($handler, "SELECT chat,id,utime,topic,post,username FROM uo_chat_threads WHERE chat='$chatpath' AND id='$pid' AND utime='$timer'");
+	$s_timer = mysqli_real_escape_string($handler, $timer);
+	$result = mysqli_query($handler, "SELECT chat,id,utime,topic,post,username FROM uo_chat_threads WHERE chat='$chatpath' AND id='$pid' AND utime='$s_timer'");
 	$thread = mysqli_fetch_row($result);
 	@mysqli_free_result($result);
 
@@ -355,6 +366,7 @@ function ShowEditBox($chatpath, $pid, $username, $password, $timer) {
 
 function ShowModBox($chatpath, $pid, $act, $but, $username, $password, $eid="") {
 	global $handler, $jbbc;
+	$pid = intval($pid);
 
 	echo "<form action=index.php method=post>\n";
 	echo "<table cellspacing=1 cellpadding=2 border=0 bgcolor=#$jbbc[13]>\n";
@@ -380,6 +392,7 @@ function ShowSearchBox($chatpath) {
 
 function DoReply($chatpath, $pid, $topic, $post, $username, $password) {
 	global $handler, $jbblock, $jbbc;
+	$pid = intval($pid);
 
 	require_once '../../common/helpers.php';
 	$userlevel = ChatVerifyLogin($username, $password, $chatpath);
@@ -418,10 +431,12 @@ function DoReply($chatpath, $pid, $topic, $post, $username, $password) {
 
 function DoEdit($chatpath, $pid, $topic, $post, $username, $password, $timer) {
 	global $handler, $jbbc;
+	$pid = intval($pid);
 
 	require_once '../../common/helpers.php';
 
-	$result = @mysqli_query($handler, "SELECT username FROM uo_chat_threads WHERE chat='$chatpath' AND id='$pid' AND utime='$timer'");
+	$s_timer = mysqli_real_escape_string($handler, $timer);
+	$result = @mysqli_query($handler, "SELECT username FROM uo_chat_threads WHERE chat='$chatpath' AND id='$pid' AND utime='$s_timer'");
 	$thrd = mysqli_fetch_row($result);
 	@mysqli_free_result($result);
 
@@ -460,9 +475,10 @@ function DoEdit($chatpath, $pid, $topic, $post, $username, $password, $timer) {
 			$post .= "\n\n<font size=-2 style=\"font-size: 7pt;\"><i>Edited ".(date("g:ia, F d, Y", time()))." by ".(htmlentities(ucwords($username)))."<!-- {$_SERVER['REMOTE_ADDR']} -->$etype</i></font>";
 			$post = nl2br($post);
 
+			$s_timer = mysqli_real_escape_string($handler, $timer);
 			@mysqli_query($handler, "UPDATE uo_chat_threads SET post='".
 				mysqli_real_escape_string($handler, $post)."',topic='".
-				mysqli_real_escape_string($handler, $topic)."' WHERE chat='$chatpath' AND id='$pid' AND utime='$timer'");
+				mysqli_real_escape_string($handler, $topic)."' WHERE chat='$chatpath' AND id='$pid' AND utime='$s_timer'");
 			//@mysqli_query($handler, "UPDATE uo_chat_boards SET utime='".(time())."' WHERE chat='$chatpath' AND id='$pid'");
 		}
 		else {
@@ -478,6 +494,7 @@ function DoEdit($chatpath, $pid, $topic, $post, $username, $password, $timer) {
 
 function DoMod($chatpath, $pid, $username, $password, $act) {
 	global $handler, $jbbc;
+	$pid = intval($pid);
 
 	require_once '../../common/helpers.php';
 	$userflag = ChatVerifyLogin($username, $password, $chatpath);
@@ -503,6 +520,7 @@ function DoMod($chatpath, $pid, $username, $password, $act) {
 
 function DoDelete($chatpath, $pid, $username, $password) {
 	global $handler, $jbbc;
+	$pid = intval($pid);
 
 	require_once '../../common/helpers.php';
 	$userflag = ChatVerifyLogin($username, $password, $chatpath);
@@ -518,6 +536,7 @@ function DoDelete($chatpath, $pid, $username, $password) {
 
 function DoDeletePost($chatpath, $pid, $eid, $username, $password) {
 	global $handler, $jbbc;
+	$pid = intval($pid);
 
 	require_once '../../common/helpers.php';
 	$userflag = ChatVerifyLogin($username, $password, $chatpath);
@@ -605,7 +624,8 @@ function DoSearch($chatpath, $phrase, $src_topic, $src_body, $src_auth, $maxfind
 			$result = mysqli_query($handler, "SELECT id,topic,username,utime FROM uo_chat_threads WHERE chat='$chatpath' AND post LIKE '%$phrase%' ORDER BY utime DESC");
 			while(($thread = mysqli_fetch_row($result)) && ($found < $maxfind)) {
 				$found++;
-				$post = mysqli_query($handler, "SELECT count(id) FROM uo_chat_threads WHERE chat='$chatpath' AND id='$thread[0]'");
+				$s_thread = mysqli_real_escape_string($handler, $thread[0]);
+				$post = mysqli_query($handler, "SELECT count(id) FROM uo_chat_threads WHERE chat='$chatpath' AND id='$s_thread'");
 				$posts = mysqli_fetch_row($post);
 				$posts = $posts[0];
 				@mysqli_free_result($post);
@@ -623,7 +643,8 @@ function DoSearch($chatpath, $phrase, $src_topic, $src_body, $src_auth, $maxfind
 			$result = mysqli_query($handler, "SELECT id,topic,username,utime FROM uo_chat_threads WHERE chat='$chatpath' AND username LIKE '%$phrase%' ORDER BY utime DESC");
 			while(($thread = mysqli_fetch_row($result)) && ($found < $maxfind)) {
 				$found++;
-				$post = mysqli_query($handler, "SELECT count(id) FROM uo_chat_threads WHERE chat='$chatpath' AND id='$thread[0]'");
+				$s_thread = mysqli_real_escape_string($handler, $thread[0]);
+				$post = mysqli_query($handler, "SELECT count(id) FROM uo_chat_threads WHERE chat='$chatpath' AND id='$s_thread'");
 				$posts = mysqli_fetch_row($post);
 				$posts = $posts[0];
 				@mysqli_free_result($post);

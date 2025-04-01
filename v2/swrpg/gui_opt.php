@@ -213,7 +213,7 @@ body { font-family: verdana, arial, sans-serif; }
 	echo "</thead>";
 	echo "<tbody>";
 	$cc=0;
-	while (list($name, $file) = each($banwords)) {
+	foreach ($banwords as $name => $file) {
 		$old = $file;
 		$name = htmlspecialchars($name, ENT_QUOTES);
 		$file = htmlspecialchars($file, ENT_QUOTES);
@@ -231,7 +231,7 @@ body { font-family: verdana, arial, sans-serif; }
 	echo "<table border=0 cellspacing=1 cellpadding=2 bgcolor=#000000>\n";
 	echo "<tr bgcolor=#ffffff><td colspan=2><b>Permanent Ban</b></td></tr>";
 	echo "<tr bgcolor=#eeeeee><td><b>#</b></td><td><b>Banned Ident</b></td></tr>";
-	for ($cc=0;$cc<count($banip);$cc++) {
+	for ($cc=0;$cc<count($banip ?? []);$cc++) {
 		echo "<tr bgcolor=#ffffff><td>$cc</td><td><input name=banips[$cc] value=\"$banip[$cc]\" type=text size=10></td></tr>";
 	}
 	for ($aa=$cc;$aa<$cc+5;$aa++)

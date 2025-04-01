@@ -66,8 +66,8 @@ a:hover {
 <td><b>Want a chat?</b> (it's free)<br>
 Use the <a href="rq.php"><b>Chat Request Form</b></a>
 </td>
-<td><a href="https://www.facebook.com/groups/pjj.chats/"><b>Facebook</b></a><br>
-<a href="https://plus.google.com/communities/115521193128885558520"><b>Google+</b></a><br>
+<td>
+<a href="https://discord.gg/PkNf559"><b>Discord</b></a><br>
 </td>
 </tr>
 <tr valign="top" align="center">
@@ -563,8 +563,25 @@ Use the <a href="recover.php"><b>Chat Recover Form</b></a>
     |
     <a href="mailto:legal@projectjj.com">Copyright 1999-<?=date('Y');?> Project JJ</a>
 </div>
+
 <script src="https://www.google-analytics.com/urchin.js" type="text/javascript"></script>
 <script type="text/javascript">_uacct = "UA-87771-3"; urchinTracker();</script>
+
+<script>
+  var _paq = window._paq = window._paq || [];
+  _paq.push(["setCookieDomain", "*.pjj.cc"]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//tinodidriksen.com/matomo/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '4']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//tinodidriksen.com/matomo/matomo.php?idsite=4&amp;rec=1" style="border:0;" alt="" /></p></noscript>
+
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr><td background="gfx/dn_tile.gif" align="center" valign="bottom" height="32"><center><a href="https://tinodidriksen.com/" target=_blank><img src="gfx/worlds.gif" border="0"></a></center></td></tr>
 </table>
